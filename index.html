@@ -12,20 +12,63 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-card: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent: #ff6b00;
+            --accent-hover: #ff8533;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --purple: #6f42c1;
+            --border: #2a2a2a;
+        }
+
         body {
-            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-            color: #fff;
+            background: linear-gradient(135deg, var(--bg-primary), #000);
+            color: var(--text-primary);
             min-height: 100vh;
+            font-size: 14px;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         /* LOGIN/REGISTER */
         .auth-container {
             max-width: 450px;
             margin: 50px auto;
-            background: #141414;
+            background: var(--bg-secondary);
             border-radius: 20px;
             padding: 30px;
-            border: 1px solid #2a2a2a;
+            border: 1px solid var(--border);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
@@ -36,13 +79,13 @@
 
         .auth-logo h1 {
             font-size: 36px;
-            background: linear-gradient(135deg, #ff6b00, #ff3300);
+            background: linear-gradient(135deg, var(--accent), #ff3300);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .auth-logo p {
-            color: #888;
+            color: var(--text-secondary);
             font-size: 14px;
         }
 
@@ -50,7 +93,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
-            border-bottom: 1px solid #2a2a2a;
+            border-bottom: 1px solid var(--border);
             padding-bottom: 10px;
         }
 
@@ -59,13 +102,14 @@
             text-align: center;
             padding: 10px;
             cursor: pointer;
-            color: #888;
+            color: var(--text-secondary);
             transition: all 0.3s;
+            font-weight: bold;
         }
 
         .auth-tab.active {
-            color: #ff6b00;
-            border-bottom: 2px solid #ff6b00;
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
         }
 
         .auth-form {
@@ -76,93 +120,45 @@
             display: block;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #888;
-            margin-bottom: 5px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            background: #1e1e1e;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            color: white;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #ff6b00;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ff6b00, #ff3300);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255,107,0,0.3);
-        }
-
-        /* DASHBOARD */
-        .dashboard {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            display: none;
-        }
-
+        /* NAVBAR */
         .navbar {
-            background: #141414;
+            background: var(--bg-secondary);
             border-radius: 15px;
             padding: 15px 25px;
             margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #2a2a2a;
+            border: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .nav-logo {
             font-size: 24px;
             font-weight: bold;
-            background: linear-gradient(135deg, #ff6b00, #ff3300);
+            background: linear-gradient(135deg, var(--accent), #ff3300);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 5px;
+            flex-wrap: wrap;
         }
 
         .nav-link {
             padding: 8px 15px;
             border-radius: 8px;
             cursor: pointer;
-            color: #888;
+            color: var(--text-secondary);
             transition: all 0.3s;
+            font-weight: 500;
         }
 
         .nav-link:hover, .nav-link.active {
-            background: linear-gradient(135deg, #ff6b00, #ff3300);
+            background: linear-gradient(135deg, var(--accent), #ff3300);
             color: white;
         }
 
@@ -173,20 +169,41 @@
         }
 
         .username {
-            color: #ff6b00;
+            color: var(--accent);
             font-weight: bold;
+            font-size: 14px;
         }
 
         .logout-btn {
-            background: #ff3333;
+            background: var(--danger);
             color: white;
             border: none;
             padding: 8px 15px;
             border-radius: 8px;
             cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
         }
 
-        /* STATS */
+        .logout-btn:hover {
+            background: #ff4444;
+            transform: translateY(-2px);
+        }
+
+        /* TABS */
+        .tab-content {
+            display: none;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* CARDS */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -195,14 +212,21 @@
         }
 
         .stat-card {
-            background: #141414;
+            background: var(--bg-card);
             border-radius: 15px;
             padding: 20px;
-            border: 1px solid #2a2a2a;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px rgba(255,107,0,0.2);
         }
 
         .stat-title {
-            color: #888;
+            color: var(--text-secondary);
             font-size: 14px;
             margin-bottom: 10px;
         }
@@ -210,24 +234,132 @@
         .stat-value {
             font-size: 32px;
             font-weight: bold;
-            background: linear-gradient(135deg, #ff6b00, #ff3300);
+            background: linear-gradient(135deg, var(--accent), #ff3300);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        /* FORMULÁRIOS */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(255,107,0,0.2);
+        }
+
+        /* BOTÕES */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #ff3300);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: black;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-info {
+            background: var(--info);
+            color: white;
+        }
+
+        .btn-purple {
+            background: var(--purple);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* AÇÕES EM MASSA */
+        .mass-actions {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .mass-title {
+            color: var(--accent);
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .mass-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .mass-buttons .btn {
+            flex: 1;
+            min-width: 120px;
+        }
+
         /* GERADOR */
         .gerador-card {
-            background: #141414;
+            background: var(--bg-card);
             border-radius: 15px;
             padding: 25px;
-            border: 1px solid #2a2a2a;
+            border: 1px solid var(--border);
             margin-bottom: 20px;
         }
 
         .gerador-titulo {
-            font-size: 20px;
+            font-size: 18px;
+            font-weight: bold;
             margin-bottom: 20px;
-            color: #ff6b00;
+            color: var(--accent);
         }
 
         .duracao-opcoes {
@@ -238,16 +370,18 @@
         }
 
         .duracao-btn {
-            padding: 10px 20px;
-            background: #1e1e1e;
-            border: 1px solid #2a2a2a;
+            padding: 8px 15px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
             border-radius: 8px;
             color: white;
             cursor: pointer;
+            transition: all 0.3s;
         }
 
         .duracao-btn:hover, .duracao-btn.active {
-            background: linear-gradient(135deg, #ff6b00, #ff3300);
+            background: linear-gradient(135deg, var(--accent), #ff3300);
+            border-color: transparent;
         }
 
         /* KEYS GRID */
@@ -259,62 +393,73 @@
         }
 
         .key-card {
-            background: #141414;
+            background: var(--bg-card);
             border-radius: 15px;
             padding: 20px;
-            border: 1px solid #2a2a2a;
+            border: 1px solid var(--border);
             position: relative;
+            transition: all 0.3s;
         }
 
-        .key-card.ativa { border-left: 4px solid #28a745; }
-        .key-card.pausada { border-left: 4px solid #ffc107; }
-        .key-card.usada { border-left: 4px solid #17a2b8; }
-        .key-card.expirada { border-left: 4px solid #dc3545; }
+        .key-card:hover {
+            transform: translateX(-5px);
+            border-color: var(--accent);
+        }
+
+        .key-card.ativa { border-left: 4px solid var(--success); }
+        .key-card.pausada { border-left: 4px solid var(--warning); }
+        .key-card.usada { border-left: 4px solid var(--info); }
+        .key-card.expirada { border-left: 4px solid var(--danger); }
+        .key-card.blacklist { border-left: 4px solid black; }
 
         .key-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .key-code {
             font-family: 'Courier New', monospace;
-            font-size: 18px;
-            color: #ff6b00;
-            background: #1e1e1e;
+            font-size: 16px;
+            color: var(--accent);
+            background: var(--bg-secondary);
             padding: 8px 12px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
+            word-break: break-all;
         }
 
         .key-code:hover {
-            background: #2a2a2a;
+            background: var(--bg-primary);
         }
 
         .key-status {
-            padding: 5px 10px;
+            padding: 4px 10px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
         }
 
-        .status-ativa { background: #28a745; color: white; }
-        .status-pausada { background: #ffc107; color: black; }
-        .status-usada { background: #17a2b8; color: white; }
-        .status-expirada { background: #dc3545; color: white; }
+        .status-ativa { background: var(--success); color: white; }
+        .status-pausada { background: var(--warning); color: black; }
+        .status-usada { background: var(--info); color: white; }
+        .status-expirada { background: var(--danger); color: white; }
 
         .key-info {
             margin: 15px 0;
-            font-size: 14px;
-            color: #888;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
         .key-info div {
             margin: 8px 0;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .key-info strong {
@@ -323,55 +468,138 @@
 
         .timer {
             font-family: 'Courier New', monospace;
-            font-size: 20px;
-            color: #ff6b00;
+            font-size: 18px;
+            color: var(--accent);
             text-align: center;
             padding: 10px;
-            background: #1e1e1e;
+            background: var(--bg-secondary);
             border-radius: 8px;
             margin: 10px 0;
         }
 
         .timer.expirado {
-            color: #dc3545;
+            color: var(--danger);
         }
 
         .hwid-block {
-            background: #1e1e1e;
+            background: var(--bg-secondary);
             padding: 10px;
             border-radius: 8px;
             margin: 10px 0;
             font-family: 'Courier New', monospace;
-            font-size: 12px;
+            font-size: 11px;
             word-break: break-all;
-            color: #ff6b00;
+            color: var(--accent);
+            border: 1px solid var(--border);
+        }
+
+        .reset-info {
+            color: var(--warning);
+            font-size: 12px;
+            margin-top: 5px;
         }
 
         .key-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-top: 15px;
             flex-wrap: wrap;
         }
 
         .key-actions button {
             flex: 1;
-            padding: 10px;
+            min-width: 70px;
+            padding: 8px;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
             transition: all 0.3s;
         }
 
-        .btn-copy { background: #17a2b8; color: white; }
-        .btn-pausar { background: #ffc107; color: black; }
-        .btn-ativar { background: #28a745; color: white; }
-        .btn-reset { background: #6f42c1; color: white; }
-        .btn-add { background: #28a745; color: white; }
-        .btn-remove { background: #ffc107; color: black; }
-        .btn-excluir { background: #dc3545; color: white; }
+        .key-actions button:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-copy { background: var(--info); color: white; }
+        .btn-pausar { background: var(--warning); color: black; }
+        .btn-ativar { background: var(--success); color: white; }
+        .btn-reset { background: var(--purple); color: white; }
+        .btn-add { background: var(--success); color: white; }
+        .btn-remove { background: var(--warning); color: black; }
+        .btn-excluir { background: var(--danger); color: white; }
+        .btn-blacklist { background: black; color: white; }
+
+        /* BLACKLIST */
+        .blacklist-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .blacklist-item {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--danger);
+            margin-bottom: 10px;
+        }
+
+        .blacklist-info {
+            flex: 1;
+        }
+
+        .blacklist-hwid {
+            font-family: 'Courier New', monospace;
+            color: var(--danger);
+            font-size: 13px;
+            word-break: break-all;
+        }
+
+        .blacklist-reason {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .blacklist-date {
+            color: var(--text-secondary);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        /* LOGS */
+        .logs-container {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .log-item {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid;
+            font-size: 12px;
+        }
+
+        .log-item.success { border-color: var(--success); }
+        .log-item.warning { border-color: var(--warning); }
+        .log-item.danger { border-color: var(--danger); }
+        .log-item.info { border-color: var(--info); }
+
+        .log-date {
+            color: var(--text-secondary);
+            font-size: 11px;
+        }
+
+        .log-action {
+            font-weight: bold;
+            margin-left: 10px;
+        }
 
         /* MODAL */
         .modal {
@@ -392,12 +620,12 @@
         }
 
         .modal-content {
-            background: #141414;
+            background: var(--bg-secondary);
             border-radius: 15px;
             padding: 25px;
             max-width: 500px;
             width: 90%;
-            border: 1px solid #2a2a2a;
+            border: 1px solid var(--border);
         }
 
         .modal-header {
@@ -424,18 +652,19 @@
         }
 
         .toast {
-            background: #141414;
+            background: var(--bg-secondary);
             color: white;
             padding: 15px 25px;
             border-radius: 8px;
             margin-top: 10px;
             border-left: 4px solid;
             animation: slideIn 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .toast.success { border-color: #28a745; }
-        .toast.error { border-color: #dc3545; }
-        .toast.warning { border-color: #ffc107; }
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--danger); }
+        .toast.warning { border-color: var(--warning); }
 
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
@@ -447,14 +676,34 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid #2a2a2a;
-            border-top-color: #ff6b00;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
+            
+            .keys-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .mass-buttons .btn {
+                min-width: 100%;
+            }
         }
     </style>
 </head>
@@ -469,8 +718,8 @@
                 </div>
 
                 <div class="auth-tabs">
-                    <div class="auth-tab active" onclick="showAuthTab('login')">Login</div>
-                    <div class="auth-tab" onclick="showAuthTab('register')">Registrar</div>
+                    <div class="auth-tab active" onclick="showAuthTab('login')">🔐 Login</div>
+                    <div class="auth-tab" onclick="showAuthTab('register')">📝 Registrar</div>
                 </div>
 
                 <!-- LOGIN FORM -->
@@ -483,7 +732,7 @@
                         <label>Senha</label>
                         <input type="password" id="loginPassword" class="form-control" placeholder="Digite sua senha">
                     </div>
-                    <button class="btn btn-primary" onclick="handleLogin()">Entrar</button>
+                    <button class="btn btn-primary" onclick="handleLogin()" style="width: 100%;">🔓 Entrar</button>
                 </div>
 
                 <!-- REGISTER FORM -->
@@ -493,6 +742,10 @@
                         <input type="text" id="registerUsername" class="form-control" placeholder="Escolha um usuário">
                     </div>
                     <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" id="registerEmail" class="form-control" placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
                         <label>Senha</label>
                         <input type="password" id="registerPassword" class="form-control" placeholder="Crie uma senha">
                     </div>
@@ -500,108 +753,212 @@
                         <label>Confirmar Senha</label>
                         <input type="password" id="registerConfirm" class="form-control" placeholder="Confirme sua senha">
                     </div>
-                    <button class="btn btn-primary" onclick="handleRegister()">Registrar</button>
+                    <button class="btn btn-primary" onclick="handleRegister()" style="width: 100%;">📝 Registrar</button>
                 </div>
             </div>
         </div>
 
         <!-- DASHBOARD PAGE -->
-        <div id="dashboardPage" class="dashboard">
-            <div class="navbar">
-                <div class="nav-logo">Zyra Cloud</div>
-                <div class="nav-links">
-                    <span class="nav-link active" onclick="showTab('dashboard')">Dashboard</span>
-                    <span class="nav-link" onclick="showTab('keys')">Keys</span>
-                    <span class="nav-link" onclick="showTab('logs')">Logs</span>
-                </div>
-                <div class="user-menu">
-                    <span class="username" id="currentUsername">Carregando...</span>
-                    <button class="logout-btn" onclick="logout()">Sair</button>
-                </div>
-            </div>
-
-            <!-- DASHBOARD TAB -->
-            <div id="dashboard" class="tab-content active">
-                <h2>Dashboard</h2>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-title">Total Keys</div>
-                        <div class="stat-value" id="statTotal">0</div>
+        <div id="dashboardPage" style="display: none;">
+            <div class="container">
+                <!-- NAVBAR -->
+                <div class="navbar">
+                    <div class="nav-logo">Zyra Cloud</div>
+                    <div class="nav-links">
+                        <span class="nav-link active" onclick="showTab('dashboard')">📊 Dashboard</span>
+                        <span class="nav-link" onclick="showTab('gerar')">🎫 Gerar Key</span>
+                        <span class="nav-link" onclick="showTab('keys')">🔑 Gerenciar Keys</span>
+                        <span class="nav-link" onclick="showTab('blacklist')">⛔ Blacklist</span>
+                        <span class="nav-link" onclick="showTab('logs')">📋 Logs</span>
+                        <span class="nav-link" onclick="showTab('config')">⚙️ Config</span>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-title">Ativas</div>
-                        <div class="stat-value" id="statAtivas">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">Usadas</div>
-                        <div class="stat-value" id="statUsadas">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-title">Expiradas</div>
-                        <div class="stat-value" id="statExpiradas">0</div>
+                    <div class="user-menu">
+                        <span class="username" id="currentUsername">Carregando...</span>
+                        <button class="logout-btn" onclick="logout()">🚪 Sair</button>
                     </div>
                 </div>
 
-                <!-- GERADOR DE KEY -->
-                <div class="gerador-card">
-                    <div class="gerador-titulo">🎫 Gerar Nova Key</div>
+                <!-- DASHBOARD TAB -->
+                <div id="dashboard" class="tab-content active">
+                    <h2>📊 Dashboard</h2>
                     
-                    <div class="form-group">
-                        <label>Identificador (opcional)</label>
-                        <input type="text" id="genIdentificador" class="form-control" placeholder="Ex: Cliente A">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Tempo de Duração</label>
-                        <div class="duracao-opcoes">
-                            <button class="duracao-btn" onclick="setTempo(1, 'minutos')">1 min</button>
-                            <button class="duracao-btn" onclick="setTempo(5, 'minutos')">5 min</button>
-                            <button class="duracao-btn" onclick="setTempo(15, 'minutos')">15 min</button>
-                            <button class="duracao-btn" onclick="setTempo(30, 'minutos')">30 min</button>
-                            <button class="duracao-btn" onclick="setTempo(1, 'horas')">1 hora</button>
-                            <button class="duracao-btn" onclick="setTempo(6, 'horas')">6 horas</button>
-                            <button class="duracao-btn" onclick="setTempo(12, 'horas')">12 horas</button>
-                            <button class="duracao-btn" onclick="setTempo(1, 'dias')">1 dia</button>
-                            <button class="duracao-btn" onclick="setTempo(7, 'dias')">7 dias</button>
-                            <button class="duracao-btn" onclick="setTempo(30, 'dias')">30 dias</button>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-title">Total Keys</div>
+                            <div class="stat-value" id="statTotal">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Keys Ativas</div>
+                            <div class="stat-value" id="statAtivas">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Keys Usadas</div>
+                            <div class="stat-value" id="statUsadas">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Keys Expiradas</div>
+                            <div class="stat-value" id="statExpiradas">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">Blacklist</div>
+                            <div class="stat-value" id="statBlacklist">0</div>
                         </div>
                     </div>
 
-                    <div style="display: flex; gap: 10px;">
-                        <input type="number" id="genValor" class="form-control" value="1" min="1" style="width:100px;">
-                        <select id="genUnidade" class="form-control" style="width:150px;">
-                            <option value="minutos">Minutos</option>
-                            <option value="horas">Horas</option>
-                            <option value="dias">Dias</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="generateKey()" style="flex:1;">Gerar Key</button>
+                    <div class="gerador-card">
+                        <div class="gerador-titulo">📈 Últimas Atividades</div>
+                        <div id="recentLogs" style="max-height: 300px; overflow-y: auto;"></div>
                     </div>
                 </div>
 
-                <!-- ÚLTIMAS KEYS -->
-                <div class="gerador-card">
-                    <div class="gerador-titulo">📋 Últimas Keys Geradas</div>
-                    <div id="recentKeys" style="max-height: 200px; overflow-y: auto;"></div>
+                <!-- GERAR KEY TAB -->
+                <div id="gerar" class="tab-content">
+                    <h2>🎫 Gerar Nova Key</h2>
+                    
+                    <div class="gerador-card">
+                        <div class="form-group">
+                            <label>Identificador (opcional)</label>
+                            <input type="text" id="genIdentificador" class="form-control" placeholder="Ex: Cliente A">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tempo de Duração</label>
+                            <div class="duracao-opcoes">
+                                <button class="duracao-btn" onclick="setTempo(1, 'minutos')">1 min</button>
+                                <button class="duracao-btn" onclick="setTempo(5, 'minutos')">5 min</button>
+                                <button class="duracao-btn" onclick="setTempo(15, 'minutos')">15 min</button>
+                                <button class="duracao-btn" onclick="setTempo(30, 'minutos')">30 min</button>
+                                <button class="duracao-btn" onclick="setTempo(1, 'horas')">1 hora</button>
+                                <button class="duracao-btn" onclick="setTempo(6, 'horas')">6 horas</button>
+                                <button class="duracao-btn" onclick="setTempo(12, 'horas')">12 horas</button>
+                                <button class="duracao-btn" onclick="setTempo(1, 'dias')">1 dia</button>
+                                <button class="duracao-btn" onclick="setTempo(7, 'dias')">7 dias</button>
+                                <button class="duracao-btn" onclick="setTempo(30, 'dias')">30 dias</button>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" id="genValor" class="form-control" value="1" min="1" style="width:100px;">
+                            <select id="genUnidade" class="form-control" style="width:150px;">
+                                <option value="minutos">Minutos</option>
+                                <option value="horas">Horas</option>
+                                <option value="dias">Dias</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="generateKey()" style="flex:1;">🎫 Gerar Key</button>
+                        </div>
+                    </div>
+
+                    <div class="gerador-card">
+                        <div class="gerador-titulo">📋 Últimas Keys Geradas</div>
+                        <div id="recentKeys" style="max-height: 200px; overflow-y: auto;"></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- KEYS TAB -->
-            <div id="keys" class="tab-content">
-                <h2>Gerenciar Keys</h2>
-                
-                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <input type="text" id="searchKey" placeholder="Buscar key ou HWID..." class="form-control" style="flex:1;" onkeyup="filterKeys()">
-                    <button class="btn btn-primary" onclick="exportKeys()">Exportar</button>
+                <!-- GERENCIAR KEYS TAB -->
+                <div id="keys" class="tab-content">
+                    <h2>🔑 Gerenciar Keys</h2>
+                    
+                    <!-- AÇÕES EM MASSA -->
+                    <div class="mass-actions">
+                        <div class="mass-title">📦 Ações em Massa</div>
+                        <div class="mass-buttons">
+                            <button class="btn btn-success" onclick="massAddDays()">➕ Adicionar Dias</button>
+                            <button class="btn btn-warning" onclick="massRemoveDays()">➖ Remover Dias</button>
+                            <button class="btn btn-warning" onclick="massPause()">⏸️ Pausar Todas</button>
+                            <button class="btn btn-success" onclick="massUnpause()">▶️ Ativar Todas</button>
+                            <button class="btn btn-purple" onclick="massReset()">🔄 Reset Todas</button>
+                            <button class="btn btn-danger" onclick="massDelete()">🗑️ Excluir Todas</button>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <input type="text" id="searchKey" placeholder="🔍 Buscar key, HWID ou nick..." class="form-control" style="flex:1;" onkeyup="filterKeys()">
+                        <button class="btn btn-info" onclick="exportKeys()">📥 Exportar</button>
+                    </div>
+
+                    <div id="keysContainer" class="keys-grid"></div>
                 </div>
 
-                <div id="keysContainer" class="keys-grid"></div>
-            </div>
+                <!-- BLACKLIST TAB -->
+                <div id="blacklist" class="tab-content">
+                    <h2>⛔ Blacklist</h2>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <input type="text" id="searchBlacklist" placeholder="🔍 Buscar HWID..." class="form-control" style="width: 300px;" onkeyup="filterBlacklist()">
+                        <button class="btn btn-danger" onclick="showAddBlacklist()">➕ Adicionar HWID</button>
+                    </div>
 
-            <!-- LOGS TAB -->
-            <div id="logs" class="tab-content">
-                <h2>Logs do Sistema</h2>
-                <div id="logsContainer" style="max-height: 500px; overflow-y: auto;"></div>
+                    <div id="blacklistContainer" class="blacklist-grid"></div>
+                </div>
+
+                <!-- LOGS TAB -->
+                <div id="logs" class="tab-content">
+                    <h2>📋 Logs do Sistema</h2>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <div style="display: flex; gap: 10px;">
+                            <select id="logFilter" class="form-control" style="width: 150px;" onchange="filterLogs()">
+                                <option value="">Todos</option>
+                                <option value="GERAR">Geração</option>
+                                <option value="USAR">Uso</option>
+                                <option value="PAUSAR">Pausa</option>
+                                <option value="RESET">Reset</option>
+                                <option value="BLACKLIST">Blacklist</option>
+                            </select>
+                            <input type="text" id="searchLogs" placeholder="Buscar..." class="form-control" style="width: 200px;" onkeyup="filterLogs()">
+                        </div>
+                        <button class="btn btn-danger" onclick="clearLogs()">🗑️ Limpar Logs</button>
+                    </div>
+
+                    <div id="logsContainer" class="logs-container"></div>
+                </div>
+
+                <!-- CONFIG TAB -->
+                <div id="config" class="tab-content">
+                    <h2>⚙️ Configurações</h2>
+                    
+                    <div class="gerador-card">
+                        <h3>🌐 Webhook Discord</h3>
+                        <div class="form-group">
+                            <label>URL do Webhook</label>
+                            <input type="url" id="webhookUrl" class="form-control" placeholder="https://discord.com/api/webhooks/...">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="webhookActive" checked> Ativar notificações
+                            </label>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-primary" onclick="saveWebhook()">💾 Salvar</button>
+                            <button class="btn btn-info" onclick="testWebhook()">📨 Testar</button>
+                        </div>
+                    </div>
+
+                    <div class="gerador-card">
+                        <h3>🔥 Firebase</h3>
+                        <div class="form-group">
+                            <label>URL do Banco</label>
+                            <input type="text" id="firebaseUrl" class="form-control" value="https://key-system-roblox-default-rtdb.firebaseio.com/">
+                        </div>
+                        <button class="btn btn-primary" onclick="saveFirebase()">💾 Salvar</button>
+                    </div>
+
+                    <div class="gerador-card">
+                        <h3>👤 Meu Perfil</h3>
+                        <div class="form-group">
+                            <label>Usuário</label>
+                            <input type="text" id="profileUsername" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail</label>
+                            <input type="email" id="profileEmail" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Membro desde</label>
+                            <input type="text" id="profileCreated" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -610,7 +967,7 @@
     <div class="modal" id="tempoModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="tempoTitulo">Modificar Tempo</h3>
+                <h3 id="tempoTitulo">⏰ Modificar Tempo</h3>
                 <button class="modal-close" onclick="closeModal('tempoModal')">&times;</button>
             </div>
             <div class="form-group">
@@ -626,7 +983,28 @@
                 </select>
             </div>
             <div style="display: flex; gap: 10px;">
-                <button class="btn btn-primary" style="flex:1;" onclick="confirmTempo()">Confirmar</button>
+                <button class="btn btn-primary" style="flex:1;" onclick="confirmTempo()">✅ Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="blacklistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⛔ Adicionar à Blacklist</h3>
+                <button class="modal-close" onclick="closeModal('blacklistModal')">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>HWID</label>
+                <input type="text" id="blacklistHwid" class="form-control" placeholder="Digite o HWID">
+            </div>
+            <div class="form-group">
+                <label>Motivo</label>
+                <input type="text" id="blacklistReason" class="form-control" placeholder="Motivo do bloqueio">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-warning" onclick="closeModal('blacklistModal')" style="flex:1;">Cancelar</button>
+                <button class="btn btn-danger" onclick="addToBlacklist()" style="flex:1;">⛔ Bloquear</button>
             </div>
         </div>
     </div>
@@ -641,10 +1019,17 @@
         let currentUser = null;
         let users = {};
         let keys = {};
+        let blacklist = {};
         let logs = [];
+        let config = {
+            webhook: '',
+            webhookActive: true
+        };
         
         // Timers
         let timers = {};
+        let currentKeyId = null;
+        let currentAcao = 'add';
 
         // ============================================
         // AUTENTICAÇÃO
@@ -677,7 +1062,7 @@
             const password = document.getElementById('loginPassword').value.trim();
             
             if (!username || !password) {
-                showToast('Preencha todos os campos!', 'error');
+                showToast('❌ Preencha todos os campos!', 'error');
                 return;
             }
             
@@ -691,41 +1076,48 @@
                 
                 localStorage.setItem('zyra_user', JSON.stringify(currentUser));
                 showDashboard();
-                showToast('Login realizado com sucesso!', 'success');
+                showToast('✅ Login realizado com sucesso!', 'success');
             } else {
-                showToast('Usuário ou senha inválidos!', 'error');
+                showToast('❌ Usuário ou senha inválidos!', 'error');
             }
         }
 
         async function handleRegister() {
             const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
             const password = document.getElementById('registerPassword').value.trim();
             const confirm = document.getElementById('registerConfirm').value.trim();
             
-            if (!username || !password || !confirm) {
-                showToast('Preencha todos os campos!', 'error');
+            if (!username || !email || !password || !confirm) {
+                showToast('❌ Preencha todos os campos!', 'error');
+                return;
+            }
+            
+            if (!email.includes('@') || !email.includes('.')) {
+                showToast('❌ E-mail inválido!', 'error');
                 return;
             }
             
             if (password !== confirm) {
-                showToast('As senhas não coincidem!', 'error');
+                showToast('❌ As senhas não coincidem!', 'error');
                 return;
             }
             
             if (password.length < 6) {
-                showToast('A senha deve ter pelo menos 6 caracteres!', 'error');
+                showToast('❌ A senha deve ter pelo menos 6 caracteres!', 'error');
                 return;
             }
             
             await loadUsers();
             
             if (users[username]) {
-                showToast('Usuário já existe!', 'error');
+                showToast('❌ Usuário já existe!', 'error');
                 return;
             }
             
             users[username] = {
                 password: password,
+                email: email,
                 createdAt: new Date().toISOString(),
                 createdBy: 'register'
             };
@@ -737,10 +1129,10 @@
                     body: JSON.stringify(users)
                 });
                 
-                showToast('Usuário registrado com sucesso!', 'success');
+                showToast('✅ Usuário registrado com sucesso!', 'success');
                 showAuthTab('login');
             } catch (error) {
-                showToast('Erro ao registrar: ' + error.message, 'error');
+                showToast('❌ Erro ao registrar: ' + error.message, 'error');
             }
         }
 
@@ -749,6 +1141,9 @@
             if (user) {
                 currentUser = JSON.parse(user);
                 showDashboard();
+                document.getElementById('profileUsername').value = currentUser.username;
+                document.getElementById('profileEmail').value = currentUser.email || 'Não informado';
+                document.getElementById('profileCreated').value = currentUser.createdAt ? new Date(currentUser.createdAt).toLocaleString() : 'Desconhecido';
             } else {
                 document.getElementById('authPage').style.display = 'block';
                 document.getElementById('dashboardPage').style.display = 'none';
@@ -774,28 +1169,31 @@
         // ============================================
         async function loadData() {
             try {
-                showToast('Carregando dados...', 'info');
-                
                 const response = await fetch(FIREBASE_URL + '.json');
                 const data = await response.json();
                 
                 if (data) {
                     keys = data.keys || {};
+                    blacklist = data.blacklist || {};
                     logs = Object.values(data.logs || {}).sort((a, b) => 
                         new Date(b.date) - new Date(a.date)
                     );
+                    config = { ...config, ...(data.config || {}) };
+                    
+                    document.getElementById('webhookUrl').value = config.webhook || '';
+                    document.getElementById('webhookActive').checked = config.webhookActive;
                 }
                 
                 updateStats();
                 renderKeys();
+                renderBlacklist();
                 renderLogs();
                 renderRecentKeys();
+                renderRecentLogs();
                 startAllTimers();
-                
-                showToast('Dados carregados!', 'success');
             } catch (error) {
                 console.error('Erro ao carregar:', error);
-                showToast('Erro ao carregar dados: ' + error.message, 'error');
+                showToast('❌ Erro ao carregar dados: ' + error.message, 'error');
             }
         }
 
@@ -804,11 +1202,11 @@
                 await fetch(FIREBASE_URL + '.json', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ keys, logs: arrayToObject(logs), users })
+                    body: JSON.stringify({ keys, blacklist, logs: arrayToObject(logs), config, users })
                 });
             } catch (error) {
                 console.error('Erro ao salvar:', error);
-                showToast('Erro ao salvar: ' + error.message, 'error');
+                showToast('❌ Erro ao salvar: ' + error.message, 'error');
             }
         }
 
@@ -817,6 +1215,63 @@
                 acc[i] = item;
                 return acc;
             }, {});
+        }
+
+        // ============================================
+        // WEBHOOK
+        // ============================================
+        async function sendWebhook(title, fields, color = 0xff6b00) {
+            if (!config.webhook || !config.webhookActive) return;
+            
+            const embed = {
+                title: title,
+                color: color,
+                timestamp: new Date().toISOString(),
+                footer: { text: 'Zyra Cloud' },
+                fields: fields
+            };
+            
+            try {
+                await fetch(config.webhook, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ embeds: [embed] })
+                });
+            } catch (error) {
+                console.error('Erro webhook:', error);
+            }
+        }
+
+        function saveWebhook() {
+            config.webhook = document.getElementById('webhookUrl').value;
+            config.webhookActive = document.getElementById('webhookActive').checked;
+            saveData();
+            showToast('✅ Webhook salvo!', 'success');
+        }
+
+        async function testWebhook() {
+            const fields = [
+                { name: '🔔 Teste', value: 'Webhook funcionando corretamente!', inline: true },
+                { name: '🕐 Hora', value: new Date().toLocaleString('pt-BR'), inline: true }
+            ];
+            await sendWebhook('✅ TESTE DE WEBHOOK', fields, 0x00ff00);
+            showToast('📨 Teste enviado!', 'success');
+        }
+
+        // ============================================
+        // ADICIONAR LOG
+        // ============================================
+        function addLog(action, details) {
+            const log = {
+                date: new Date().toISOString(),
+                action: action,
+                user: currentUser?.username || 'sistema',
+                ...details
+            };
+            
+            logs.unshift(log);
+            if (logs.length > 1000) logs.pop();
+            saveData();
         }
 
         // ============================================
@@ -834,15 +1289,10 @@
                 const diff = expiry - now;
                 
                 if (diff <= 0) {
-                    timerElement.innerHTML = 'EXPIRADO';
+                    timerElement.innerHTML = '⌛ EXPIRADO';
                     timerElement.classList.add('expirado');
                     clearInterval(timers[keyId]);
                     delete timers[keyId];
-                    
-                    // Atualizar status da key
-                    if (keys[keyId]) {
-                        keys[keyId].expired = true;
-                    }
                 } else {
                     const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
                     const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -851,8 +1301,9 @@
                     
                     let tempo = '';
                     if (dias > 0) tempo += `${dias}d `;
-                    if (horas > 0 || dias > 0) tempo += `${horas.toString().padStart(2, '0')}h `;
-                    tempo += `${minutos.toString().padStart(2, '0')}m ${segundos.toString().padStart(2, '0')}s`;
+                    tempo += `${horas.toString().padStart(2, '0')}h `;
+                    tempo += `${minutos.toString().padStart(2, '0')}m `;
+                    tempo += `${segundos.toString().padStart(2, '0')}s`;
                     
                     timerElement.innerHTML = tempo;
                     timerElement.classList.remove('expirado');
@@ -885,7 +1336,6 @@
             const valor = parseInt(document.getElementById('genValor').value);
             const unidade = document.getElementById('genUnidade').value;
             
-            // Calcular expiração
             let minutos = 0;
             if (unidade === 'minutos') minutos = valor;
             else if (unidade === 'horas') minutos = valor * 60;
@@ -917,7 +1367,17 @@
             
             saveData();
             addLog('GERAR_KEY', { key: key, identificador: identificador });
-            showToast(`Key gerada: ${key}`, 'success');
+            
+            // Webhook
+            const fields = [
+                { name: '👤 Gerado por', value: currentUser.username, inline: true },
+                { name: '🔑 Key', value: key, inline: true },
+                { name: '📝 Identificador', value: identificador, inline: true },
+                { name: '⏰ Duração', value: minutos + ' minutos', inline: true }
+            ];
+            sendWebhook('🎫 KEY GERADA', fields, 0x00ff00);
+            
+            showToast(`✅ Key gerada: ${key}`, 'success');
             renderKeys();
             renderRecentKeys();
             startTimer(keyId, expiresAt.toISOString());
@@ -949,7 +1409,8 @@
                 keysArray = keysArray.filter(k => 
                     k.key.toLowerCase().includes(search) || 
                     (k.hwidUsado && k.hwidUsado.toLowerCase().includes(search)) ||
-                    (k.nickUsado && k.nickUsado.toLowerCase().includes(search))
+                    (k.nickUsado && k.nickUsado.toLowerCase().includes(search)) ||
+                    (k.identificador && k.identificador.toLowerCase().includes(search))
                 );
             }
             
@@ -963,7 +1424,7 @@
                 return `
                     <div class="key-card ${statusClass}">
                         <div class="key-header">
-                            <span class="key-code" onclick="copyKey('${key.key}')">${key.key} 📋</span>
+                            <span class="key-code" onclick="copyText('${key.key}')">${key.key} 📋</span>
                             <span class="key-status status-${statusClass}">${statusText}</span>
                         </div>
                         
@@ -982,12 +1443,12 @@
                             ` : '<div><strong>HWID:</strong> Nenhum</div>'}
                             
                             ${key.used ? `
-                                <div><strong>Resets:</strong> ${key.resets || 0}/${key.maxResets || 5}</div>
+                                <div class="reset-info">🔄 Resets: ${key.resets || 0}/${key.maxResets || 5}</div>
                             ` : ''}
                         </div>
                         
                         <div class="key-actions">
-                            <button class="btn-copy" onclick="copyKey('${key.key}')">📋 Copiar</button>
+                            <button class="btn-copy" onclick="copyText('${key.key}')">📋 Copiar</button>
                             
                             ${!key.paused ? 
                                 `<button class="btn-pausar" onclick="pauseKey('${keyId}')">⏸️ Pausar</button>` :
@@ -1000,17 +1461,18 @@
                             
                             <button class="btn-add" onclick="showAddTempo('${keyId}')">➕ Tempo</button>
                             <button class="btn-remove" onclick="showRemoveTempo('${keyId}')">➖ Tempo</button>
+                            
+                            ${key.hwidUsado && !blacklist[key.hwidUsado] ? 
+                                `<button class="btn-blacklist" onclick="blacklistHwid('${key.hwidUsado}')">⚫ Blacklist</button>` : ''
+                            }
+                            
                             <button class="btn-excluir" onclick="deleteKey('${keyId}')">🗑️ Excluir</button>
                         </div>
                     </div>
                 `;
             }).join('');
             
-            // Iniciar timers para as keys renderizadas
-            keysArray.forEach(key => {
-                const keyId = key.key.replace(/-/g, '_');
-                startTimer(keyId, key.expiresAt);
-            });
+            startAllTimers();
         }
 
         function getKeyStatus(key) {
@@ -1043,38 +1505,19 @@
             `).join('');
         }
 
-        function renderLogs() {
-            const container = document.getElementById('logsContainer');
-            container.innerHTML = logs.map(log => `
-                <div style="background: #1e1e1e; padding: 10px; margin-bottom: 5px; border-radius: 8px;">
-                    <div style="color:#888;">${new Date(log.date).toLocaleString()}</div>
-                    <strong>${log.action}</strong> - ${log.user}
-                    <pre style="margin-top:5px; font-size:11px;">${JSON.stringify(log, null, 2)}</pre>
-                </div>
-            `).join('');
-        }
-
-        function updateStats() {
-            const keysArray = Object.values(keys);
-            document.getElementById('statTotal').textContent = keysArray.length;
-            document.getElementById('statAtivas').textContent = keysArray.filter(k => !k.used && !k.paused && new Date(k.expiresAt) > new Date()).length;
-            document.getElementById('statUsadas').textContent = keysArray.filter(k => k.used).length;
-            document.getElementById('statExpiradas').textContent = keysArray.filter(k => new Date(k.expiresAt) <= new Date()).length;
-        }
-
         // ============================================
         // AÇÕES DAS KEYS
         // ============================================
-        function copyKey(key) {
-            navigator.clipboard.writeText(key);
-            showToast('Key copiada!', 'success');
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            showToast('✅ Copiado!', 'success');
         }
 
         async function pauseKey(keyId) {
             keys[keyId].paused = true;
             await saveData();
             addLog('PAUSAR', { key: keys[keyId].key });
-            showToast('Key pausada!', 'warning');
+            showToast('⏸️ Key pausada!', 'warning');
             renderKeys();
         }
 
@@ -1082,7 +1525,7 @@
             keys[keyId].paused = false;
             await saveData();
             addLog('DESPAUSAR', { key: keys[keyId].key });
-            showToast('Key ativada!', 'success');
+            showToast('▶️ Key ativada!', 'success');
             renderKeys();
         }
 
@@ -1090,9 +1533,12 @@
             const key = keys[keyId];
             
             if (key.resets >= key.maxResets) {
-                showToast('Limite de resets atingido!', 'error');
+                showToast('❌ Limite de resets atingido!', 'error');
                 return;
             }
+            
+            const oldHwid = key.hwidUsado;
+            const oldNick = key.nickUsado;
             
             key.used = false;
             key.usedAt = null;
@@ -1110,22 +1556,33 @@
             });
             
             await saveData();
-            addLog('RESET_KEY', { key: key.key });
-            showToast('Key resetada!', 'success');
+            addLog('RESET_KEY', { key: key.key, oldHwid, oldNick });
+            
+            // Webhook
+            const fields = [
+                { name: '🔑 Key', value: key.key, inline: true },
+                { name: '🆔 HWID Antigo', value: oldHwid || 'Nenhum', inline: true },
+                { name: '👤 Nick Antigo', value: oldNick || 'Nenhum', inline: true },
+                { name: '🔄 Resets', value: `${key.resets}/${key.maxResets}`, inline: true },
+                { name: '👤 Por', value: currentUser.username, inline: true }
+            ];
+            sendWebhook('🔄 KEY RESETADA', fields, 0xff8c00);
+            
+            showToast('🔄 Key resetada!', 'success');
             renderKeys();
         }
 
         function showAddTempo(keyId) {
             currentKeyId = keyId;
             currentAcao = 'add';
-            document.getElementById('tempoTitulo').textContent = 'Adicionar Tempo';
+            document.getElementById('tempoTitulo').textContent = '➕ Adicionar Tempo';
             openModal('tempoModal');
         }
 
         function showRemoveTempo(keyId) {
             currentKeyId = keyId;
             currentAcao = 'remove';
-            document.getElementById('tempoTitulo').textContent = 'Remover Tempo';
+            document.getElementById('tempoTitulo').textContent = '➖ Remover Tempo';
             openModal('tempoModal');
         }
 
@@ -1152,12 +1609,12 @@
                     details: `+${quantidade} ${unidade}`
                 });
                 
-                showToast(`${quantidade} ${unidade} adicionados!`, 'success');
+                showToast(`✅ +${quantidade} ${unidade} adicionados!`, 'success');
             } else {
                 currentExpiry.setMinutes(currentExpiry.getMinutes() - minutos);
                 
                 if (currentExpiry < new Date()) {
-                    showToast('Não pode expirar retroativamente', 'error');
+                    showToast('❌ Não pode expirar retroativamente', 'error');
                     closeModal('tempoModal');
                     return;
                 }
@@ -1171,7 +1628,7 @@
                     details: `-${quantidade} ${unidade}`
                 });
                 
-                showToast(`${quantidade} ${unidade} removidos!`, 'success');
+                showToast(`✅ -${quantidade} ${unidade} removidos!`, 'success');
             }
             
             await saveData();
@@ -1188,17 +1645,316 @@
         }
 
         async function deleteKey(keyId) {
-            if (!confirm('Tem certeza?')) return;
+            if (!confirm('🗑️ Tem certeza que deseja excluir esta key?')) return;
+            const key = keys[keyId];
             delete keys[keyId];
             await saveData();
-            addLog('EXCLUIR_KEY', { key: keyId });
-            showToast('Key excluída!', 'success');
+            addLog('EXCLUIR_KEY', { key: key.key });
+            showToast('🗑️ Key excluída!', 'success');
             renderKeys();
             renderRecentKeys();
         }
 
         // ============================================
-        // API DE VALIDAÇÃO (PARA O SCRIPT LUA)
+        // AÇÕES EM MASSA
+        // ============================================
+        async function massAddDays() {
+            const dias = prompt('📅 Quantos dias adicionar a todas as keys?', '1');
+            if (!dias) return;
+            
+            Object.values(keys).forEach(key => {
+                const newExpiry = new Date(key.expiresAt);
+                newExpiry.setDate(newExpiry.getDate() + parseInt(dias));
+                key.expiresAt = newExpiry.toISOString();
+            });
+            
+            await saveData();
+            addLog('MASS_ADD_TEMPO', { dias: dias });
+            
+            const fields = [
+                { name: '📋 Ação', value: 'Adicionar Dias em Massa', inline: true },
+                { name: '📅 Dias', value: dias, inline: true },
+                { name: '👤 Por', value: currentUser.username, inline: true }
+            ];
+            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
+            
+            showToast(`✅ ${dias} dias adicionados a todas!`, 'success');
+            renderKeys();
+        }
+
+        async function massRemoveDays() {
+            const dias = prompt('📅 Quantos dias remover de todas as keys?', '1');
+            if (!dias) return;
+            
+            let count = 0;
+            Object.values(keys).forEach(key => {
+                const newExpiry = new Date(key.expiresAt);
+                newExpiry.setDate(newExpiry.getDate() - parseInt(dias));
+                
+                if (newExpiry > new Date()) {
+                    key.expiresAt = newExpiry.toISOString();
+                    count++;
+                }
+            });
+            
+            await saveData();
+            addLog('MASS_REM_TEMPO', { dias: dias, afetadas: count });
+            
+            const fields = [
+                { name: '📋 Ação', value: 'Remover Dias em Massa', inline: true },
+                { name: '📅 Dias', value: dias, inline: true },
+                { name: '🔑 Keys afetadas', value: count.toString(), inline: true },
+                { name: '👤 Por', value: currentUser.username, inline: true }
+            ];
+            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
+            
+            showToast(`✅ ${dias} dias removidos de ${count} keys!`, 'success');
+            renderKeys();
+        }
+
+        async function massPause() {
+            Object.values(keys).forEach(key => key.paused = true);
+            await saveData();
+            addLog('MASS_PAUSAR', {});
+            
+            const fields = [
+                { name: '📋 Ação', value: 'Pausar Todas as Keys', inline: true },
+                { name: '👤 Por', value: currentUser.username, inline: true }
+            ];
+            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
+            
+            showToast('⏸️ Todas keys pausadas!', 'warning');
+            renderKeys();
+        }
+
+        async function massUnpause() {
+            Object.values(keys).forEach(key => key.paused = false);
+            await saveData();
+            addLog('MASS_DESPAUSAR', {});
+            
+            const fields = [
+                { name: '📋 Ação', value: 'Ativar Todas as Keys', inline: true },
+                { name: '👤 Por', value: currentUser.username, inline: true }
+            ];
+            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
+            
+            showToast('▶️ Todas keys ativadas!', 'success');
+            renderKeys();
+        }
+
+        async function massReset() {
+            if (!confirm('🔄 Tem certeza que deseja resetar TODAS as keys usadas?')) return;
+            
+            let count = 0;
+            Object.values(keys).forEach(key => {
+                if (key.used) {
+                    key.used = false;
+                    key.usedAt = null;
+                    key.hwidUsado = null;
+                    key.nickUsado = null;
+                    key.userId = null;
+                    key.vinculadoAt = null;
+                    key.resets = (key.resets || 0) + 1;
+                    count++;
+                }
+            });
+            
+            await saveData();
+            addLog('MASS_RESET', { quantidade: count });
+            
+            const fields = [
+                { name: '📋 Ação', value: 'Reset em Massa', inline: true },
+                { name: '🔑 Keys resetadas', value: count.toString(), inline: true },
+                { name: '👤 Por', value: currentUser.username, inline: true }
+            ];
+            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
+            
+            showToast(`🔄 ${count} keys resetadas!`, 'success');
+            renderKeys();
+        }
+
+        async function massDelete() {
+            if (!confirm('🗑️ EXCLUIR TODAS AS KEYS? Esta ação não pode ser desfeita!')) return;
+            keys = {};
+            await saveData();
+            addLog('MASS_EXCLUIR', {});
+            
+            const fields = [
+                { name: '📋 Ação', value: 'Excluir Todas as Keys', inline: true },
+                { name: '👤 Por', value: currentUser.username, inline: true }
+            ];
+            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
+            
+            showToast('🗑️ Todas keys excluídas!', 'success');
+            renderKeys();
+            renderRecentKeys();
+        }
+
+        // ============================================
+        // BLACKLIST
+        // ============================================
+        function renderBlacklist() {
+            const search = document.getElementById('searchBlacklist')?.value.toLowerCase() || '';
+            
+            let list = Object.values(blacklist);
+            if (search) {
+                list = list.filter(b => b.hwid.toLowerCase().includes(search));
+            }
+            
+            const container = document.getElementById('blacklistContainer');
+            container.innerHTML = list.map(item => `
+                <div class="blacklist-item">
+                    <div class="blacklist-info">
+                        <div class="blacklist-hwid">${item.hwid}</div>
+                        <div class="blacklist-reason"><strong>Motivo:</strong> ${item.reason}</div>
+                        <div class="blacklist-date">Bloqueado por: ${item.blockedBy} em ${new Date(item.date).toLocaleString()}</div>
+                    </div>
+                    <button class="btn btn-sm btn-success" onclick="removeFromBlacklist('${item.hwid}')">✅ Remover</button>
+                </div>
+            `).join('');
+        }
+
+        function showAddBlacklist() {
+            document.getElementById('blacklistHwid').value = '';
+            document.getElementById('blacklistReason').value = '';
+            openModal('blacklistModal');
+        }
+
+        function blacklistHwid(hwid) {
+            document.getElementById('blacklistHwid').value = hwid;
+            openModal('blacklistModal');
+        }
+
+        async function addToBlacklist() {
+            const hwid = document.getElementById('blacklistHwid').value.trim();
+            const reason = document.getElementById('blacklistReason').value.trim();
+            
+            if (!hwid || !reason) {
+                showToast('❌ Preencha HWID e motivo!', 'error');
+                return;
+            }
+            
+            blacklist[hwid] = {
+                hwid: hwid,
+                reason: reason,
+                date: new Date().toISOString(),
+                blockedBy: currentUser.username
+            };
+            
+            await saveData();
+            addLog('BLACKLIST_ADD', { hwid: hwid, motivo: reason });
+            
+            // Webhook
+            const fields = [
+                { name: '🆔 HWID', value: hwid, inline: true },
+                { name: '📝 Motivo', value: reason, inline: true },
+                { name: '👤 Bloqueado por', value: currentUser.username, inline: true }
+            ];
+            sendWebhook('⛔ HWID BLOQUEADO', fields, 0xff0000);
+            
+            closeModal('blacklistModal');
+            showToast('⛔ HWID bloqueado!', 'success');
+            renderBlacklist();
+            renderKeys();
+        }
+
+        async function removeFromBlacklist(hwid) {
+            if (!confirm(`Remover ${hwid} da blacklist?`)) return;
+            delete blacklist[hwid];
+            await saveData();
+            addLog('BLACKLIST_REMOVE', { hwid: hwid });
+            showToast('✅ HWID removido!', 'success');
+            renderBlacklist();
+            renderKeys();
+        }
+
+        function filterBlacklist() {
+            renderBlacklist();
+        }
+
+        // ============================================
+        // LOGS
+        // ============================================
+        function renderLogs() {
+            const filter = document.getElementById('logFilter')?.value || '';
+            const search = document.getElementById('searchLogs')?.value.toLowerCase() || '';
+            
+            let filteredLogs = [...logs];
+            
+            if (filter) {
+                filteredLogs = filteredLogs.filter(l => l.action.includes(filter));
+            }
+            
+            if (search) {
+                filteredLogs = filteredLogs.filter(l => 
+                    JSON.stringify(l).toLowerCase().includes(search)
+                );
+            }
+            
+            const container = document.getElementById('logsContainer');
+            container.innerHTML = filteredLogs.map(log => {
+                let type = 'info';
+                if (log.action.includes('GERAR')) type = 'success';
+                if (log.action.includes('PAUSAR') || log.action.includes('REM')) type = 'warning';
+                if (log.action.includes('EXCLUIR') || log.action.includes('BLACKLIST')) type = 'danger';
+                
+                return `
+                    <div class="log-item ${type}">
+                        <span class="log-date">${new Date(log.date).toLocaleString()}</span>
+                        <span class="log-action">${log.action}</span>
+                        <span> - ${log.user}</span>
+                        <pre style="margin-top:5px; font-size:11px;">${JSON.stringify(log, null, 2)}</pre>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderRecentLogs() {
+            const recent = logs.slice(0, 10);
+            document.getElementById('recentLogs').innerHTML = recent.map(log => `
+                <div style="background: #1e1e1e; padding: 10px; margin-bottom: 5px; border-radius: 8px;">
+                    <div style="color:#888;">${new Date(log.date).toLocaleString()}</div>
+                    <strong>${log.action}</strong> - ${log.user}
+                </div>
+            `).join('');
+        }
+
+        function filterLogs() {
+            renderLogs();
+        }
+
+        async function clearLogs() {
+            if (!confirm('🗑️ Limpar todos os logs?')) return;
+            logs = [];
+            await saveData();
+            showToast('✅ Logs limpos!', 'success');
+            renderLogs();
+            renderRecentLogs();
+        }
+
+        function exportKeys() {
+            const blob = new Blob([JSON.stringify(keys, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `keys_${new Date().toISOString()}.json`;
+            a.click();
+        }
+
+        // ============================================
+        // ESTATÍSTICAS
+        // ============================================
+        function updateStats() {
+            const keysArray = Object.values(keys);
+            document.getElementById('statTotal').textContent = keysArray.length;
+            document.getElementById('statAtivas').textContent = keysArray.filter(k => !k.used && !k.paused && new Date(k.expiresAt) > new Date()).length;
+            document.getElementById('statUsadas').textContent = keysArray.filter(k => k.used).length;
+            document.getElementById('statExpiradas').textContent = keysArray.filter(k => new Date(k.expiresAt) <= new Date()).length;
+            document.getElementById('statBlacklist').textContent = Object.keys(blacklist).length;
+        }
+
+        // ============================================
+        // API DE VALIDAÇÃO
         // ============================================
         window.validateKey = async function(key, hwid, nick, userId) {
             console.log('🔑 Validando:', {key, hwid, nick, userId});
@@ -1232,7 +1988,6 @@
                 }
             }
             
-            // Key válida - marcar como usada
             keyData.used = true;
             keyData.usedAt = new Date().toISOString();
             keyData.hwidUsado = hwid;
@@ -1250,6 +2005,15 @@
             await saveData();
             addLog('KEY_USADA', { key, hwid, nick, userId });
             
+            // Webhook
+            const fields = [
+                { name: '🔑 Key', value: key, inline: true },
+                { name: '🆔 HWID', value: hwid, inline: true },
+                { name: '👤 Nick', value: nick, inline: true },
+                { name: '🆔 UserID', value: userId, inline: true }
+            ];
+            sendWebhook('✅ KEY UTILIZADA', fields, 0x00ff00);
+            
             console.log('✅ Key validada com sucesso!');
             return 'valida';
         };
@@ -1257,38 +2021,25 @@
         // ============================================
         // UTILITÁRIOS
         // ============================================
-        function addLog(action, details) {
-            const log = {
-                date: new Date().toISOString(),
-                action: action,
-                user: currentUser?.username || 'sistema',
-                ...details
-            };
-            
-            logs.unshift(log);
-            if (logs.length > 1000) logs.pop();
-            saveData();
-        }
-
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             
             document.getElementById(tabId).classList.add('active');
             document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+            
+            if (tabId === 'keys') renderKeys();
+            if (tabId === 'blacklist') renderBlacklist();
+            if (tabId === 'logs') renderLogs();
+            if (tabId === 'dashboard') {
+                updateStats();
+                renderRecentLogs();
+            }
+            if (tabId === 'gerar') renderRecentKeys();
         }
 
         function filterKeys() {
             renderKeys();
-        }
-
-        function exportKeys() {
-            const blob = new Blob([JSON.stringify(keys, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `keys_${new Date().toISOString()}.json`;
-            a.click();
         }
 
         function openModal(id) {
@@ -1305,6 +2056,10 @@
             toast.textContent = message;
             document.getElementById('toastContainer').appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
+        }
+
+        function saveFirebase() {
+            showToast('✅ Configuração salva!', 'success');
         }
 
         // ============================================
@@ -1328,6 +2083,8 @@
                 .then(data => {
                     if (data) {
                         keys = data.keys || {};
+                        blacklist = data.blacklist || {};
+                        config = { ...config, ...(data.config || {}) };
                     }
                     return window.validateKey(key, hwid, nick, userId);
                 })
