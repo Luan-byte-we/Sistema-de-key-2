@@ -1,2097 +1,1170 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zyra Cloud - Sistema de Keys</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #141414;
-            --bg-card: #1e1e1e;
-            --text-primary: #ffffff;
-            --text-secondary: #888888;
-            --accent: #ff6b00;
-            --accent-hover: #ff8533;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-            --info: #17a2b8;
-            --purple: #6f42c1;
-            --border: #2a2a2a;
-        }
-
-        body {
-            background: linear-gradient(135deg, var(--bg-primary), #000);
-            color: var(--text-primary);
-            min-height: 100vh;
-            font-size: 14px;
-        }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-hover);
-        }
-
-        /* CONTAINER */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* LOGIN/REGISTER */
-        .auth-container {
-            max-width: 450px;
-            margin: 50px auto;
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .auth-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .auth-logo h1 {
-            font-size: 36px;
-            background: linear-gradient(135deg, var(--accent), #ff3300);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .auth-logo p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .auth-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
-        }
-
-        .auth-tab {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-
-        .auth-tab.active {
-            color: var(--accent);
-            border-bottom: 2px solid var(--accent);
-        }
-
-        .auth-form {
-            display: none;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
-        /* NAVBAR */
-        .navbar {
-            background: var(--bg-secondary);
-            border-radius: 15px;
-            padding: 15px 25px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--border);
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .nav-logo {
-            font-size: 24px;
-            font-weight: bold;
-            background: linear-gradient(135deg, var(--accent), #ff3300);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: linear-gradient(135deg, var(--accent), #ff3300);
-            color: white;
-        }
-
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .username {
-            color: var(--accent);
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .logout-btn {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: #ff4444;
-            transform: translateY(-2px);
-        }
-
-        /* TABS */
-        .tab-content {
-            display: none;
-            background: var(--bg-secondary);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid var(--border);
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* CARDS */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 5px 15px rgba(255,107,0,0.2);
-        }
-
-        .stat-title {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: bold;
-            background: linear-gradient(135deg, var(--accent), #ff3300);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* FORMULÁRIOS */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: white;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(255,107,0,0.2);
-        }
-
-        /* BOTÕES */
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), #ff3300);
-            color: white;
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: black;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-info {
-            background: var(--info);
-            color: white;
-        }
-
-        .btn-purple {
-            background: var(--purple);
-            color: white;
-        }
-
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 12px;
-        }
-
-        /* AÇÕES EM MASSA */
-        .mass-actions {
-            background: var(--bg-card);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-
-        .mass-title {
-            color: var(--accent);
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .mass-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .mass-buttons .btn {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        /* GERADOR */
-        .gerador-card {
-            background: var(--bg-card);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
-
-        .gerador-titulo {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: var(--accent);
-        }
-
-        .duracao-opcoes {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 15px 0;
-        }
-
-        .duracao-btn {
-            padding: 8px 15px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .duracao-btn:hover, .duracao-btn.active {
-            background: linear-gradient(135deg, var(--accent), #ff3300);
-            border-color: transparent;
-        }
-
-        /* KEYS GRID */
-        .keys-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .key-card {
-            background: var(--bg-card);
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid var(--border);
-            position: relative;
-            transition: all 0.3s;
-        }
-
-        .key-card:hover {
-            transform: translateX(-5px);
-            border-color: var(--accent);
-        }
-
-        .key-card.ativa { border-left: 4px solid var(--success); }
-        .key-card.pausada { border-left: 4px solid var(--warning); }
-        .key-card.usada { border-left: 4px solid var(--info); }
-        .key-card.expirada { border-left: 4px solid var(--danger); }
-        .key-card.blacklist { border-left: 4px solid black; }
-
-        .key-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .key-code {
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            color: var(--accent);
-            background: var(--bg-secondary);
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            word-break: break-all;
-        }
-
-        .key-code:hover {
-            background: var(--bg-primary);
-        }
-
-        .key-status {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .status-ativa { background: var(--success); color: white; }
-        .status-pausada { background: var(--warning); color: black; }
-        .status-usada { background: var(--info); color: white; }
-        .status-expirada { background: var(--danger); color: white; }
-
-        .key-info {
-            margin: 15px 0;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .key-info div {
-            margin: 8px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .key-info strong {
-            color: white;
-        }
-
-        .timer {
-            font-family: 'Courier New', monospace;
-            font-size: 18px;
-            color: var(--accent);
-            text-align: center;
-            padding: 10px;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-
-        .timer.expirado {
-            color: var(--danger);
-        }
-
-        .hwid-block {
-            background: var(--bg-secondary);
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            word-break: break-all;
-            color: var(--accent);
-            border: 1px solid var(--border);
-        }
-
-        .reset-info {
-            color: var(--warning);
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        .key-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .key-actions button {
-            flex: 1;
-            min-width: 70px;
-            padding: 8px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 12px;
-            transition: all 0.3s;
-        }
-
-        .key-actions button:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-copy { background: var(--info); color: white; }
-        .btn-pausar { background: var(--warning); color: black; }
-        .btn-ativar { background: var(--success); color: white; }
-        .btn-reset { background: var(--purple); color: white; }
-        .btn-add { background: var(--success); color: white; }
-        .btn-remove { background: var(--warning); color: black; }
-        .btn-excluir { background: var(--danger); color: white; }
-        .btn-blacklist { background: black; color: white; }
-
-        /* BLACKLIST */
-        .blacklist-grid {
-            display: grid;
-            gap: 10px;
-        }
-
-        .blacklist-item {
-            background: var(--bg-card);
-            border-radius: 10px;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid var(--danger);
-            margin-bottom: 10px;
-        }
-
-        .blacklist-info {
-            flex: 1;
-        }
-
-        .blacklist-hwid {
-            font-family: 'Courier New', monospace;
-            color: var(--danger);
-            font-size: 13px;
-            word-break: break-all;
-        }
-
-        .blacklist-reason {
-            color: var(--text-secondary);
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        .blacklist-date {
-            color: var(--text-secondary);
-            font-size: 11px;
-            margin-top: 5px;
-        }
-
-        /* LOGS */
-        .logs-container {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .log-item {
-            background: var(--bg-card);
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 8px;
-            border-left: 3px solid;
-            font-size: 12px;
-        }
-
-        .log-item.success { border-color: var(--success); }
-        .log-item.warning { border-color: var(--warning); }
-        .log-item.danger { border-color: var(--danger); }
-        .log-item.info { border-color: var(--info); }
-
-        .log-date {
-            color: var(--text-secondary);
-            font-size: 11px;
-        }
-
-        .log-action {
-            font-weight: bold;
-            margin-left: 10px;
-        }
-
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 15px;
-            padding: 25px;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid var(--border);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* TOAST */
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 2000;
-        }
-
-        .toast {
-            background: var(--bg-secondary);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            margin-top: 10px;
-            border-left: 4px solid;
-            animation: slideIn 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .toast.success { border-color: var(--success); }
-        .toast.error { border-color: var(--danger); }
-        .toast.warning { border-color: var(--warning); }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* LOADING */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .nav-links {
-                justify-content: center;
-            }
-            
-            .keys-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .mass-buttons .btn {
-                min-width: 100%;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyra Cloud — Key Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #18181f;
+  --surface3: #202028;
+  --border: #2a2a38;
+  --orange: #ff6b2b;
+  --orange-dim: rgba(255,107,43,0.15);
+  --orange-glow: rgba(255,107,43,0.4);
+  --green: #2aff8f;
+  --green-dim: rgba(42,255,143,0.12);
+  --red: #ff3b5c;
+  --red-dim: rgba(255,59,92,0.12);
+  --yellow: #ffd060;
+  --yellow-dim: rgba(255,208,96,0.12);
+  --blue: #5b8fff;
+  --text: #e8e8f0;
+  --text-muted: #6b6b85;
+  --text-dim: #9898b0;
+  --radius: 10px;
+  --font-mono: 'Space Mono', monospace;
+  --font: 'Syne', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--surface);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--orange);}
+
+/* LOGIN */
+#loginScreen{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;}
+#loginScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,107,43,0.12) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(91,143,255,0.08) 0%,transparent 50%);pointer-events:none;}
+.login-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:48px 40px;width:100%;max-width:400px;position:relative;}
+.login-box::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--orange),transparent);}
+.login-logo{text-align:center;margin-bottom:32px;}
+.login-logo span{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--orange),#ff9f6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.login-logo small{display:block;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:4px;letter-spacing:3px;text-transform:uppercase;}
+.tab-switch{display:flex;background:var(--surface2);border-radius:8px;padding:4px;margin-bottom:24px;}
+.tab-switch button{flex:1;padding:8px;border:none;background:transparent;color:var(--text-muted);font-family:var(--font);font-size:13px;font-weight:600;border-radius:6px;cursor:pointer;transition:.2s;}
+.tab-switch button.active{background:var(--surface3);color:var(--text);}
+.login-tab{display:none;}
+.login-tab.active{display:block;}
+label{display:block;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+input[type=text],input[type=password],input[type=email],input[type=number],select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:.2s;}
+input:focus,select:focus,textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-dim);}
+.form-group{margin-bottom:16px;}
+.remember-row{display:flex;align-items:center;gap:8px;margin-bottom:20px;}
+.remember-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--orange);}
+.remember-row span{font-size:13px;color:var(--text-dim);}
+.btn-primary{width:100%;padding:12px;background:var(--orange);border:none;border-radius:8px;color:#fff;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.5px;}
+.btn-primary:hover{background:#ff8247;box-shadow:0 4px 20px var(--orange-glow);}
+.login-error{background:var(--red-dim);border:1px solid var(--red);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none;}
+
+/* LAYOUT */
+#appScreen{display:none;min-height:100vh;}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;}
+.sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid var(--border);}
+.sidebar-logo .brand{font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--orange),#ff9f6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sidebar-logo .tagline{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
+nav{flex:1;padding:16px 12px;overflow-y:auto;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text-muted);transition:.2s;margin-bottom:2px;border:1px solid transparent;}
+.nav-item:hover{background:var(--surface2);color:var(--text);}
+.nav-item.active{background:var(--orange-dim);color:var(--orange);border-color:rgba(255,107,43,0.3);}
+.nav-item .icon{font-size:16px;width:20px;text-align:center;}
+.sidebar-footer{padding:16px 12px;border-top:1px solid var(--border);}
+.user-badge{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:8px;}
+.user-avatar{width:32px;height:32px;background:var(--orange-dim);border:1px solid var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--orange);}
+.user-info small{display:block;font-size:12px;font-weight:700;color:var(--text);}
+.user-info span{font-size:11px;color:var(--text-muted);}
+.logout-btn{width:100%;margin-top:8px;padding:8px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text-muted);font-family:var(--font);font-size:12px;cursor:pointer;transition:.2s;}
+.logout-btn:hover{border-color:var(--red);color:var(--red);}
+.main{margin-left:220px;padding:28px;min-height:100vh;}
+.page{display:none;}
+.page.active{display:block;}
+.page-header{margin-bottom:28px;}
+.page-header h1{font-size:24px;font-weight:800;}
+.page-header p{color:var(--text-muted);font-size:14px;margin-top:4px;}
+
+/* CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:28px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.stat-card.orange::after{background:var(--orange);}
+.stat-card.green::after{background:var(--green);}
+.stat-card.red::after{background:var(--red);}
+.stat-card.yellow::after{background:var(--yellow);}
+.stat-card.blue::after{background:var(--blue);}
+.stat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:8px;}
+.stat-value{font-size:28px;font-weight:800;font-family:var(--font-mono);}
+.stat-card.orange .stat-value{color:var(--orange);}
+.stat-card.green .stat-value{color:var(--green);}
+.stat-card.red .stat-value{color:var(--red);}
+.stat-card.yellow .stat-value{color:var(--yellow);}
+.stat-card.blue .stat-value{color:var(--blue);}
+
+/* GENERATE */
+.gen-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:700px;}
+.gen-card h2{font-size:16px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.time-presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.time-btn{padding:7px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-family:var(--font-mono);font-size:12px;cursor:pointer;transition:.2s;}
+.time-btn:hover,.time-btn.selected{background:var(--orange-dim);border-color:var(--orange);color:var(--orange);}
+.custom-time{display:flex;gap:10px;align-items:center;margin-bottom:16px;}
+.custom-time input{width:90px;}
+.custom-time select{flex:1;}
+.expiry-preview{padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-family:var(--font-mono);font-size:13px;color:var(--text-dim);margin-bottom:20px;}
+.expiry-preview span{color:var(--orange);font-weight:700;}
+.key-result{margin-top:20px;padding:16px;background:var(--surface2);border:1px solid var(--orange);border-radius:8px;display:none;}
+.key-display{display:flex;align-items:center;gap:12px;}
+.key-val{font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--orange);letter-spacing:2px;flex:1;}
+.copy-btn{padding:6px 12px;background:var(--orange-dim);border:1px solid var(--orange);border-radius:6px;color:var(--orange);font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:.2s;}
+.copy-btn:hover{background:var(--orange);color:#fff;}
+.recent-keys{margin-top:20px;}
+.recent-keys h3{font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
+.recent-key-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--font-mono);font-size:13px;}
+.recent-key-item .rk-key{color:var(--orange);flex:1;}
+.recent-key-item .rk-id{color:var(--text-muted);font-size:11px;}
+.recent-key-item .rk-exp{color:var(--text-dim);font-size:11px;}
+
+/* KEY CARDS */
+.toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.search-box{flex:1;min-width:200px;position:relative;}
+.search-box input{padding-left:36px;}
+.search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;}
+.btn-sm{padding:8px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text-dim);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap;}
+.btn-sm:hover{background:var(--surface3);color:var(--text);border-color:var(--text-muted);}
+.btn-sm.danger:hover{border-color:var(--red);color:var(--red);}
+.btn-sm.success:hover{border-color:var(--green);color:var(--green);}
+.keys-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+.key-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;}
+.key-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
+.key-card.active::before{background:var(--green);}
+.key-card.paused::before{background:var(--yellow);}
+.key-card.used::before{background:var(--blue);}
+.key-card.expired::before{background:var(--red);}
+.kc-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.kc-key{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:6px;}
+.kc-key:hover{color:var(--orange);}
+.kc-status{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;}
+.status-active{background:var(--green-dim);color:var(--green);border:1px solid rgba(42,255,143,0.3);}
+.status-paused{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(255,208,96,0.3);}
+.status-used{background:rgba(91,143,255,0.12);color:var(--blue);border:1px solid rgba(91,143,255,0.3);}
+.status-expired{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,59,92,0.3);}
+.kc-body{padding:14px 16px;}
+.kc-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;font-size:12px;}
+.kc-label{color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.kc-val{color:var(--text-dim);text-align:right;font-family:var(--font-mono);font-size:11px;max-width:200px;word-break:break-all;}
+.kc-timer{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--orange);}
+.kc-timer.expired-timer{color:var(--red);}
+.kc-resets{color:var(--text-dim);}
+.kc-resets.full{color:var(--red);}
+.kc-actions{padding:12px 16px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px;}
+.kc-btn{padding:5px 10px;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s;font-family:var(--font);border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);}
+.kc-btn:hover{background:var(--surface3);color:var(--text);}
+.kc-btn.del:hover{border-color:var(--red);color:var(--red);}
+.kc-btn.bl:hover{border-color:var(--red);color:var(--red);}
+
+/* BLACKLIST */
+.bl-list{display:flex;flex-direction:column;gap:10px;}
+.bl-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:16px;}
+.bl-hwid{font-family:var(--font-mono);font-size:13px;color:var(--red);flex:1;}
+.bl-meta{font-size:12px;color:var(--text-muted);}
+.bl-meta span{display:block;}
+.bl-remove{padding:6px 12px;background:var(--red-dim);border:1px solid rgba(255,59,92,0.3);border-radius:6px;color:var(--red);font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:.2s;}
+.bl-remove:hover{background:var(--red);color:#fff;}
+
+/* LOGS */
+.log-item{display:flex;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-size:13px;}
+.log-date{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);min-width:130px;}
+.log-action{font-weight:700;min-width:120px;}
+.log-detail{color:var(--text-muted);flex:1;}
+.log-user{font-family:var(--font-mono);font-size:11px;color:var(--blue);}
+
+/* SETTINGS */
+.settings-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
+.settings-section h3{font-size:14px;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.settings-row{display:flex;gap:12px;margin-bottom:12px;}
+.settings-row input,.settings-row select{flex:1;}
+.webhook-test-btn{padding:10px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text-dim);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;}
+.webhook-test-btn:hover{border-color:var(--orange);color:var(--orange);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;width:90%;max-width:480px;}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:20px;}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
+.btn-cancel{padding:10px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text-muted);font-family:var(--font);font-size:14px;cursor:pointer;transition:.2s;}
+.btn-cancel:hover{border-color:var(--text-muted);color:var(--text);}
+.btn-confirm{padding:10px 20px;background:var(--orange);border:none;border-radius:8px;color:#fff;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-confirm:hover{background:#ff8247;}
+.btn-confirm.danger{background:var(--red);}
+
+/* TOAST */
+#toast{position:fixed;bottom:28px;right:28px;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;z-index:9999;transform:translateY(80px);opacity:0;transition:.3s;pointer-events:none;}
+#toast.show{transform:translateY(0);opacity:1;}
+#toast.success{background:#1a3a2a;border:1px solid var(--green);color:var(--green);}
+#toast.error{background:#3a1a1a;border:1px solid var(--red);color:var(--red);}
+#toast.info{background:#1a2a3a;border:1px solid var(--blue);color:var(--blue);}
+
+/* UTILS */
+.flex{display:flex;}.gap{gap:10px;}.mt{margin-top:16px;}
+.empty-state{text-align:center;padding:48px;color:var(--text-muted);}
+.empty-state .icon{font-size:40px;margin-bottom:12px;}
+.empty-state p{font-size:14px;}
+.activity-list{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;}
+.act-item{display:flex;gap:10px;font-size:12px;padding:8px 12px;background:var(--surface2);border-radius:6px;}
+.act-icon{font-size:14px;}
+.act-text{flex:1;color:var(--text-dim);}
+.act-time{color:var(--text-muted);font-family:var(--font-mono);font-size:10px;}
+</style>
 </head>
 <body>
-    <div id="app">
-        <!-- AUTH PAGE -->
-        <div id="authPage">
-            <div class="auth-container">
-                <div class="auth-logo">
-                    <h1>Zyra Cloud</h1>
-                    <p>Sistema de Gerenciamento de Keys</p>
-                </div>
 
-                <div class="auth-tabs">
-                    <div class="auth-tab active" onclick="showAuthTab('login')">🔐 Login</div>
-                    <div class="auth-tab" onclick="showAuthTab('register')">📝 Registrar</div>
-                </div>
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <span>⚡ Zyra Cloud</span>
+      <small>Key Management System</small>
+    </div>
+    <div class="tab-switch">
+      <button class="active" onclick="switchLoginTab('login')">Login</button>
+      <button onclick="switchLoginTab('register')">Registrar</button>
+    </div>
+    <div id="loginError" class="login-error"></div>
 
-                <!-- LOGIN FORM -->
-                <div id="loginForm" class="auth-form active">
-                    <div class="form-group">
-                        <label>Usuário</label>
-                        <input type="text" id="loginUsername" class="form-control" placeholder="Digite seu usuário">
-                    </div>
-                    <div class="form-group">
-                        <label>Senha</label>
-                        <input type="password" id="loginPassword" class="form-control" placeholder="Digite sua senha">
-                    </div>
-                    <button class="btn btn-primary" onclick="handleLogin()" style="width: 100%;">🔓 Entrar</button>
-                </div>
-
-                <!-- REGISTER FORM -->
-                <div id="registerForm" class="auth-form">
-                    <div class="form-group">
-                        <label>Usuário</label>
-                        <input type="text" id="registerUsername" class="form-control" placeholder="Escolha um usuário">
-                    </div>
-                    <div class="form-group">
-                        <label>E-mail</label>
-                        <input type="email" id="registerEmail" class="form-control" placeholder="seu@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Senha</label>
-                        <input type="password" id="registerPassword" class="form-control" placeholder="Crie uma senha">
-                    </div>
-                    <div class="form-group">
-                        <label>Confirmar Senha</label>
-                        <input type="password" id="registerConfirm" class="form-control" placeholder="Confirme sua senha">
-                    </div>
-                    <button class="btn btn-primary" onclick="handleRegister()" style="width: 100%;">📝 Registrar</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- DASHBOARD PAGE -->
-        <div id="dashboardPage" style="display: none;">
-            <div class="container">
-                <!-- NAVBAR -->
-                <div class="navbar">
-                    <div class="nav-logo">Zyra Cloud</div>
-                    <div class="nav-links">
-                        <span class="nav-link active" onclick="showTab('dashboard')">📊 Dashboard</span>
-                        <span class="nav-link" onclick="showTab('gerar')">🎫 Gerar Key</span>
-                        <span class="nav-link" onclick="showTab('keys')">🔑 Gerenciar Keys</span>
-                        <span class="nav-link" onclick="showTab('blacklist')">⛔ Blacklist</span>
-                        <span class="nav-link" onclick="showTab('logs')">📋 Logs</span>
-                        <span class="nav-link" onclick="showTab('config')">⚙️ Config</span>
-                    </div>
-                    <div class="user-menu">
-                        <span class="username" id="currentUsername">Carregando...</span>
-                        <button class="logout-btn" onclick="logout()">🚪 Sair</button>
-                    </div>
-                </div>
-
-                <!-- DASHBOARD TAB -->
-                <div id="dashboard" class="tab-content active">
-                    <h2>📊 Dashboard</h2>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-title">Total Keys</div>
-                            <div class="stat-value" id="statTotal">0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Keys Ativas</div>
-                            <div class="stat-value" id="statAtivas">0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Keys Usadas</div>
-                            <div class="stat-value" id="statUsadas">0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Keys Expiradas</div>
-                            <div class="stat-value" id="statExpiradas">0</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-title">Blacklist</div>
-                            <div class="stat-value" id="statBlacklist">0</div>
-                        </div>
-                    </div>
-
-                    <div class="gerador-card">
-                        <div class="gerador-titulo">📈 Últimas Atividades</div>
-                        <div id="recentLogs" style="max-height: 300px; overflow-y: auto;"></div>
-                    </div>
-                </div>
-
-                <!-- GERAR KEY TAB -->
-                <div id="gerar" class="tab-content">
-                    <h2>🎫 Gerar Nova Key</h2>
-                    
-                    <div class="gerador-card">
-                        <div class="form-group">
-                            <label>Identificador (opcional)</label>
-                            <input type="text" id="genIdentificador" class="form-control" placeholder="Ex: Cliente A">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Tempo de Duração</label>
-                            <div class="duracao-opcoes">
-                                <button class="duracao-btn" onclick="setTempo(1, 'minutos')">1 min</button>
-                                <button class="duracao-btn" onclick="setTempo(5, 'minutos')">5 min</button>
-                                <button class="duracao-btn" onclick="setTempo(15, 'minutos')">15 min</button>
-                                <button class="duracao-btn" onclick="setTempo(30, 'minutos')">30 min</button>
-                                <button class="duracao-btn" onclick="setTempo(1, 'horas')">1 hora</button>
-                                <button class="duracao-btn" onclick="setTempo(6, 'horas')">6 horas</button>
-                                <button class="duracao-btn" onclick="setTempo(12, 'horas')">12 horas</button>
-                                <button class="duracao-btn" onclick="setTempo(1, 'dias')">1 dia</button>
-                                <button class="duracao-btn" onclick="setTempo(7, 'dias')">7 dias</button>
-                                <button class="duracao-btn" onclick="setTempo(30, 'dias')">30 dias</button>
-                            </div>
-                        </div>
-
-                        <div style="display: flex; gap: 10px;">
-                            <input type="number" id="genValor" class="form-control" value="1" min="1" style="width:100px;">
-                            <select id="genUnidade" class="form-control" style="width:150px;">
-                                <option value="minutos">Minutos</option>
-                                <option value="horas">Horas</option>
-                                <option value="dias">Dias</option>
-                            </select>
-                            <button class="btn btn-primary" onclick="generateKey()" style="flex:1;">🎫 Gerar Key</button>
-                        </div>
-                    </div>
-
-                    <div class="gerador-card">
-                        <div class="gerador-titulo">📋 Últimas Keys Geradas</div>
-                        <div id="recentKeys" style="max-height: 200px; overflow-y: auto;"></div>
-                    </div>
-                </div>
-
-                <!-- GERENCIAR KEYS TAB -->
-                <div id="keys" class="tab-content">
-                    <h2>🔑 Gerenciar Keys</h2>
-                    
-                    <!-- AÇÕES EM MASSA -->
-                    <div class="mass-actions">
-                        <div class="mass-title">📦 Ações em Massa</div>
-                        <div class="mass-buttons">
-                            <button class="btn btn-success" onclick="massAddDays()">➕ Adicionar Dias</button>
-                            <button class="btn btn-warning" onclick="massRemoveDays()">➖ Remover Dias</button>
-                            <button class="btn btn-warning" onclick="massPause()">⏸️ Pausar Todas</button>
-                            <button class="btn btn-success" onclick="massUnpause()">▶️ Ativar Todas</button>
-                            <button class="btn btn-purple" onclick="massReset()">🔄 Reset Todas</button>
-                            <button class="btn btn-danger" onclick="massDelete()">🗑️ Excluir Todas</button>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                        <input type="text" id="searchKey" placeholder="🔍 Buscar key, HWID ou nick..." class="form-control" style="flex:1;" onkeyup="filterKeys()">
-                        <button class="btn btn-info" onclick="exportKeys()">📥 Exportar</button>
-                    </div>
-
-                    <div id="keysContainer" class="keys-grid"></div>
-                </div>
-
-                <!-- BLACKLIST TAB -->
-                <div id="blacklist" class="tab-content">
-                    <h2>⛔ Blacklist</h2>
-                    
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                        <input type="text" id="searchBlacklist" placeholder="🔍 Buscar HWID..." class="form-control" style="width: 300px;" onkeyup="filterBlacklist()">
-                        <button class="btn btn-danger" onclick="showAddBlacklist()">➕ Adicionar HWID</button>
-                    </div>
-
-                    <div id="blacklistContainer" class="blacklist-grid"></div>
-                </div>
-
-                <!-- LOGS TAB -->
-                <div id="logs" class="tab-content">
-                    <h2>📋 Logs do Sistema</h2>
-                    
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                        <div style="display: flex; gap: 10px;">
-                            <select id="logFilter" class="form-control" style="width: 150px;" onchange="filterLogs()">
-                                <option value="">Todos</option>
-                                <option value="GERAR">Geração</option>
-                                <option value="USAR">Uso</option>
-                                <option value="PAUSAR">Pausa</option>
-                                <option value="RESET">Reset</option>
-                                <option value="BLACKLIST">Blacklist</option>
-                            </select>
-                            <input type="text" id="searchLogs" placeholder="Buscar..." class="form-control" style="width: 200px;" onkeyup="filterLogs()">
-                        </div>
-                        <button class="btn btn-danger" onclick="clearLogs()">🗑️ Limpar Logs</button>
-                    </div>
-
-                    <div id="logsContainer" class="logs-container"></div>
-                </div>
-
-                <!-- CONFIG TAB -->
-                <div id="config" class="tab-content">
-                    <h2>⚙️ Configurações</h2>
-                    
-                    <div class="gerador-card">
-                        <h3>🌐 Webhook Discord</h3>
-                        <div class="form-group">
-                            <label>URL do Webhook</label>
-                            <input type="url" id="webhookUrl" class="form-control" placeholder="https://discord.com/api/webhooks/...">
-                        </div>
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" id="webhookActive" checked> Ativar notificações
-                            </label>
-                        </div>
-                        <div style="display: flex; gap: 10px;">
-                            <button class="btn btn-primary" onclick="saveWebhook()">💾 Salvar</button>
-                            <button class="btn btn-info" onclick="testWebhook()">📨 Testar</button>
-                        </div>
-                    </div>
-
-                    <div class="gerador-card">
-                        <h3>🔥 Firebase</h3>
-                        <div class="form-group">
-                            <label>URL do Banco</label>
-                            <input type="text" id="firebaseUrl" class="form-control" value="https://key-system-roblox-default-rtdb.firebaseio.com/">
-                        </div>
-                        <button class="btn btn-primary" onclick="saveFirebase()">💾 Salvar</button>
-                    </div>
-
-                    <div class="gerador-card">
-                        <h3>👤 Meu Perfil</h3>
-                        <div class="form-group">
-                            <label>Usuário</label>
-                            <input type="text" id="profileUsername" class="form-control" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>E-mail</label>
-                            <input type="email" id="profileEmail" class="form-control" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Membro desde</label>
-                            <input type="text" id="profileCreated" class="form-control" readonly>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- LOGIN TAB -->
+    <div id="tab-login" class="login-tab active">
+      <div class="form-group">
+        <label>Usuário</label>
+        <input type="text" id="loginUser" placeholder="admin" onkeydown="if(e.key==='Enter')doLogin()">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="remember-row">
+        <input type="checkbox" id="rememberMe">
+        <span>Lembrar-me</span>
+      </div>
+      <button class="btn-primary" onclick="doLogin()">Entrar</button>
     </div>
 
-    <!-- MODAIS -->
-    <div class="modal" id="tempoModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="tempoTitulo">⏰ Modificar Tempo</h3>
-                <button class="modal-close" onclick="closeModal('tempoModal')">&times;</button>
-            </div>
-            <div class="form-group">
-                <label>Quantidade</label>
-                <input type="number" id="tempoQuantidade" class="form-control" value="1" min="1">
-            </div>
-            <div class="form-group">
-                <label>Unidade</label>
-                <select id="tempoUnidade" class="form-control">
-                    <option value="minutos">Minutos</option>
-                    <option value="horas">Horas</option>
-                    <option value="dias">Dias</option>
-                </select>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn btn-primary" style="flex:1;" onclick="confirmTempo()">✅ Confirmar</button>
-            </div>
+    <!-- REGISTER TAB -->
+    <div id="tab-register" class="login-tab">
+      <div class="form-group">
+        <label>Usuário</label>
+        <input type="text" id="regUser" placeholder="novo_admin">
+      </div>
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" id="regEmail" placeholder="email@example.com">
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="regPass" placeholder="••••••••">
+      </div>
+      <div class="form-group">
+        <label>Confirmar Senha</label>
+        <input type="password" id="regPass2" placeholder="••••••••">
+      </div>
+      <button class="btn-primary" onclick="doRegister()">Criar Conta</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP SCREEN -->
+<div id="appScreen">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="brand">⚡ Zyra Cloud</div>
+      <div class="tagline">Key Manager v2.0</div>
+    </div>
+    <nav>
+      <div class="nav-item active" onclick="goTo('dashboard')"><span class="icon">📊</span> Dashboard</div>
+      <div class="nav-item" onclick="goTo('generate')"><span class="icon">✨</span> Gerar Key</div>
+      <div class="nav-item" onclick="goTo('manage')"><span class="icon">🗝️</span> Gerenciar Keys</div>
+      <div class="nav-item" onclick="goTo('blacklist')"><span class="icon">🚫</span> Blacklist</div>
+      <div class="nav-item" onclick="goTo('logs')"><span class="icon">📋</span> Logs</div>
+      <div class="nav-item" onclick="goTo('settings')"><span class="icon">⚙️</span> Configurações</div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-badge">
+        <div class="user-avatar" id="sidebarAvatar">A</div>
+        <div class="user-info">
+          <small id="sidebarUser">Admin</small>
+          <span id="sidebarEmail">admin@zyra.cloud</span>
         </div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()">🚪 Sair</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page active">
+      <div class="page-header">
+        <h1>📊 Dashboard</h1>
+        <p>Visão geral do sistema de keys</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card orange"><div class="stat-label">Total de Keys</div><div class="stat-value" id="statTotal">0</div></div>
+        <div class="stat-card green"><div class="stat-label">Keys Ativas</div><div class="stat-value" id="statActive">0</div></div>
+        <div class="stat-card blue"><div class="stat-label">Keys Usadas</div><div class="stat-value" id="statUsed">0</div></div>
+        <div class="stat-card red"><div class="stat-label">Expiradas</div><div class="stat-value" id="statExpired">0</div></div>
+        <div class="stat-card yellow"><div class="stat-label">Blacklist</div><div class="stat-value" id="statBL">0</div></div>
+      </div>
+      <div class="settings-section">
+        <h3>🕒 Últimas Atividades</h3>
+        <div class="activity-list" id="activityList"><div class="empty-state"><div class="icon">🕰️</div><p>Nenhuma atividade ainda</p></div></div>
+      </div>
     </div>
 
-    <div class="modal" id="blacklistModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>⛔ Adicionar à Blacklist</h3>
-                <button class="modal-close" onclick="closeModal('blacklistModal')">&times;</button>
-            </div>
-            <div class="form-group">
-                <label>HWID</label>
-                <input type="text" id="blacklistHwid" class="form-control" placeholder="Digite o HWID">
-            </div>
-            <div class="form-group">
-                <label>Motivo</label>
-                <input type="text" id="blacklistReason" class="form-control" placeholder="Motivo do bloqueio">
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn btn-warning" onclick="closeModal('blacklistModal')" style="flex:1;">Cancelar</button>
-                <button class="btn btn-danger" onclick="addToBlacklist()" style="flex:1;">⛔ Bloquear</button>
-            </div>
+    <!-- GENERATE -->
+    <div id="page-generate" class="page">
+      <div class="page-header">
+        <h1>✨ Gerar Key</h1>
+        <p>Crie uma nova key de acesso</p>
+      </div>
+      <div class="gen-card">
+        <h2>⚡ Nova Key</h2>
+        <div class="form-group">
+          <label>Identificador (opcional)</label>
+          <input type="text" id="genId" placeholder="Ex: Cliente A, VIP01...">
         </div>
+        <div class="form-group">
+          <label>Duração</label>
+          <div class="time-presets">
+            <button class="time-btn" onclick="setDuration(1,'m')">1 min</button>
+            <button class="time-btn" onclick="setDuration(5,'m')">5 min</button>
+            <button class="time-btn" onclick="setDuration(15,'m')">15 min</button>
+            <button class="time-btn" onclick="setDuration(30,'m')">30 min</button>
+            <button class="time-btn" onclick="setDuration(1,'h')">1h</button>
+            <button class="time-btn" onclick="setDuration(6,'h')">6h</button>
+            <button class="time-btn" onclick="setDuration(12,'h')">12h</button>
+            <button class="time-btn selected" onclick="setDuration(1,'d')">1d</button>
+            <button class="time-btn" onclick="setDuration(7,'d')">7d</button>
+            <button class="time-btn" onclick="setDuration(30,'d')">30d</button>
+          </div>
+          <div class="custom-time">
+            <input type="number" id="customVal" placeholder="Personalizado" min="1" oninput="updateCustomDuration()">
+            <select id="customUnit" onchange="updateCustomDuration()">
+              <option value="m">Minutos</option>
+              <option value="h">Horas</option>
+              <option value="d" selected>Dias</option>
+            </select>
+          </div>
+        </div>
+        <div class="expiry-preview">Expira em: <span id="expiryPreview">1 dia</span> — <span id="expiryDate">—</span></div>
+        <button class="btn-primary" onclick="generateKey()">⚡ Gerar Key</button>
+        <div class="key-result" id="keyResult">
+          <div class="key-display">
+            <span class="key-val" id="keyResultVal"></span>
+            <button class="copy-btn" onclick="copyKey(document.getElementById('keyResultVal').textContent)">📋 Copiar</button>
+          </div>
+        </div>
+        <div class="recent-keys mt">
+          <h3>Últimas Keys Geradas</h3>
+          <div id="recentKeysList"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="toast-container" id="toastContainer"></div>
+    <!-- MANAGE -->
+    <div id="page-manage" class="page">
+      <div class="page-header">
+        <h1>🗝️ Gerenciar Keys</h1>
+        <p>Controle total de todas as keys</p>
+      </div>
+      <div class="toolbar">
+        <div class="search-box">
+          <input type="text" id="manageSearch" placeholder="Buscar por key, HWID, nick..." oninput="renderKeys()">
+        </div>
+        <button class="btn-sm" onclick="bulkAction('addDays')">➕ Adicionar Dias</button>
+        <button class="btn-sm" onclick="bulkAction('removeDays')">➖ Remover Dias</button>
+        <button class="btn-sm" onclick="bulkAction('pauseAll')">⏸️ Pausar Todas</button>
+        <button class="btn-sm" onclick="bulkAction('activateAll')">▶️ Ativar Todas</button>
+        <button class="btn-sm" onclick="bulkAction('resetAll')">🔄 Reset Todas</button>
+        <button class="btn-sm danger" onclick="bulkAction('deleteAll')">🗑️ Excluir Todas</button>
+      </div>
+      <div class="keys-grid" id="keysGrid">
+        <div class="empty-state"><div class="icon">🗝️</div><p>Nenhuma key encontrada</p></div>
+      </div>
+    </div>
 
-    <script>
-        // CONFIGURAÇÃO
-        const FIREBASE_URL = 'https://key-system-roblox-default-rtdb.firebaseio.com/';
-        
-        // Estado da aplicação
-        let currentUser = null;
-        let users = {};
-        let keys = {};
-        let blacklist = {};
-        let logs = [];
-        let config = {
-            webhook: '',
-            webhookActive: true
-        };
-        
-        // Timers
-        let timers = {};
-        let currentKeyId = null;
-        let currentAcao = 'add';
+    <!-- BLACKLIST -->
+    <div id="page-blacklist" class="page">
+      <div class="page-header">
+        <h1>🚫 Blacklist</h1>
+        <p>HWIDs banidos do sistema</p>
+      </div>
+      <div class="toolbar">
+        <div class="search-box" style="flex:1">
+          <input type="text" id="blSearch" placeholder="Buscar por HWID..." oninput="renderBlacklist()">
+        </div>
+        <button class="btn-sm success" onclick="openAddBlModal()">➕ Adicionar HWID</button>
+      </div>
+      <div class="bl-list" id="blList">
+        <div class="empty-state"><div class="icon">✅</div><p>Nenhum HWID bloqueado</p></div>
+      </div>
+    </div>
 
-        // ============================================
-        // AUTENTICAÇÃO
-        // ============================================
-        function showAuthTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            
-            if (tab === 'login') {
-                document.querySelectorAll('.auth-tab')[0].classList.add('active');
-                document.getElementById('loginForm').classList.add('active');
-            } else {
-                document.querySelectorAll('.auth-tab')[1].classList.add('active');
-                document.getElementById('registerForm').classList.add('active');
-            }
-        }
+    <!-- LOGS -->
+    <div id="page-logs" class="page">
+      <div class="page-header">
+        <h1>📋 Logs</h1>
+        <p>Histórico completo de ações</p>
+      </div>
+      <div class="toolbar">
+        <div class="search-box" style="flex:1">
+          <input type="text" id="logsSearch" placeholder="Buscar nos logs..." oninput="renderLogs()">
+        </div>
+        <select id="logsFilter" style="width:160px" onchange="renderLogs()">
+          <option value="">Todas as ações</option>
+          <option value="KEY_GENERATED">Key Gerada</option>
+          <option value="KEY_USED">Key Usada</option>
+          <option value="KEY_RESET">Key Resetada</option>
+          <option value="KEY_PAUSED">Key Pausada</option>
+          <option value="KEY_ACTIVATED">Key Ativada</option>
+          <option value="KEY_DELETED">Key Excluída</option>
+          <option value="HWID_BLACKLISTED">HWID Bloqueado</option>
+          <option value="HWID_REMOVED">HWID Removido</option>
+        </select>
+        <button class="btn-sm" onclick="exportLogs()">📤 Exportar</button>
+        <button class="btn-sm danger" onclick="clearLogs()">🗑️ Limpar</button>
+      </div>
+      <div id="logsList"></div>
+    </div>
 
-        async function loadUsers() {
-            try {
-                const response = await fetch(FIREBASE_URL + 'users.json');
-                const data = await response.json();
-                users = data || {};
-            } catch (error) {
-                console.error('Erro ao carregar usuários:', error);
-            }
-        }
+    <!-- SETTINGS -->
+    <div id="page-settings" class="page">
+      <div class="page-header">
+        <h1>⚙️ Configurações</h1>
+        <p>Personalize o sistema</p>
+      </div>
+      <div class="settings-section">
+        <h3>🔔 Webhook Discord</h3>
+        <div class="form-group">
+          <label>URL do Webhook</label>
+          <input type="text" id="webhookUrl" placeholder="https://discord.com/api/webhooks/...">
+        </div>
+        <div class="remember-row">
+          <input type="checkbox" id="webhookActive">
+          <span>Ativar notificações via webhook</span>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:12px;">
+          <button class="btn-primary" style="flex:1" onclick="saveWebhook()">💾 Salvar</button>
+          <button class="webhook-test-btn" onclick="testWebhook()">🧪 Testar</button>
+        </div>
+      </div>
+      <div class="settings-section">
+        <h3>🔥 Firebase</h3>
+        <div class="form-group">
+          <label>URL do Realtime Database</label>
+          <input type="text" id="firebaseUrl" placeholder="https://seu-projeto-default-rtdb.firebaseio.com/">
+        </div>
+        <button class="btn-primary" style="max-width:200px" onclick="saveFirebaseUrl()">💾 Salvar URL</button>
+      </div>
+      <div class="settings-section">
+        <h3>👤 Perfil</h3>
+        <div id="profileInfo"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        async function handleLogin() {
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            
-            if (!username || !password) {
-                showToast('❌ Preencha todos os campos!', 'error');
-                return;
-            }
-            
-            await loadUsers();
-            
-            if (users[username] && users[username].password === password) {
-                currentUser = {
-                    username: username,
-                    ...users[username]
-                };
-                
-                localStorage.setItem('zyra_user', JSON.stringify(currentUser));
-                showDashboard();
-                showToast('✅ Login realizado com sucesso!', 'success');
-            } else {
-                showToast('❌ Usuário ou senha inválidos!', 'error');
-            }
-        }
+<!-- MODALS -->
+<div class="modal-overlay" id="modalAddBL">
+  <div class="modal">
+    <h3>🚫 Adicionar HWID à Blacklist</h3>
+    <div class="form-group">
+      <label>HWID</label>
+      <input type="text" id="blHwid" placeholder="Hardware ID...">
+    </div>
+    <div class="form-group">
+      <label>Motivo</label>
+      <input type="text" id="blReason" placeholder="Ex: Chargeback, abuso...">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modalAddBL')">Cancelar</button>
+      <button class="btn-confirm danger" onclick="addToBlacklist()">Bloquear</button>
+    </div>
+  </div>
+</div>
 
-        async function handleRegister() {
-            const username = document.getElementById('registerUsername').value.trim();
-            const email = document.getElementById('registerEmail').value.trim();
-            const password = document.getElementById('registerPassword').value.trim();
-            const confirm = document.getElementById('registerConfirm').value.trim();
-            
-            if (!username || !email || !password || !confirm) {
-                showToast('❌ Preencha todos os campos!', 'error');
-                return;
-            }
-            
-            if (!email.includes('@') || !email.includes('.')) {
-                showToast('❌ E-mail inválido!', 'error');
-                return;
-            }
-            
-            if (password !== confirm) {
-                showToast('❌ As senhas não coincidem!', 'error');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showToast('❌ A senha deve ter pelo menos 6 caracteres!', 'error');
-                return;
-            }
-            
-            await loadUsers();
-            
-            if (users[username]) {
-                showToast('❌ Usuário já existe!', 'error');
-                return;
-            }
-            
-            users[username] = {
-                password: password,
-                email: email,
-                createdAt: new Date().toISOString(),
-                createdBy: 'register'
-            };
-            
-            try {
-                await fetch(FIREBASE_URL + 'users.json', {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(users)
-                });
-                
-                showToast('✅ Usuário registrado com sucesso!', 'success');
-                showAuthTab('login');
-            } catch (error) {
-                showToast('❌ Erro ao registrar: ' + error.message, 'error');
-            }
-        }
+<div class="modal-overlay" id="modalConfirm">
+  <div class="modal">
+    <h3 id="confirmTitle">Confirmar Ação</h3>
+    <p id="confirmText" style="color:var(--text-muted);font-size:14px;margin-bottom:0"></p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modalConfirm')">Cancelar</button>
+      <button class="btn-confirm danger" id="confirmBtn">Confirmar</button>
+    </div>
+  </div>
+</div>
 
-        function checkAuth() {
-            const user = localStorage.getItem('zyra_user');
-            if (user) {
-                currentUser = JSON.parse(user);
-                showDashboard();
-                document.getElementById('profileUsername').value = currentUser.username;
-                document.getElementById('profileEmail').value = currentUser.email || 'Não informado';
-                document.getElementById('profileCreated').value = currentUser.createdAt ? new Date(currentUser.createdAt).toLocaleString() : 'Desconhecido';
-            } else {
-                document.getElementById('authPage').style.display = 'block';
-                document.getElementById('dashboardPage').style.display = 'none';
-            }
-        }
+<div class="modal-overlay" id="modalInput">
+  <div class="modal">
+    <h3 id="inputTitle">Valor</h3>
+    <div class="form-group">
+      <label id="inputLabel">Quantidade</label>
+      <input type="number" id="inputVal" min="1" placeholder="...">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modalInput')">Cancelar</button>
+      <button class="btn-confirm" id="inputBtn">Confirmar</button>
+    </div>
+  </div>
+</div>
 
-        function showDashboard() {
-            document.getElementById('authPage').style.display = 'none';
-            document.getElementById('dashboardPage').style.display = 'block';
-            document.getElementById('currentUsername').textContent = currentUser.username;
-            loadData();
-        }
+<div class="modal-overlay" id="modalAddTime">
+  <div class="modal">
+    <h3>⏱️ Alterar Tempo</h3>
+    <div class="form-group">
+      <label>Quantidade</label>
+      <div style="display:flex;gap:10px">
+        <input type="number" id="addTimeVal" min="1" placeholder="1">
+        <select id="addTimeUnit">
+          <option value="m">Minutos</option>
+          <option value="h">Horas</option>
+          <option value="d" selected>Dias</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modalAddTime')">Cancelar</button>
+      <button class="btn-confirm" id="addTimeBtn">Confirmar</button>
+    </div>
+  </div>
+</div>
 
-        function logout() {
-            localStorage.removeItem('zyra_user');
-            currentUser = null;
-            document.getElementById('authPage').style.display = 'block';
-            document.getElementById('dashboardPage').style.display = 'none';
-        }
+<div id="toast"></div>
 
-        // ============================================
-        // CARREGAR DADOS
-        // ============================================
-        async function loadData() {
-            try {
-                const response = await fetch(FIREBASE_URL + '.json');
-                const data = await response.json();
-                
-                if (data) {
-                    keys = data.keys || {};
-                    blacklist = data.blacklist || {};
-                    logs = Object.values(data.logs || {}).sort((a, b) => 
-                        new Date(b.date) - new Date(a.date)
-                    );
-                    config = { ...config, ...(data.config || {}) };
-                    
-                    document.getElementById('webhookUrl').value = config.webhook || '';
-                    document.getElementById('webhookActive').checked = config.webhookActive;
-                }
-                
-                updateStats();
-                renderKeys();
-                renderBlacklist();
-                renderLogs();
-                renderRecentKeys();
-                renderRecentLogs();
-                startAllTimers();
-            } catch (error) {
-                console.error('Erro ao carregar:', error);
-                showToast('❌ Erro ao carregar dados: ' + error.message, 'error');
-            }
-        }
+<script>
+// ===== CONFIG =====
+let FIREBASE_URL = localStorage.getItem('firebaseUrl') || 'https://key-system-roblox-default-rtdb.firebaseio.com/';
+let currentUser = null;
+let keysData = {};
+let blacklistData = {};
+let logsData = [];
+let configData = {};
+let timerIntervals = {};
+let durMin = 1440; // default 1d in minutes
+let addTimeAction = null;
+let addTimeKeyId = null;
 
-        async function saveData() {
-            try {
-                await fetch(FIREBASE_URL + '.json', {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ keys, blacklist, logs: arrayToObject(logs), config, users })
-                });
-            } catch (error) {
-                console.error('Erro ao salvar:', error);
-                showToast('❌ Erro ao salvar: ' + error.message, 'error');
-            }
-        }
+// ===== FIREBASE =====
+async function fbGet(path) {
+  const r = await fetch(`${FIREBASE_URL}${path}.json`);
+  if (!r.ok) throw new Error('Firebase GET error');
+  return r.json();
+}
+async function fbSet(path, data) {
+  const r = await fetch(`${FIREBASE_URL}${path}.json`, { method: 'PUT', body: JSON.stringify(data) });
+  if (!r.ok) throw new Error('Firebase SET error');
+  return r.json();
+}
+async function fbUpdate(path, data) {
+  const r = await fetch(`${FIREBASE_URL}${path}.json`, { method: 'PATCH', body: JSON.stringify(data) });
+  if (!r.ok) throw new Error('Firebase PATCH error');
+  return r.json();
+}
+async function fbDelete(path) {
+  const r = await fetch(`${FIREBASE_URL}${path}.json`, { method: 'DELETE' });
+  if (!r.ok) throw new Error('Firebase DELETE error');
+}
+async function fbPush(path, data) {
+  const r = await fetch(`${FIREBASE_URL}${path}.json`, { method: 'POST', body: JSON.stringify(data) });
+  if (!r.ok) throw new Error('Firebase PUSH error');
+  return r.json();
+}
 
-        function arrayToObject(arr) {
-            return arr.reduce((acc, item, i) => {
-                acc[i] = item;
-                return acc;
-            }, {});
-        }
+// ===== AUTH =====
+function switchLoginTab(tab) {
+  document.querySelectorAll('.login-tab').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-switch button').forEach(el => el.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  event.target.classList.add('active');
+}
 
-        // ============================================
-        // WEBHOOK
-        // ============================================
-        async function sendWebhook(title, fields, color = 0xff6b00) {
-            if (!config.webhook || !config.webhookActive) return;
-            
-            const embed = {
-                title: title,
-                color: color,
-                timestamp: new Date().toISOString(),
-                footer: { text: 'Zyra Cloud' },
-                fields: fields
-            };
-            
-            try {
-                await fetch(config.webhook, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ embeds: [embed] })
-                });
-            } catch (error) {
-                console.error('Erro webhook:', error);
-            }
-        }
+async function doLogin() {
+  const user = document.getElementById('loginUser').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const remember = document.getElementById('rememberMe').checked;
+  const err = document.getElementById('loginError');
+  err.style.display = 'none';
 
-        function saveWebhook() {
-            config.webhook = document.getElementById('webhookUrl').value;
-            config.webhookActive = document.getElementById('webhookActive').checked;
-            saveData();
-            showToast('✅ Webhook salvo!', 'success');
-        }
+  if (!user || !pass) { err.textContent = 'Preencha todos os campos.'; err.style.display = 'block'; return; }
 
-        async function testWebhook() {
-            const fields = [
-                { name: '🔔 Teste', value: 'Webhook funcionando corretamente!', inline: true },
-                { name: '🕐 Hora', value: new Date().toLocaleString('pt-BR'), inline: true }
-            ];
-            await sendWebhook('✅ TESTE DE WEBHOOK', fields, 0x00ff00);
-            showToast('📨 Teste enviado!', 'success');
-        }
+  try {
+    const users = await fbGet('/users') || {};
+    // fallback: admin/admin123 hardcoded
+    if ((users[user] && users[user].password === pass) || (user === 'admin' && pass === 'admin123' && Object.keys(users).length === 0)) {
+      currentUser = { username: user, email: (users[user]?.email || 'admin@zyra.cloud'), createdAt: users[user]?.createdAt || new Date().toISOString() };
+      if (remember) { localStorage.setItem('zyraUser', JSON.stringify(currentUser)); }
+      loginSuccess();
+    } else {
+      err.textContent = 'Usuário ou senha inválidos.'; err.style.display = 'block';
+    }
+  } catch(e) {
+    // offline fallback
+    if (user === 'admin' && pass === 'admin123') {
+      currentUser = { username: 'admin', email: 'admin@zyra.cloud', createdAt: new Date().toISOString() };
+      loginSuccess();
+    } else {
+      err.textContent = 'Erro ao conectar. Verifique a URL do Firebase.'; err.style.display = 'block';
+    }
+  }
+}
 
-        // ============================================
-        // ADICIONAR LOG
-        // ============================================
-        function addLog(action, details) {
-            const log = {
-                date: new Date().toISOString(),
-                action: action,
-                user: currentUser?.username || 'sistema',
-                ...details
-            };
-            
-            logs.unshift(log);
-            if (logs.length > 1000) logs.pop();
-            saveData();
-        }
+async function doRegister() {
+  const user = document.getElementById('regUser').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const pass2 = document.getElementById('regPass2').value;
+  const err = document.getElementById('loginError');
+  err.style.display = 'none';
 
-        // ============================================
-        // TIMER
-        // ============================================
-        function startTimer(keyId, expiresAt) {
-            if (timers[keyId]) clearInterval(timers[keyId]);
-            
-            const timerElement = document.getElementById(`timer-${keyId}`);
-            if (!timerElement) return;
-            
-            timers[keyId] = setInterval(() => {
-                const now = new Date().getTime();
-                const expiry = new Date(expiresAt).getTime();
-                const diff = expiry - now;
-                
-                if (diff <= 0) {
-                    timerElement.innerHTML = '⌛ EXPIRADO';
-                    timerElement.classList.add('expirado');
-                    clearInterval(timers[keyId]);
-                    delete timers[keyId];
-                } else {
-                    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-                    const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                    const segundos = Math.floor((diff % (1000 * 60)) / 1000);
-                    
-                    let tempo = '';
-                    if (dias > 0) tempo += `${dias}d `;
-                    tempo += `${horas.toString().padStart(2, '0')}h `;
-                    tempo += `${minutos.toString().padStart(2, '0')}m `;
-                    tempo += `${segundos.toString().padStart(2, '0')}s`;
-                    
-                    timerElement.innerHTML = tempo;
-                    timerElement.classList.remove('expirado');
-                }
-            }, 1000);
-        }
+  if (!user || !email || !pass) { err.textContent = 'Preencha todos os campos.'; err.style.display = 'block'; return; }
+  if (pass !== pass2) { err.textContent = 'As senhas não coincidem.'; err.style.display = 'block'; return; }
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) { err.textContent = 'E-mail inválido.'; err.style.display = 'block'; return; }
 
-        function startAllTimers() {
-            Object.keys(keys).forEach(keyId => {
-                if (keys[keyId].expiresAt) {
-                    startTimer(keyId, keys[keyId].expiresAt);
-                }
-            });
-        }
+  try {
+    await fbSet(`/users/${user}`, { password: pass, email, createdAt: new Date().toISOString() });
+    currentUser = { username: user, email, createdAt: new Date().toISOString() };
+    loginSuccess();
+  } catch(e) {
+    err.textContent = 'Erro ao registrar. Verifique o Firebase.'; err.style.display = 'block';
+  }
+}
 
-        // ============================================
-        // GERAR KEY
-        // ============================================
-        function generateKey() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let key = '';
-            for (let i = 0; i < 4; i++) {
-                if (i > 0) key += '-';
-                for (let j = 0; j < 4; j++) {
-                    key += chars[Math.floor(Math.random() * chars.length)];
-                }
-            }
-            
-            const identificador = document.getElementById('genIdentificador').value || 'Sem identificador';
-            const valor = parseInt(document.getElementById('genValor').value);
-            const unidade = document.getElementById('genUnidade').value;
-            
-            let minutos = 0;
-            if (unidade === 'minutos') minutos = valor;
-            else if (unidade === 'horas') minutos = valor * 60;
-            else if (unidade === 'dias') minutos = valor * 1440;
-            
-            const expiresAt = new Date(Date.now() + minutos * 60 * 1000);
-            
-            const keyId = key.replace(/-/g, '_');
-            keys[keyId] = {
-                key: key,
-                identificador: identificador,
-                hwidUsado: null,
-                nickUsado: null,
-                userId: null,
-                createdAt: new Date().toISOString(),
-                vinculadoAt: null,
-                expiresAt: expiresAt.toISOString(),
-                used: false,
-                paused: false,
-                resets: 0,
-                maxResets: 5,
-                history: [{
-                    date: new Date().toISOString(),
-                    action: 'created',
-                    by: currentUser.username,
-                    details: `${identificador} - ${minutos} minutos`
-                }]
-            };
-            
-            saveData();
-            addLog('GERAR_KEY', { key: key, identificador: identificador });
-            
-            // Webhook
-            const fields = [
-                { name: '👤 Gerado por', value: currentUser.username, inline: true },
-                { name: '🔑 Key', value: key, inline: true },
-                { name: '📝 Identificador', value: identificador, inline: true },
-                { name: '⏰ Duração', value: minutos + ' minutos', inline: true }
-            ];
-            sendWebhook('🎫 KEY GERADA', fields, 0x00ff00);
-            
-            showToast(`✅ Key gerada: ${key}`, 'success');
-            renderKeys();
-            renderRecentKeys();
-            startTimer(keyId, expiresAt.toISOString());
-        }
+function loginSuccess() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'block';
+  document.getElementById('sidebarUser').textContent = currentUser.username;
+  document.getElementById('sidebarEmail').textContent = currentUser.email;
+  document.getElementById('sidebarAvatar').textContent = currentUser.username[0].toUpperCase();
+  loadAll();
+}
 
-        function setTempo(valor, unidade) {
-            document.getElementById('genValor').value = valor;
-            
-            const select = document.getElementById('genUnidade');
-            for (let i = 0; i < select.options.length; i++) {
-                if (select.options[i].value === unidade) {
-                    select.selectedIndex = i;
-                    break;
-                }
-            }
-        }
+function doLogout() {
+  localStorage.removeItem('zyraUser');
+  currentUser = null;
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('appScreen').style.display = 'none';
+}
 
-        // ============================================
-        // RENDERIZAR KEYS
-        // ============================================
-        function renderKeys() {
-            const search = document.getElementById('searchKey')?.value.toLowerCase() || '';
-            
-            let keysArray = Object.values(keys).sort((a, b) => 
-                new Date(b.createdAt) - new Date(a.createdAt)
-            );
-            
-            if (search) {
-                keysArray = keysArray.filter(k => 
-                    k.key.toLowerCase().includes(search) || 
-                    (k.hwidUsado && k.hwidUsado.toLowerCase().includes(search)) ||
-                    (k.nickUsado && k.nickUsado.toLowerCase().includes(search)) ||
-                    (k.identificador && k.identificador.toLowerCase().includes(search))
-                );
-            }
-            
-            const container = document.getElementById('keysContainer');
-            container.innerHTML = keysArray.map(key => {
-                const keyId = key.key.replace(/-/g, '_');
-                const status = getKeyStatus(key);
-                const statusClass = status;
-                const statusText = getStatusText(status);
-                
-                return `
-                    <div class="key-card ${statusClass}">
-                        <div class="key-header">
-                            <span class="key-code" onclick="copyText('${key.key}')">${key.key} 📋</span>
-                            <span class="key-status status-${statusClass}">${statusText}</span>
-                        </div>
-                        
-                        <div class="key-info">
-                            <div><strong>Criada:</strong> ${new Date(key.createdAt).toLocaleString()}</div>
-                            <div><strong>Expira:</strong> <span id="timer-${keyId}" class="timer">Carregando...</span></div>
-                            ${key.vinculadoAt ? `<div><strong>Vinculado em:</strong> ${new Date(key.vinculadoAt).toLocaleString()}</div>` : ''}
-                            <div><strong>Identificador:</strong> ${key.identificador || 'Nenhum'}</div>
-                            
-                            ${key.nickUsado ? `<div><strong>Cliente:</strong> ${key.nickUsado}</div>` : ''}
-                            ${key.userId ? `<div><strong>UserID:</strong> ${key.userId}</div>` : ''}
-                            
-                            ${key.hwidUsado ? `
-                                <div><strong>HWID:</strong></div>
-                                <div class="hwid-block">${key.hwidUsado}</div>
-                            ` : '<div><strong>HWID:</strong> Nenhum</div>'}
-                            
-                            ${key.used ? `
-                                <div class="reset-info">🔄 Resets: ${key.resets || 0}/${key.maxResets || 5}</div>
-                            ` : ''}
-                        </div>
-                        
-                        <div class="key-actions">
-                            <button class="btn-copy" onclick="copyText('${key.key}')">📋 Copiar</button>
-                            
-                            ${!key.paused ? 
-                                `<button class="btn-pausar" onclick="pauseKey('${keyId}')">⏸️ Pausar</button>` :
-                                `<button class="btn-ativar" onclick="unpauseKey('${keyId}')">▶️ Ativar</button>`
-                            }
-                            
-                            ${key.used ? 
-                                `<button class="btn-reset" onclick="resetKey('${keyId}')">🔄 Reset</button>` : ''
-                            }
-                            
-                            <button class="btn-add" onclick="showAddTempo('${keyId}')">➕ Tempo</button>
-                            <button class="btn-remove" onclick="showRemoveTempo('${keyId}')">➖ Tempo</button>
-                            
-                            ${key.hwidUsado && !blacklist[key.hwidUsado] ? 
-                                `<button class="btn-blacklist" onclick="blacklistHwid('${key.hwidUsado}')">⚫ Blacklist</button>` : ''
-                            }
-                            
-                            <button class="btn-excluir" onclick="deleteKey('${keyId}')">🗑️ Excluir</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-            
-            startAllTimers();
-        }
+// Check saved session
+(function() {
+  const saved = localStorage.getItem('zyraUser');
+  if (saved) {
+    try {
+      currentUser = JSON.parse(saved);
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('appScreen').style.display = 'block';
+      document.getElementById('sidebarUser').textContent = currentUser.username;
+      document.getElementById('sidebarEmail').textContent = currentUser.email;
+      document.getElementById('sidebarAvatar').textContent = currentUser.username[0].toUpperCase();
+      loadAll();
+    } catch(e) { localStorage.removeItem('zyraUser'); }
+  }
+})();
 
-        function getKeyStatus(key) {
-            if (key.paused) return 'pausada';
-            if (new Date(key.expiresAt) <= new Date()) return 'expirada';
-            if (key.used) return 'usada';
-            return 'ativa';
-        }
+// ===== NAVIGATION =====
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById(`page-${page}`).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (page === 'manage') renderKeys();
+  if (page === 'blacklist') renderBlacklist();
+  if (page === 'logs') renderLogs();
+  if (page === 'dashboard') updateDashboard();
+  if (page === 'settings') loadSettingsPage();
+}
 
-        function getStatusText(status) {
-            const map = {
-                'ativa': 'Ativa',
-                'pausada': 'Pausada',
-                'usada': 'Usada',
-                'expirada': 'Expirada'
-            };
-            return map[status] || status;
-        }
+// ===== LOAD ALL =====
+async function loadAll() {
+  try {
+    const [keys, bl, logs, cfg] = await Promise.all([
+      fbGet('/keys'),
+      fbGet('/blacklist'),
+      fbGet('/logs'),
+      fbGet('/config')
+    ]);
+    keysData = keys || {};
+    blacklistData = bl || {};
+    logsData = logs ? (Array.isArray(logs) ? logs : Object.values(logs)) : [];
+    configData = cfg || {};
+    updateDashboard();
+    setupExpiryTimers();
+  } catch(e) {
+    showToast('Erro ao carregar dados do Firebase. Usando dados locais.', 'error');
+  }
+}
 
-        function renderRecentKeys() {
-            const recent = Object.values(keys).sort((a, b) => 
-                new Date(b.createdAt) - new Date(a.createdAt)
-            ).slice(0, 5);
-            
-            document.getElementById('recentKeys').innerHTML = recent.map(key => `
-                <div style="background: #1e1e1e; padding: 10px; margin-bottom: 5px; border-radius: 8px; display: flex; justify-content: space-between;">
-                    <span style="color:#ff6b00; font-family:monospace;">${key.key}</span>
-                    <span>${new Date(key.createdAt).toLocaleTimeString()}</span>
-                </div>
-            `).join('');
-        }
+// ===== KEY GENERATION =====
+function genKeyString() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return [0,1,2,3].map(() => [0,1,2,3].map(() => chars[Math.floor(Math.random()*chars.length)]).join('')).join('-');
+}
 
-        // ============================================
-        // AÇÕES DAS KEYS
-        // ============================================
-        function copyText(text) {
-            navigator.clipboard.writeText(text);
-            showToast('✅ Copiado!', 'success');
-        }
+function setDuration(val, unit) {
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+  event.target.classList.add('selected');
+  document.getElementById('customVal').value = '';
+  if (unit === 'm') durMin = val;
+  else if (unit === 'h') durMin = val * 60;
+  else durMin = val * 1440;
+  updateExpiryPreview();
+}
 
-        async function pauseKey(keyId) {
-            keys[keyId].paused = true;
-            await saveData();
-            addLog('PAUSAR', { key: keys[keyId].key });
-            showToast('⏸️ Key pausada!', 'warning');
-            renderKeys();
-        }
+function updateCustomDuration() {
+  const val = parseInt(document.getElementById('customVal').value) || 0;
+  const unit = document.getElementById('customUnit').value;
+  if (val <= 0) return;
+  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+  if (unit === 'm') durMin = val;
+  else if (unit === 'h') durMin = val * 60;
+  else durMin = val * 1440;
+  updateExpiryPreview();
+}
 
-        async function unpauseKey(keyId) {
-            keys[keyId].paused = false;
-            await saveData();
-            addLog('DESPAUSAR', { key: keys[keyId].key });
-            showToast('▶️ Key ativada!', 'success');
-            renderKeys();
-        }
+function updateExpiryPreview() {
+  const exp = new Date(Date.now() + durMin * 60000);
+  let label = '';
+  if (durMin < 60) label = `${durMin} minuto${durMin !== 1 ? 's' : ''}`;
+  else if (durMin < 1440) { const h = Math.floor(durMin/60); label = `${h} hora${h !== 1 ? 's' : ''}`; }
+  else { const d = Math.floor(durMin/1440); label = `${d} dia${d !== 1 ? 's' : ''}`; }
+  document.getElementById('expiryPreview').textContent = label;
+  document.getElementById('expiryDate').textContent = exp.toLocaleString('pt-BR');
+}
+updateExpiryPreview();
 
-        async function resetKey(keyId) {
-            const key = keys[keyId];
-            
-            if (key.resets >= key.maxResets) {
-                showToast('❌ Limite de resets atingido!', 'error');
-                return;
-            }
-            
-            const oldHwid = key.hwidUsado;
-            const oldNick = key.nickUsado;
-            
-            key.used = false;
-            key.usedAt = null;
-            key.hwidUsado = null;
-            key.nickUsado = null;
-            key.userId = null;
-            key.vinculadoAt = null;
-            key.resets = (key.resets || 0) + 1;
-            
-            key.history.push({
-                date: new Date().toISOString(),
-                action: 'reset',
-                by: currentUser.username,
-                details: `Resetado - Resets: ${key.resets}/${key.maxResets}`
-            });
-            
-            await saveData();
-            addLog('RESET_KEY', { key: key.key, oldHwid, oldNick });
-            
-            // Webhook
-            const fields = [
-                { name: '🔑 Key', value: key.key, inline: true },
-                { name: '🆔 HWID Antigo', value: oldHwid || 'Nenhum', inline: true },
-                { name: '👤 Nick Antigo', value: oldNick || 'Nenhum', inline: true },
-                { name: '🔄 Resets', value: `${key.resets}/${key.maxResets}`, inline: true },
-                { name: '👤 Por', value: currentUser.username, inline: true }
-            ];
-            sendWebhook('🔄 KEY RESETADA', fields, 0xff8c00);
-            
-            showToast('🔄 Key resetada!', 'success');
-            renderKeys();
-        }
+async function generateKey() {
+  const key = genKeyString();
+  const id = document.getElementById('genId').value.trim();
+  const now = new Date().toISOString();
+  const expiresAt = new Date(Date.now() + durMin * 60000).toISOString();
+  const keyId = key.replace(/-/g,'_');
+  const keyObj = { key, identificador: id, createdAt: now, expiresAt, used: false, paused: false, resets: 0, maxResets: 5, hwidUsado: null, nickUsado: null, userId: null, vinculadoAt: null, history: [] };
 
-        function showAddTempo(keyId) {
-            currentKeyId = keyId;
-            currentAcao = 'add';
-            document.getElementById('tempoTitulo').textContent = '➕ Adicionar Tempo';
-            openModal('tempoModal');
-        }
+  try {
+    await fbSet(`/keys/${keyId}`, keyObj);
+    keysData[keyId] = keyObj;
+    addLog('KEY_GENERATED', currentUser.username, { key, identificador: id, expiresAt });
+    sendWebhook('key_generated', { key, identificador: id, expiresAt: new Date(expiresAt).toLocaleString('pt-BR'), geradoPor: currentUser.username });
+    document.getElementById('keyResultVal').textContent = key;
+    document.getElementById('keyResult').style.display = 'block';
+    document.getElementById('genId').value = '';
+    updateDashboard();
+    updateRecentKeys(key, id, expiresAt);
+    showToast('Key gerada com sucesso!', 'success');
+  } catch(e) { showToast('Erro ao salvar no Firebase.', 'error'); }
+}
 
-        function showRemoveTempo(keyId) {
-            currentKeyId = keyId;
-            currentAcao = 'remove';
-            document.getElementById('tempoTitulo').textContent = '➖ Remover Tempo';
-            openModal('tempoModal');
-        }
+function updateRecentKeys(key, id, exp) {
+  const list = document.getElementById('recentKeysList');
+  const item = document.createElement('div');
+  item.className = 'recent-key-item';
+  item.innerHTML = `<span class="rk-key">${key}</span><span class="rk-id">${id || '—'}</span><span class="rk-exp">${new Date(exp).toLocaleDateString('pt-BR')}</span><button class="copy-btn" onclick="copyKey('${key}')">📋</button>`;
+  list.prepend(item);
+  if (list.children.length > 5) list.lastChild.remove();
+}
 
-        async function confirmTempo() {
-            const quantidade = parseInt(document.getElementById('tempoQuantidade').value);
-            const unidade = document.getElementById('tempoUnidade').value;
-            const key = keys[currentKeyId];
-            
-            let minutos = 0;
-            if (unidade === 'minutos') minutos = quantidade;
-            else if (unidade === 'horas') minutos = quantidade * 60;
-            else if (unidade === 'dias') minutos = quantidade * 1440;
-            
-            const currentExpiry = new Date(key.expiresAt);
-            
-            if (currentAcao === 'add') {
-                currentExpiry.setMinutes(currentExpiry.getMinutes() + minutos);
-                key.expiresAt = currentExpiry.toISOString();
-                
-                key.history.push({
-                    date: new Date().toISOString(),
-                    action: 'add_tempo',
-                    by: currentUser.username,
-                    details: `+${quantidade} ${unidade}`
-                });
-                
-                showToast(`✅ +${quantidade} ${unidade} adicionados!`, 'success');
-            } else {
-                currentExpiry.setMinutes(currentExpiry.getMinutes() - minutos);
-                
-                if (currentExpiry < new Date()) {
-                    showToast('❌ Não pode expirar retroativamente', 'error');
-                    closeModal('tempoModal');
-                    return;
-                }
-                
-                key.expiresAt = currentExpiry.toISOString();
-                
-                key.history.push({
-                    date: new Date().toISOString(),
-                    action: 'remove_tempo',
-                    by: currentUser.username,
-                    details: `-${quantidade} ${unidade}`
-                });
-                
-                showToast(`✅ -${quantidade} ${unidade} removidos!`, 'success');
-            }
-            
-            await saveData();
-            addLog('MODIFICAR_TEMPO', { 
-                key: key.key, 
-                acao: currentAcao,
-                quantidade: quantidade,
-                unidade: unidade
-            });
-            
-            closeModal('tempoModal');
-            renderKeys();
-            startTimer(currentKeyId, key.expiresAt);
-        }
+// ===== RENDER KEYS =====
+function getStatus(k) {
+  if (k.paused) return 'paused';
+  if (new Date(k.expiresAt) < new Date()) return 'expired';
+  if (k.used && k.hwidUsado) return 'used';
+  return 'active';
+}
 
-        async function deleteKey(keyId) {
-            if (!confirm('🗑️ Tem certeza que deseja excluir esta key?')) return;
-            const key = keys[keyId];
-            delete keys[keyId];
-            await saveData();
-            addLog('EXCLUIR_KEY', { key: key.key });
-            showToast('🗑️ Key excluída!', 'success');
-            renderKeys();
-            renderRecentKeys();
-        }
+function renderKeys() {
+  const q = (document.getElementById('manageSearch').value || '').toLowerCase();
+  const grid = document.getElementById('keysGrid');
+  clearTimers();
+  const entries = Object.entries(keysData).filter(([id, k]) => {
+    if (!q) return true;
+    return k.key.toLowerCase().includes(q) || (k.hwidUsado && k.hwidUsado.toLowerCase().includes(q)) || (k.nickUsado && k.nickUsado.toLowerCase().includes(q)) || (k.identificador && k.identificador.toLowerCase().includes(q));
+  });
 
-        // ============================================
-        // AÇÕES EM MASSA
-        // ============================================
-        async function massAddDays() {
-            const dias = prompt('📅 Quantos dias adicionar a todas as keys?', '1');
-            if (!dias) return;
-            
-            Object.values(keys).forEach(key => {
-                const newExpiry = new Date(key.expiresAt);
-                newExpiry.setDate(newExpiry.getDate() + parseInt(dias));
-                key.expiresAt = newExpiry.toISOString();
-            });
-            
-            await saveData();
-            addLog('MASS_ADD_TEMPO', { dias: dias });
-            
-            const fields = [
-                { name: '📋 Ação', value: 'Adicionar Dias em Massa', inline: true },
-                { name: '📅 Dias', value: dias, inline: true },
-                { name: '👤 Por', value: currentUser.username, inline: true }
-            ];
-            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
-            
-            showToast(`✅ ${dias} dias adicionados a todas!`, 'success');
-            renderKeys();
-        }
+  if (!entries.length) { grid.innerHTML = '<div class="empty-state"><div class="icon">🗝️</div><p>Nenhuma key encontrada</p></div>'; return; }
 
-        async function massRemoveDays() {
-            const dias = prompt('📅 Quantos dias remover de todas as keys?', '1');
-            if (!dias) return;
-            
-            let count = 0;
-            Object.values(keys).forEach(key => {
-                const newExpiry = new Date(key.expiresAt);
-                newExpiry.setDate(newExpiry.getDate() - parseInt(dias));
-                
-                if (newExpiry > new Date()) {
-                    key.expiresAt = newExpiry.toISOString();
-                    count++;
-                }
-            });
-            
-            await saveData();
-            addLog('MASS_REM_TEMPO', { dias: dias, afetadas: count });
-            
-            const fields = [
-                { name: '📋 Ação', value: 'Remover Dias em Massa', inline: true },
-                { name: '📅 Dias', value: dias, inline: true },
-                { name: '🔑 Keys afetadas', value: count.toString(), inline: true },
-                { name: '👤 Por', value: currentUser.username, inline: true }
-            ];
-            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
-            
-            showToast(`✅ ${dias} dias removidos de ${count} keys!`, 'success');
-            renderKeys();
-        }
+  grid.innerHTML = entries.map(([id, k]) => {
+    const st = getStatus(k);
+    const stLabel = { active: 'Ativa', paused: 'Pausada', used: 'Usada', expired: 'Expirada' }[st];
+    const stClass = `status-${st}`;
+    const resetsClass = k.resets >= k.maxResets ? 'full' : '';
+    const hwid = k.hwidUsado ? `<span style="font-size:10px;word-break:break-all">${k.hwidUsado}</span>` : '—';
+    return `<div class="key-card ${st}" id="card-${id}">
+      <div class="kc-header">
+        <span class="kc-key" onclick="copyKey('${k.key}')">📋 ${k.key}</span>
+        <span class="kc-status ${stClass}">${stLabel}</span>
+      </div>
+      <div class="kc-body">
+        <div class="kc-row"><span class="kc-label">Criada</span><span class="kc-val">${new Date(k.createdAt).toLocaleString('pt-BR')}</span></div>
+        <div class="kc-row"><span class="kc-label">Expira</span><span class="kc-timer" id="timer-${id}">—</span></div>
+        ${k.identificador ? `<div class="kc-row"><span class="kc-label">ID</span><span class="kc-val">${k.identificador}</span></div>` : ''}
+        ${k.nickUsado ? `<div class="kc-row"><span class="kc-label">Nick</span><span class="kc-val">${k.nickUsado}</span></div>` : ''}
+        <div class="kc-row"><span class="kc-label">HWID</span><span class="kc-val">${hwid}</span></div>
+        <div class="kc-row"><span class="kc-label">Resets</span><span class="kc-resets ${resetsClass}">${k.resets}/${k.maxResets}</span></div>
+      </div>
+      <div class="kc-actions">
+        ${st === 'active' ? `<button class="kc-btn" onclick="pauseKey('${id}')">⏸️ Pausar</button>` : ''}
+        ${st === 'paused' ? `<button class="kc-btn" onclick="activateKey('${id}')">▶️ Ativar</button>` : ''}
+        ${(st === 'used' || st === 'expired') && k.resets < k.maxResets ? `<button class="kc-btn" onclick="resetKey('${id}')">🔄 Reset</button>` : ''}
+        <button class="kc-btn" onclick="openAddTime('${id}','add')">➕ Tempo</button>
+        <button class="kc-btn" onclick="openAddTime('${id}','remove')">➖ Tempo</button>
+        ${k.hwidUsado ? `<button class="kc-btn bl" onclick="blacklistFromKey('${id}')">⚫ Blacklist</button>` : ''}
+        <button class="kc-btn del" onclick="deleteKey('${id}')">🗑️ Excluir</button>
+      </div>
+    </div>`;
+  }).join('');
 
-        async function massPause() {
-            Object.values(keys).forEach(key => key.paused = true);
-            await saveData();
-            addLog('MASS_PAUSAR', {});
-            
-            const fields = [
-                { name: '📋 Ação', value: 'Pausar Todas as Keys', inline: true },
-                { name: '👤 Por', value: currentUser.username, inline: true }
-            ];
-            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
-            
-            showToast('⏸️ Todas keys pausadas!', 'warning');
-            renderKeys();
-        }
+  // Start timers
+  entries.forEach(([id, k]) => startTimer(id, k));
+}
 
-        async function massUnpause() {
-            Object.values(keys).forEach(key => key.paused = false);
-            await saveData();
-            addLog('MASS_DESPAUSAR', {});
-            
-            const fields = [
-                { name: '📋 Ação', value: 'Ativar Todas as Keys', inline: true },
-                { name: '👤 Por', value: currentUser.username, inline: true }
-            ];
-            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
-            
-            showToast('▶️ Todas keys ativadas!', 'success');
-            renderKeys();
-        }
+function clearTimers() {
+  Object.values(timerIntervals).forEach(clearInterval);
+  timerIntervals = {};
+}
 
-        async function massReset() {
-            if (!confirm('🔄 Tem certeza que deseja resetar TODAS as keys usadas?')) return;
-            
-            let count = 0;
-            Object.values(keys).forEach(key => {
-                if (key.used) {
-                    key.used = false;
-                    key.usedAt = null;
-                    key.hwidUsado = null;
-                    key.nickUsado = null;
-                    key.userId = null;
-                    key.vinculadoAt = null;
-                    key.resets = (key.resets || 0) + 1;
-                    count++;
-                }
-            });
-            
-            await saveData();
-            addLog('MASS_RESET', { quantidade: count });
-            
-            const fields = [
-                { name: '📋 Ação', value: 'Reset em Massa', inline: true },
-                { name: '🔑 Keys resetadas', value: count.toString(), inline: true },
-                { name: '👤 Por', value: currentUser.username, inline: true }
-            ];
-            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
-            
-            showToast(`🔄 ${count} keys resetadas!`, 'success');
-            renderKeys();
-        }
+function startTimer(id, k) {
+  const el = document.getElementById(`timer-${id}`);
+  if (!el) return;
+  function update() {
+    const el2 = document.getElementById(`timer-${id}`);
+    if (!el2) { clearInterval(timerIntervals[id]); return; }
+    const diff = new Date(k.expiresAt) - new Date();
+    if (diff <= 0) { el2.textContent = 'EXPIRADO'; el2.classList.add('expired-timer'); clearInterval(timerIntervals[id]); return; }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    el2.textContent = d > 0 ? `${d}d ${h}h ${m}m ${s}s` : `${h}h ${m}m ${s}s`;
+  }
+  update();
+  timerIntervals[id] = setInterval(update, 1000);
+}
 
-        async function massDelete() {
-            if (!confirm('🗑️ EXCLUIR TODAS AS KEYS? Esta ação não pode ser desfeita!')) return;
-            keys = {};
-            await saveData();
-            addLog('MASS_EXCLUIR', {});
-            
-            const fields = [
-                { name: '📋 Ação', value: 'Excluir Todas as Keys', inline: true },
-                { name: '👤 Por', value: currentUser.username, inline: true }
-            ];
-            sendWebhook('📊 AÇÃO EM MASSA', fields, 0xff8c00);
-            
-            showToast('🗑️ Todas keys excluídas!', 'success');
-            renderKeys();
-            renderRecentKeys();
-        }
+function setupExpiryTimers() {
+  // Called after load to start dashboard timers
+}
 
-        // ============================================
-        // BLACKLIST
-        // ============================================
-        function renderBlacklist() {
-            const search = document.getElementById('searchBlacklist')?.value.toLowerCase() || '';
-            
-            let list = Object.values(blacklist);
-            if (search) {
-                list = list.filter(b => b.hwid.toLowerCase().includes(search));
-            }
-            
-            const container = document.getElementById('blacklistContainer');
-            container.innerHTML = list.map(item => `
-                <div class="blacklist-item">
-                    <div class="blacklist-info">
-                        <div class="blacklist-hwid">${item.hwid}</div>
-                        <div class="blacklist-reason"><strong>Motivo:</strong> ${item.reason}</div>
-                        <div class="blacklist-date">Bloqueado por: ${item.blockedBy} em ${new Date(item.date).toLocaleString()}</div>
-                    </div>
-                    <button class="btn btn-sm btn-success" onclick="removeFromBlacklist('${item.hwid}')">✅ Remover</button>
-                </div>
-            `).join('');
-        }
+// ===== KEY ACTIONS =====
+async function pauseKey(id) {
+  try {
+    await fbUpdate(`/keys/${id}`, { paused: true });
+    keysData[id].paused = true;
+    addLog('KEY_PAUSED', currentUser.username, { key: keysData[id].key });
+    renderKeys(); updateDashboard(); showToast('Key pausada!', 'info');
+  } catch(e) { showToast('Erro!', 'error'); }
+}
+async function activateKey(id) {
+  try {
+    await fbUpdate(`/keys/${id}`, { paused: false });
+    keysData[id].paused = false;
+    addLog('KEY_ACTIVATED', currentUser.username, { key: keysData[id].key });
+    renderKeys(); updateDashboard(); showToast('Key ativada!', 'success');
+  } catch(e) { showToast('Erro!', 'error'); }
+}
+async function resetKey(id) {
+  const k = keysData[id];
+  if (k.resets >= k.maxResets) { showToast('Limite de resets atingido!', 'error'); return; }
+  const oldHwid = k.hwidUsado; const oldNick = k.nickUsado;
+  try {
+    const upd = { used: false, hwidUsado: null, nickUsado: null, userId: null, vinculadoAt: null, resets: k.resets + 1, paused: false };
+    await fbUpdate(`/keys/${id}`, upd);
+    Object.assign(keysData[id], upd);
+    addLog('KEY_RESET', currentUser.username, { key: k.key, oldHwid, oldNick, resetsLeft: k.maxResets - k.resets - 1 });
+    sendWebhook('key_reset', { key: k.key, hwidAntigo: oldHwid, nickAntigo: oldNick, resetsRestantes: k.maxResets - k.resets - 1 });
+    renderKeys(); updateDashboard(); showToast('Key resetada!', 'success');
+  } catch(e) { showToast('Erro!', 'error'); }
+}
+async function deleteKey(id) {
+  confirmAction('Excluir Key', `Deseja excluir a key <b>${keysData[id].key}</b>? Esta ação é irreversível.`, async () => {
+    try {
+      await fbDelete(`/keys/${id}`);
+      addLog('KEY_DELETED', currentUser.username, { key: keysData[id].key });
+      delete keysData[id];
+      renderKeys(); updateDashboard(); showToast('Key excluída!', 'info');
+    } catch(e) { showToast('Erro!', 'error'); }
+  });
+}
+function openAddTime(id, action) {
+  addTimeAction = action; addTimeKeyId = id;
+  document.getElementById('modalAddTime').classList.add('open');
+  document.getElementById('addTimeVal').value = '';
+  document.getElementById('addTimeBtn').textContent = action === 'add' ? '➕ Adicionar' : '➖ Remover';
+  document.getElementById('addTimeBtn').onclick = () => applyAddTime();
+}
+async function applyAddTime() {
+  const val = parseInt(document.getElementById('addTimeVal').value);
+  const unit = document.getElementById('addTimeUnit').value;
+  if (!val || val < 1) { showToast('Valor inválido!', 'error'); return; }
+  let ms = val * (unit === 'm' ? 60000 : unit === 'h' ? 3600000 : 86400000);
+  if (addTimeAction === 'remove') ms = -ms;
+  const k = keysData[addTimeKeyId];
+  const newExp = new Date(new Date(k.expiresAt).getTime() + ms);
+  if (newExp < new Date()) { showToast('Não é possível definir data no passado!', 'error'); return; }
+  try {
+    await fbUpdate(`/keys/${addTimeKeyId}`, { expiresAt: newExp.toISOString() });
+    keysData[addTimeKeyId].expiresAt = newExp.toISOString();
+    closeModal('modalAddTime');
+    renderKeys(); showToast(`Tempo ${addTimeAction === 'add' ? 'adicionado' : 'removido'}!`, 'success');
+  } catch(e) { showToast('Erro!', 'error'); }
+}
+async function blacklistFromKey(id) {
+  const k = keysData[id];
+  if (!k.hwidUsado) return;
+  document.getElementById('blHwid').value = k.hwidUsado;
+  document.getElementById('blReason').value = 'Banido via key: ' + k.key;
+  openAddBlModal();
+}
 
-        function showAddBlacklist() {
-            document.getElementById('blacklistHwid').value = '';
-            document.getElementById('blacklistReason').value = '';
-            openModal('blacklistModal');
-        }
+// ===== BULK ACTIONS =====
+async function bulkAction(action) {
+  const ids = Object.keys(keysData);
+  if (!ids.length) { showToast('Nenhuma key para operar.', 'info'); return; }
+  if (action === 'deleteAll') {
+    confirmAction('Excluir Todas', 'Isso excluirá TODAS as keys. Tem certeza?', async () => {
+      try { await fbSet('/keys', null); keysData = {}; renderKeys(); updateDashboard(); addLog('BULK_DELETE', currentUser.username, { count: ids.length }); showToast('Todas as keys excluídas!', 'info'); } catch(e) { showToast('Erro!', 'error'); }
+    }); return;
+  }
+  if (action === 'pauseAll') {
+    for (const id of ids) { await fbUpdate(`/keys/${id}`, { paused: true }); keysData[id].paused = true; }
+    addLog('BULK_PAUSE', currentUser.username, { count: ids.length }); renderKeys(); showToast('Todas pausadas!', 'info'); return;
+  }
+  if (action === 'activateAll') {
+    for (const id of ids) { await fbUpdate(`/keys/${id}`, { paused: false }); keysData[id].paused = false; }
+    addLog('BULK_ACTIVATE', currentUser.username, { count: ids.length }); renderKeys(); showToast('Todas ativadas!', 'success'); return;
+  }
+  if (action === 'resetAll') {
+    for (const id of ids) {
+      const k = keysData[id];
+      if (k.used && k.resets < k.maxResets) { const u = { used: false, hwidUsado: null, nickUsado: null, userId: null, vinculadoAt: null, resets: k.resets + 1, paused: false }; await fbUpdate(`/keys/${id}`, u); Object.assign(keysData[id], u); }
+    }
+    addLog('BULK_RESET', currentUser.username, { count: ids.length }); renderKeys(); showToast('Todas resetadas!', 'success'); return;
+  }
+  if (action === 'addDays' || action === 'removeDays') {
+    showInputModal(action === 'addDays' ? '➕ Adicionar Dias' : '➖ Remover Dias', 'Quantos dias?', async () => {
+      const days = parseInt(document.getElementById('inputVal').value);
+      if (!days || days < 1) return;
+      const ms = days * 86400000 * (action === 'removeDays' ? -1 : 1);
+      for (const id of ids) {
+        const newExp = new Date(new Date(keysData[id].expiresAt).getTime() + ms);
+        if (newExp > new Date() || action === 'addDays') { await fbUpdate(`/keys/${id}`, { expiresAt: newExp.toISOString() }); keysData[id].expiresAt = newExp.toISOString(); }
+      }
+      closeModal('modalInput'); renderKeys(); addLog(action.toUpperCase(), currentUser.username, { days }); showToast('Feito!', 'success');
+    });
+  }
+}
 
-        function blacklistHwid(hwid) {
-            document.getElementById('blacklistHwid').value = hwid;
-            openModal('blacklistModal');
-        }
+// ===== BLACKLIST =====
+function openAddBlModal() { document.getElementById('modalAddBL').classList.add('open'); }
+async function addToBlacklist() {
+  const hwid = document.getElementById('blHwid').value.trim();
+  const reason = document.getElementById('blReason').value.trim();
+  if (!hwid) { showToast('HWID obrigatório!', 'error'); return; }
+  const blId = hwid.replace(/[^a-zA-Z0-9]/g,'_');
+  const obj = { hwid, reason: reason || 'Sem motivo', date: new Date().toISOString(), blockedBy: currentUser.username };
+  try {
+    await fbSet(`/blacklist/${blId}`, obj);
+    blacklistData[blId] = obj;
+    addLog('HWID_BLACKLISTED', currentUser.username, { hwid, reason });
+    sendWebhook('hwid_blocked', { hwid, reason, bloqueadoPor: currentUser.username });
+    closeModal('modalAddBL'); renderBlacklist(); updateDashboard(); showToast('HWID bloqueado!', 'info');
+  } catch(e) { showToast('Erro!', 'error'); }
+}
+async function removeFromBlacklist(blId) {
+  try {
+    await fbDelete(`/blacklist/${blId}`);
+    addLog('HWID_REMOVED', currentUser.username, { hwid: blacklistData[blId]?.hwid });
+    delete blacklistData[blId];
+    renderBlacklist(); updateDashboard(); showToast('HWID removido da blacklist!', 'success');
+  } catch(e) { showToast('Erro!', 'error'); }
+}
+function renderBlacklist() {
+  const q = (document.getElementById('blSearch').value || '').toLowerCase();
+  const list = document.getElementById('blList');
+  const entries = Object.entries(blacklistData).filter(([id, b]) => !q || b.hwid.toLowerCase().includes(q));
+  if (!entries.length) { list.innerHTML = '<div class="empty-state"><div class="icon">✅</div><p>Nenhum HWID bloqueado</p></div>'; return; }
+  list.innerHTML = entries.map(([id, b]) => `<div class="bl-item">
+    <div class="bl-hwid">${b.hwid}</div>
+    <div class="bl-meta"><span>${b.reason}</span><span style="font-size:10px">${new Date(b.date).toLocaleString('pt-BR')} • por ${b.blockedBy}</span></div>
+    <button class="bl-remove" onclick="removeFromBlacklist('${id}')">Remover</button>
+  </div>`).join('');
+}
 
-        async function addToBlacklist() {
-            const hwid = document.getElementById('blacklistHwid').value.trim();
-            const reason = document.getElementById('blacklistReason').value.trim();
-            
-            if (!hwid || !reason) {
-                showToast('❌ Preencha HWID e motivo!', 'error');
-                return;
-            }
-            
-            blacklist[hwid] = {
-                hwid: hwid,
-                reason: reason,
-                date: new Date().toISOString(),
-                blockedBy: currentUser.username
-            };
-            
-            await saveData();
-            addLog('BLACKLIST_ADD', { hwid: hwid, motivo: reason });
-            
-            // Webhook
-            const fields = [
-                { name: '🆔 HWID', value: hwid, inline: true },
-                { name: '📝 Motivo', value: reason, inline: true },
-                { name: '👤 Bloqueado por', value: currentUser.username, inline: true }
-            ];
-            sendWebhook('⛔ HWID BLOQUEADO', fields, 0xff0000);
-            
-            closeModal('blacklistModal');
-            showToast('⛔ HWID bloqueado!', 'success');
-            renderBlacklist();
-            renderKeys();
-        }
+// ===== LOGS =====
+async function addLog(action, user, details) {
+  const log = { date: new Date().toISOString(), action, user, details };
+  logsData.unshift(log);
+  if (logsData.length > 500) logsData = logsData.slice(0, 500);
+  try { await fbSet('/logs', logsData); } catch(e) {}
+}
+function renderLogs() {
+  const q = (document.getElementById('logsSearch').value || '').toLowerCase();
+  const filter = document.getElementById('logsFilter').value;
+  const list = document.getElementById('logsList');
+  const filtered = logsData.filter(l => {
+    if (filter && l.action !== filter) return false;
+    if (q && !JSON.stringify(l).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const colors = { KEY_GENERATED:'var(--orange)', KEY_USED:'var(--blue)', KEY_RESET:'var(--yellow)', KEY_PAUSED:'var(--yellow)', KEY_ACTIVATED:'var(--green)', KEY_DELETED:'var(--red)', HWID_BLACKLISTED:'var(--red)', HWID_REMOVED:'var(--green)' };
+  list.innerHTML = filtered.length ? filtered.slice(0,100).map(l => `<div class="log-item">
+    <span class="log-date">${new Date(l.date).toLocaleString('pt-BR')}</span>
+    <span class="log-action" style="color:${colors[l.action]||'var(--text-dim)'}">${l.action.replace(/_/g,' ')}</span>
+    <span class="log-detail">${JSON.stringify(l.details || {}).slice(0,80)}</span>
+    <span class="log-user">${l.user}</span>
+  </div>`).join('') : '<div class="empty-state"><div class="icon">📋</div><p>Nenhum log encontrado</p></div>';
+}
+function exportLogs() {
+  const a = document.createElement('a');
+  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(logsData, null, 2));
+  a.download = 'zyra-logs.json';
+  a.click();
+}
+function clearLogs() {
+  confirmAction('Limpar Logs', 'Isso apagará todos os logs. Tem certeza?', async () => {
+    try { await fbSet('/logs', []); logsData = []; renderLogs(); showToast('Logs limpos!', 'info'); } catch(e) { showToast('Erro!', 'error'); }
+  });
+}
 
-        async function removeFromBlacklist(hwid) {
-            if (!confirm(`Remover ${hwid} da blacklist?`)) return;
-            delete blacklist[hwid];
-            await saveData();
-            addLog('BLACKLIST_REMOVE', { hwid: hwid });
-            showToast('✅ HWID removido!', 'success');
-            renderBlacklist();
-            renderKeys();
-        }
+// ===== DASHBOARD =====
+function updateDashboard() {
+  const keys = Object.values(keysData);
+  const now = new Date();
+  document.getElementById('statTotal').textContent = keys.length;
+  document.getElementById('statActive').textContent = keys.filter(k => !k.paused && new Date(k.expiresAt) > now && !k.used).length;
+  document.getElementById('statUsed').textContent = keys.filter(k => k.used).length;
+  document.getElementById('statExpired').textContent = keys.filter(k => new Date(k.expiresAt) <= now).length;
+  document.getElementById('statBL').textContent = Object.keys(blacklistData).length;
 
-        function filterBlacklist() {
-            renderBlacklist();
-        }
+  const list = document.getElementById('activityList');
+  if (!logsData.length) { list.innerHTML = '<div class="empty-state"><div class="icon">🕰️</div><p>Nenhuma atividade</p></div>'; return; }
+  list.innerHTML = logsData.slice(0,10).map(l => `<div class="act-item">
+    <span class="act-icon">📌</span>
+    <span class="act-text">${l.action.replace(/_/g,' ')} — ${JSON.stringify(l.details||{}).slice(0,60)}</span>
+    <span class="act-time">${new Date(l.date).toLocaleTimeString('pt-BR')}</span>
+  </div>`).join('');
+}
 
-        // ============================================
-        // LOGS
-        // ============================================
-        function renderLogs() {
-            const filter = document.getElementById('logFilter')?.value || '';
-            const search = document.getElementById('searchLogs')?.value.toLowerCase() || '';
-            
-            let filteredLogs = [...logs];
-            
-            if (filter) {
-                filteredLogs = filteredLogs.filter(l => l.action.includes(filter));
-            }
-            
-            if (search) {
-                filteredLogs = filteredLogs.filter(l => 
-                    JSON.stringify(l).toLowerCase().includes(search)
-                );
-            }
-            
-            const container = document.getElementById('logsContainer');
-            container.innerHTML = filteredLogs.map(log => {
-                let type = 'info';
-                if (log.action.includes('GERAR')) type = 'success';
-                if (log.action.includes('PAUSAR') || log.action.includes('REM')) type = 'warning';
-                if (log.action.includes('EXCLUIR') || log.action.includes('BLACKLIST')) type = 'danger';
-                
-                return `
-                    <div class="log-item ${type}">
-                        <span class="log-date">${new Date(log.date).toLocaleString()}</span>
-                        <span class="log-action">${log.action}</span>
-                        <span> - ${log.user}</span>
-                        <pre style="margin-top:5px; font-size:11px;">${JSON.stringify(log, null, 2)}</pre>
-                    </div>
-                `;
-            }).join('');
-        }
+// ===== SETTINGS =====
+function loadSettingsPage() {
+  document.getElementById('webhookUrl').value = configData.webhook || '';
+  document.getElementById('webhookActive').checked = configData.webhookActive || false;
+  document.getElementById('firebaseUrl').value = FIREBASE_URL;
+  document.getElementById('profileInfo').innerHTML = `
+    <div class="kc-row"><span class="kc-label">Usuário</span><span class="kc-val">${currentUser?.username}</span></div>
+    <div class="kc-row"><span class="kc-label">E-mail</span><span class="kc-val">${currentUser?.email}</span></div>
+    <div class="kc-row"><span class="kc-label">Cadastro</span><span class="kc-val">${currentUser?.createdAt ? new Date(currentUser.createdAt).toLocaleString('pt-BR') : '—'}</span></div>`;
+}
+async function saveWebhook() {
+  configData.webhook = document.getElementById('webhookUrl').value.trim();
+  configData.webhookActive = document.getElementById('webhookActive').checked;
+  try { await fbUpdate('/config', { webhook: configData.webhook, webhookActive: configData.webhookActive }); showToast('Webhook salvo!', 'success'); } catch(e) { showToast('Erro!', 'error'); }
+}
+async function testWebhook() {
+  const url = document.getElementById('webhookUrl').value.trim();
+  if (!url) { showToast('Insira a URL do webhook!', 'error'); return; }
+  sendWebhookRaw(url, { embeds: [{ title: '🧪 Teste — Zyra Cloud', description: 'Webhook funcionando corretamente!', color: 0xff6b2b, timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud Key System' } }] });
+  showToast('Teste enviado!', 'info');
+}
+function saveFirebaseUrl() {
+  const url = document.getElementById('firebaseUrl').value.trim();
+  if (!url) return;
+  FIREBASE_URL = url;
+  localStorage.setItem('firebaseUrl', url);
+  showToast('URL do Firebase salva! Recarregue para aplicar.', 'success');
+}
 
-        function renderRecentLogs() {
-            const recent = logs.slice(0, 10);
-            document.getElementById('recentLogs').innerHTML = recent.map(log => `
-                <div style="background: #1e1e1e; padding: 10px; margin-bottom: 5px; border-radius: 8px;">
-                    <div style="color:#888;">${new Date(log.date).toLocaleString()}</div>
-                    <strong>${log.action}</strong> - ${log.user}
-                </div>
-            `).join('');
-        }
+// ===== WEBHOOK =====
+function sendWebhook(event, data) {
+  if (!configData.webhookActive || !configData.webhook) return;
+  const embeds = [];
+  const colors = { key_generated: 0xff6b2b, key_used: 0x5b8fff, hwid_blocked: 0xff3b5c, key_reset: 0xffd060, default: 0x888888 };
+  const color = colors[event] || colors.default;
+  if (event === 'key_generated') embeds.push({ title: '✨ Nova Key Gerada', color, fields: [{ name: 'Key', value: `\`${data.key}\`` }, { name: 'Identificador', value: data.identificador || '—', inline: true }, { name: 'Expira em', value: data.expiresAt, inline: true }, { name: 'Gerado por', value: data.geradoPor, inline: true }], timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud' } });
+  else if (event === 'key_used') embeds.push({ title: '🔑 Key Usada', color, fields: [{ name: 'Key', value: `\`${data.key}\`` }, { name: 'Nick', value: data.nick || '—', inline: true }, { name: 'HWID', value: data.hwid || '—', inline: true }], timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud' } });
+  else if (event === 'hwid_blocked') embeds.push({ title: '🚫 HWID Bloqueado', color, fields: [{ name: 'HWID', value: data.hwid }, { name: 'Motivo', value: data.reason || '—', inline: true }, { name: 'Por', value: data.bloqueadoPor, inline: true }], timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud' } });
+  else if (event === 'key_reset') embeds.push({ title: '🔄 Key Resetada', color, fields: [{ name: 'Key', value: `\`${data.key}\`` }, { name: 'HWID Antigo', value: data.hwidAntigo || '—', inline: true }, { name: 'Nick Antigo', value: data.nickAntigo || '—', inline: true }, { name: 'Resets Restantes', value: String(data.resetsRestantes), inline: true }], timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud' } });
+  if (embeds.length) sendWebhookRaw(configData.webhook, { embeds });
+}
+async function sendWebhookRaw(url, body) {
+  try { await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); } catch(e) {}
+}
 
-        function filterLogs() {
-            renderLogs();
-        }
+// ===== VALIDATION API (when this page is loaded with ?key=... params) =====
+(async function handleApiRequest() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has('key')) return;
+  const key = params.get('key');
+  const hwid = params.get('hwid');
+  const nick = params.get('nick');
+  const userId = params.get('userId');
 
-        async function clearLogs() {
-            if (!confirm('🗑️ Limpar todos os logs?')) return;
-            logs = [];
-            await saveData();
-            showToast('✅ Logs limpos!', 'success');
-            renderLogs();
-            renderRecentLogs();
-        }
+  async function respond(text) {
+    document.body.innerHTML = `<pre style="color:#fff;font-family:monospace;padding:20px">${text}</pre>`;
+  }
 
-        function exportKeys() {
-            const blob = new Blob([JSON.stringify(keys, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `keys_${new Date().toISOString()}.json`;
-            a.click();
-        }
+  try {
+    const bl = await fbGet('/blacklist') || {};
+    const blId = (hwid || '').replace(/[^a-zA-Z0-9]/g, '_');
+    if (bl[blId]) { respond('blacklist'); return; }
 
-        // ============================================
-        // ESTATÍSTICAS
-        // ============================================
-        function updateStats() {
-            const keysArray = Object.values(keys);
-            document.getElementById('statTotal').textContent = keysArray.length;
-            document.getElementById('statAtivas').textContent = keysArray.filter(k => !k.used && !k.paused && new Date(k.expiresAt) > new Date()).length;
-            document.getElementById('statUsadas').textContent = keysArray.filter(k => k.used).length;
-            document.getElementById('statExpiradas').textContent = keysArray.filter(k => new Date(k.expiresAt) <= new Date()).length;
-            document.getElementById('statBlacklist').textContent = Object.keys(blacklist).length;
-        }
+    const keys = await fbGet('/keys') || {};
+    const keyId = key.replace(/-/g,'_');
+    const k = keys[keyId];
+    if (!k) { respond('invalida'); return; }
+    if (k.paused) { respond('pausada'); return; }
+    if (new Date(k.expiresAt) < new Date()) { respond('expirada'); return; }
+    if (k.used && k.hwidUsado && k.hwidUsado !== hwid) { respond('usada'); return; }
 
-        // ============================================
-        // API DE VALIDAÇÃO
-        // ============================================
-        window.validateKey = async function(key, hwid, nick, userId) {
-            console.log('🔑 Validando:', {key, hwid, nick, userId});
-            
-            const keyId = key.replace(/-/g, '_');
-            const keyData = keys[keyId];
-            
-            if (!keyData) {
-                console.log('❌ Key não encontrada');
-                return 'invalida';
-            }
-            
-            if (keyData.paused) {
-                console.log('⏸️ Key pausada');
-                return 'pausada';
-            }
-            
-            const expiresAt = new Date(keyData.expiresAt);
-            if (expiresAt <= new Date()) {
-                console.log('⌛ Key expirada');
-                return 'expirada';
-            }
-            
-            if (keyData.used) {
-                if (keyData.hwidUsado === hwid) {
-                    console.log('✅ Key já era deste HWID');
-                    return 'valida';
-                } else {
-                    console.log('⚠️ Key usada por outro HWID');
-                    return 'usada';
-                }
-            }
-            
-            keyData.used = true;
-            keyData.usedAt = new Date().toISOString();
-            keyData.hwidUsado = hwid;
-            keyData.nickUsado = nick;
-            keyData.userId = userId;
-            keyData.vinculadoAt = new Date().toISOString();
-            
-            keyData.history.push({
-                date: new Date().toISOString(),
-                action: 'used',
-                by: hwid,
-                details: `Vinculado a ${nick} (ID: ${userId})`
-            });
-            
-            await saveData();
-            addLog('KEY_USADA', { key, hwid, nick, userId });
-            
-            // Webhook
-            const fields = [
-                { name: '🔑 Key', value: key, inline: true },
-                { name: '🆔 HWID', value: hwid, inline: true },
-                { name: '👤 Nick', value: nick, inline: true },
-                { name: '🆔 UserID', value: userId, inline: true }
-            ];
-            sendWebhook('✅ KEY UTILIZADA', fields, 0x00ff00);
-            
-            console.log('✅ Key validada com sucesso!');
-            return 'valida';
-        };
+    // Mark as used
+    const upd = { used: true, hwidUsado: hwid || k.hwidUsado, nickUsado: nick || k.nickUsado, userId: userId || k.userId, vinculadoAt: k.vinculadoAt || new Date().toISOString() };
+    await fbUpdate(`/keys/${keyId}`, upd);
+    sendWebhook('key_used', { key, hwid, nick, userId });
+    respond('valida');
+  } catch(e) { respond('erro'); }
+})();
 
-        // ============================================
-        // UTILITÁRIOS
-        // ============================================
-        function showTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
-            
-            if (tabId === 'keys') renderKeys();
-            if (tabId === 'blacklist') renderBlacklist();
-            if (tabId === 'logs') renderLogs();
-            if (tabId === 'dashboard') {
-                updateStats();
-                renderRecentLogs();
-            }
-            if (tabId === 'gerar') renderRecentKeys();
-        }
+// ===== MODALS & UI UTILS =====
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function confirmAction(title, text, cb) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmText').innerHTML = text;
+  document.getElementById('confirmBtn').onclick = () => { closeModal('modalConfirm'); cb(); };
+  document.getElementById('modalConfirm').classList.add('open');
+}
+function showInputModal(title, label, cb) {
+  document.getElementById('inputTitle').textContent = title;
+  document.getElementById('inputLabel').textContent = label;
+  document.getElementById('inputVal').value = '';
+  document.getElementById('inputBtn').onclick = cb;
+  document.getElementById('modalInput').classList.add('open');
+}
 
-        function filterKeys() {
-            renderKeys();
-        }
+let toastTimeout;
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  clearTimeout(toastTimeout);
+  t.textContent = msg;
+  t.className = `show ${type}`;
+  toastTimeout = setTimeout(() => { t.className = ''; }, 3000);
+}
 
-        function openModal(id) {
-            document.getElementById(id).classList.add('active');
-        }
+function copyKey(key) {
+  navigator.clipboard.writeText(key).then(() => showToast('Key copiada!', 'success')).catch(() => showToast('Erro ao copiar', 'error'));
+}
 
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            document.getElementById('toastContainer').appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
-
-        function saveFirebase() {
-            showToast('✅ Configuração salva!', 'success');
-        }
-
-        // ============================================
-        // INICIALIZAÇÃO
-        // ============================================
-        checkAuth();
-
-        // Verificar se é requisição da API
-        if (window.location.search.includes('key=') && 
-            window.location.search.includes('hwid=') && 
-            window.location.search.includes('nick=')) {
-            
-            const urlParams = new URLSearchParams(window.location.search);
-            const key = urlParams.get('key');
-            const hwid = urlParams.get('hwid');
-            const nick = urlParams.get('nick');
-            const userId = urlParams.get('userId') || '0';
-            
-            fetch(FIREBASE_URL + '.json')
-                .then(r => r.json())
-                .then(data => {
-                    if (data) {
-                        keys = data.keys || {};
-                        blacklist = data.blacklist || {};
-                        config = { ...config, ...(data.config || {}) };
-                    }
-                    return window.validateKey(key, hwid, nick, userId);
-                })
-                .then(result => {
-                    document.body.innerHTML = result;
-                });
-        }
-    </script>
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+});
+</script>
 </body>
 </html>
