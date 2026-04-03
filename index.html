@@ -3,272 +3,367 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zyra Cloud — Key Management</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Zenith Cloud — Key Management</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a0f;
-  --surface: #111118;
-  --surface2: #18181f;
-  --surface3: #202028;
-  --border: #2a2a38;
-  --orange: #ff6b2b;
-  --orange-dim: rgba(255,107,43,0.15);
-  --orange-glow: rgba(255,107,43,0.4);
-  --green: #2aff8f;
-  --green-dim: rgba(42,255,143,0.12);
-  --red: #ff3b5c;
-  --red-dim: rgba(255,59,92,0.12);
-  --yellow: #ffd060;
-  --yellow-dim: rgba(255,208,96,0.12);
-  --blue: #5b8fff;
-  --text: #e8e8f0;
-  --text-muted: #6b6b85;
-  --text-dim: #9898b0;
-  --radius: 10px;
-  --font-mono: 'Space Mono', monospace;
-  --font: 'Syne', sans-serif;
+  --bg: #181818;
+  --surface: #202020;
+  --surface2: #282828;
+  --surface3: #303030;
+  --surface4: #383838;
+  --border: #2e2e2e;
+  --border2: #3a3a3a;
+  --accent: #f5c842;
+  --accent-dim: rgba(245,200,66,0.10);
+  --accent-glow: rgba(245,200,66,0.28);
+  --accent2: #f5c842;
+  --accent2-dim: rgba(245,200,66,0.10);
+  --green: #f5c842;
+  --green-dim: rgba(245,200,66,0.10);
+  --red: #f5c842;
+  --red-dim: rgba(245,200,66,0.10);
+  --yellow: #f5c842;
+  --yellow-dim: rgba(245,200,66,0.10);
+  --blue: #f5c842;
+  --blue-dim: rgba(245,200,66,0.10);
+  --text: #ffffff;
+  --text-muted: #777777;
+  --text-dim: #aaaaaa;
+  --radius: 12px;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font: 'Outfit', sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden;}
-::-webkit-scrollbar{width:5px;height:5px;}
-::-webkit-scrollbar-track{background:var(--surface);}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-::-webkit-scrollbar-thumb:hover{background:var(--orange);}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 35% at 20% -10%,rgba(245,200,66,0.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--accent);}
+
+svg.icon{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;display:inline-block;vertical-align:middle;}
+svg.icon.sm{width:14px;height:14px;}
+svg.icon.lg{width:20px;height:20px;}
 
 /* LOGIN */
 #loginScreen{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;}
-#loginScreen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,107,43,0.12) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(91,143,255,0.08) 0%,transparent 50%);pointer-events:none;}
-.login-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:48px 40px;width:100%;max-width:400px;position:relative;}
-.login-box::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--orange),transparent);}
-.login-logo{text-align:center;margin-bottom:32px;}
-.login-logo span{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--orange),#ff9f6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.login-logo small{display:block;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-top:4px;letter-spacing:3px;text-transform:uppercase;}
-.tab-switch{display:flex;background:var(--surface2);border-radius:8px;padding:4px;margin-bottom:24px;}
-.tab-switch button{flex:1;padding:8px;border:none;background:transparent;color:var(--text-muted);font-family:var(--font);font-size:13px;font-weight:600;border-radius:6px;cursor:pointer;transition:.2s;}
-.tab-switch button.active{background:var(--surface3);color:var(--text);}
+.login-wrap{width:100%;max-width:420px;padding:24px;}
+.login-header{text-align:center;margin-bottom:36px;}
+.login-logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:12px;}
+.logo-icon{width:40px;height:40px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.logo-icon svg{width:22px;height:22px;stroke:#1a1a1a;stroke-width:2;}
+.login-title{font-size:26px;font-weight:800;letter-spacing:-0.5px;color:#ffffff;}
+.login-sub{font-size:13px;color:var(--text-muted);font-weight:400;margin-top:4px;letter-spacing:0.5px;}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px;position:relative;overflow:hidden;}
+.login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--accent) 50%,transparent 100%);}
+.tab-switch{display:flex;background:var(--surface2);border-radius:10px;padding:4px;margin-bottom:24px;gap:4px;}
+.tab-switch button{flex:1;padding:9px;border:none;background:transparent;color:var(--text-muted);font-family:var(--font);font-size:13px;font-weight:600;border-radius:7px;cursor:pointer;transition:.2s;}
+.tab-switch button.active{background:var(--surface4);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.3);}
 .login-tab{display:none;}
 .login-tab.active{display:block;}
-label{display:block;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
-input[type=text],input[type=password],input[type=email],input[type=number],select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:.2s;}
-input:focus,select:focus,textarea:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-dim);}
 .form-group{margin-bottom:16px;}
-.remember-row{display:flex;align-items:center;gap:8px;margin-bottom:20px;}
-.remember-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--orange);}
+label{display:block;font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+input[type=text],input[type=password],input[type=email],input[type=number],select,textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:9px;padding:11px 14px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:.2s;}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim);}
+input::placeholder{color:var(--text-muted);}
+.remember-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.remember-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);}
 .remember-row span{font-size:13px;color:var(--text-dim);}
-.btn-primary{width:100%;padding:12px;background:var(--orange);border:none;border-radius:8px;color:#fff;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.5px;}
-.btn-primary:hover{background:#ff8247;box-shadow:0 4px 20px var(--orange-glow);}
-.login-error{background:var(--red-dim);border:1px solid var(--red);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:16px;display:none;}
+.btn-primary{width:100%;padding:13px;background:var(--accent);border:none;border-radius:9px;color:#1a1a1a;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:.2s;letter-spacing:.3px;}
+.btn-primary:hover{opacity:.9;box-shadow:0 6px 24px var(--accent-glow);}
+.login-error{background:rgba(245,200,66,0.08);border:1px solid rgba(245,200,66,.3);border-radius:9px;padding:11px 14px;font-size:13px;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.login-error.hidden{display:none!important;}
 
 /* LAYOUT */
 #appScreen{display:none;min-height:100vh;}
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;}
-.sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid var(--border);}
-.sidebar-logo .brand{font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--orange),#ff9f6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.sidebar-logo .tagline{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
-nav{flex:1;padding:16px 12px;overflow-y:auto;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text-muted);transition:.2s;margin-bottom:2px;border:1px solid transparent;}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:100;}
+.sidebar::after{content:'';position:absolute;top:0;right:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,var(--accent) 40%,transparent);}
+.sidebar-logo{padding:22px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.sidebar-logo-icon{width:36px;height:36px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sidebar-logo-icon svg{width:20px;height:20px;stroke:#1a1a1a;stroke-width:2;}
+.brand{font-size:17px;font-weight:800;color:#ffffff;letter-spacing:-.3px;}
+.tagline{font-family:var(--font-mono);font-size:9px;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase;margin-top:1px;}
+nav{flex:1;padding:14px 12px;overflow-y:auto;}
+.nav-section{font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;padding:8px 12px 6px;margin-top:8px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:500;color:var(--text-muted);transition:.2s;margin-bottom:2px;border:1px solid transparent;position:relative;}
 .nav-item:hover{background:var(--surface2);color:var(--text);}
-.nav-item.active{background:var(--orange-dim);color:var(--orange);border-color:rgba(255,107,43,0.3);}
-.nav-item .icon{font-size:16px;width:20px;text-align:center;}
-.sidebar-footer{padding:16px 12px;border-top:1px solid var(--border);}
-.user-badge{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:8px;}
-.user-avatar{width:32px;height:32px;background:var(--orange-dim);border:1px solid var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--orange);}
-.user-info small{display:block;font-size:12px;font-weight:700;color:var(--text);}
+.nav-item.active{background:var(--accent-dim);color:var(--accent);border-color:rgba(245,200,66,.2);}
+.nav-item.active .nav-icon{color:var(--accent);}
+.nav-icon{width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--accent);color:#1a1a1a;font-size:10px;font-weight:700;border-radius:20px;padding:2px 7px;font-family:var(--font-mono);}
+.sidebar-footer{padding:14px 12px;border-top:1px solid var(--border);}
+.user-badge{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:10px;border:1px solid var(--border);}
+.user-avatar{width:34px;height:34px;background:var(--accent);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#1a1a1a;flex-shrink:0;}
+.user-info small{display:block;font-size:13px;font-weight:700;color:var(--text);}
 .user-info span{font-size:11px;color:var(--text-muted);}
-.logout-btn{width:100%;margin-top:8px;padding:8px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--text-muted);font-family:var(--font);font-size:12px;cursor:pointer;transition:.2s;}
-.logout-btn:hover{border-color:var(--red);color:var(--red);}
-.main{margin-left:220px;padding:28px;min-height:100vh;}
-.page{display:none;}
+.logout-btn{width:100%;margin-top:8px;padding:9px;background:transparent;border:1px solid var(--border);border-radius:9px;color:var(--text-muted);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.logout-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.main{margin-left:230px;padding:28px 32px;min-height:100vh;position:relative;z-index:1;}
+.page{display:none;animation:fadeIn .2s ease;}
 .page.active{display:block;}
-.page-header{margin-bottom:28px;}
-.page-header h1{font-size:24px;font-weight:800;}
-.page-header p{color:var(--text-muted);font-size:14px;margin-top:4px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.page-header{margin-bottom:28px;display:flex;align-items:flex-start;justify-content:space-between;}
+.page-header-left h1{font-size:22px;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:10px;}
+.page-header-left p{color:var(--text-muted);font-size:13px;margin-top:5px;font-weight:400;}
+.page-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.page-icon.purple{background:var(--accent-dim);color:var(--accent);}
+.page-icon.green{background:var(--green-dim);color:var(--green);}
+.page-icon.red{background:var(--red-dim);color:var(--red);}
 
-/* CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:28px;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;}
-.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
-.stat-card.orange::after{background:var(--orange);}
-.stat-card.green::after{background:var(--green);}
-.stat-card.red::after{background:var(--red);}
-.stat-card.yellow::after{background:var(--yellow);}
-.stat-card.blue::after{background:var(--blue);}
-.stat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:8px;}
-.stat-value{font-size:28px;font-weight:800;font-family:var(--font-mono);}
-.stat-card.orange .stat-value{color:var(--orange);}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin-bottom:24px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden;transition:.2s;}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-1px);}
+.stat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.stat-icon-wrap{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.stat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);}
+.stat-value{font-size:32px;font-weight:800;font-family:var(--font-mono);line-height:1;}
+.stat-card.orange .stat-icon-wrap{background:var(--accent-dim);color:var(--accent);}
+.stat-card.orange .stat-value{color:var(--accent);}
+.stat-card.green .stat-icon-wrap{background:var(--green-dim);color:var(--green);}
 .stat-card.green .stat-value{color:var(--green);}
+.stat-card.red .stat-icon-wrap{background:var(--red-dim);color:var(--red);}
 .stat-card.red .stat-value{color:var(--red);}
+.stat-card.yellow .stat-icon-wrap{background:var(--yellow-dim);color:var(--yellow);}
 .stat-card.yellow .stat-value{color:var(--yellow);}
+.stat-card.blue .stat-icon-wrap{background:var(--blue-dim);color:var(--blue);}
 .stat-card.blue .stat-value{color:var(--blue);}
 
-/* GENERATE */
-.gen-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:700px;}
-.gen-card h2{font-size:16px;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
-.time-presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
-.time-btn{padding:7px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-family:var(--font-mono);font-size:12px;cursor:pointer;transition:.2s;}
-.time-btn:hover,.time-btn.selected{background:var(--orange-dim);border-color:var(--orange);color:var(--orange);}
-.custom-time{display:flex;gap:10px;align-items:center;margin-bottom:16px;}
-.custom-time input{width:90px;}
-.custom-time select{flex:1;}
-.expiry-preview{padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-family:var(--font-mono);font-size:13px;color:var(--text-dim);margin-bottom:20px;}
-.expiry-preview span{color:var(--orange);font-weight:700;}
-.key-result{margin-top:20px;padding:16px;background:var(--surface2);border:1px solid var(--orange);border-radius:8px;display:none;}
-.key-display{display:flex;align-items:center;gap:12px;}
-.key-val{font-family:var(--font-mono);font-size:18px;font-weight:700;color:var(--orange);letter-spacing:2px;flex:1;}
-.copy-btn{padding:6px 12px;background:var(--orange-dim);border:1px solid var(--orange);border-radius:6px;color:var(--orange);font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:.2s;}
-.copy-btn:hover{background:var(--orange);color:#fff;}
-.recent-keys{margin-top:20px;}
-.recent-keys h3{font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;}
-.recent-key-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-family:var(--font-mono);font-size:13px;}
-.recent-key-item .rk-key{color:var(--orange);flex:1;}
-.recent-key-item .rk-id{color:var(--text-muted);font-size:11px;}
-.recent-key-item .rk-exp{color:var(--text-dim);font-size:11px;}
+/* CARD PANELS */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);}
+.panel-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.panel-header h2{font-size:15px;font-weight:700;}
+.panel-body{padding:20px;}
 
-/* KEY CARDS */
-.toolbar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+/* GENERATE */
+.gen-card{max-width:680px;}
+.time-presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.time-btn{padding:7px 13px;background:var(--surface2);border:1px solid var(--border2);border-radius:7px;color:var(--text-dim);font-family:var(--font-mono);font-size:12px;cursor:pointer;transition:.2s;font-weight:500;}
+.time-btn:hover,.time-btn.selected{background:var(--accent-dim);border-color:rgba(245,200,66,.4);color:var(--accent);}
+.custom-time{display:flex;gap:10px;align-items:center;margin-bottom:12px;}
+.custom-time input{width:100px;}
+.custom-time select{flex:1;}
+.expiry-preview{padding:11px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;font-family:var(--font-mono);font-size:12px;color:var(--text-dim);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.expiry-preview strong{color:var(--accent);}
+.key-result{margin-top:20px;padding:16px 20px;background:rgba(245,200,66,.06);border:1px solid rgba(245,200,66,.25);border-radius:10px;display:none;}
+.key-result-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:10px;}
+.key-display{display:flex;align-items:center;gap:12px;}
+.key-val{font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--text);letter-spacing:2px;flex:1;}
+.copy-btn{padding:7px 14px;background:var(--accent-dim);border:1px solid rgba(245,200,66,.25);border-radius:7px;color:var(--accent);font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.copy-btn:hover{background:var(--accent);color:#1a1a1a;}
+.recent-keys-wrap{margin-top:24px;}
+.recent-keys-wrap h3{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;}
+.recent-key-item{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;margin-bottom:8px;font-family:var(--font-mono);font-size:12px;transition:.2s;}
+.recent-key-item:hover{border-color:var(--border2);}
+.rk-key{color:var(--text);flex:1;font-weight:500;}
+.rk-id{color:var(--text-muted);font-size:11px;}
+.rk-exp{color:var(--text-dim);font-size:11px;}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
 .search-box{flex:1;min-width:200px;position:relative;}
-.search-box input{padding-left:36px;}
-.search-box::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;}
-.btn-sm{padding:8px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface2);color:var(--text-dim);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap;}
-.btn-sm:hover{background:var(--surface3);color:var(--text);border-color:var(--text-muted);}
-.btn-sm.danger:hover{border-color:var(--red);color:var(--red);}
-.btn-sm.success:hover{border-color:var(--green);color:var(--green);}
-.keys-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
-.key-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;}
-.key-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
-.key-card.active::before{background:var(--green);}
-.key-card.paused::before{background:var(--yellow);}
-.key-card.used::before{background:var(--blue);}
-.key-card.expired::before{background:var(--red);}
+.search-box input{padding-left:38px;}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);pointer-events:none;display:flex;}
+.btn-sm{padding:9px 14px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-dim);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.btn-sm:hover{background:var(--surface3);color:var(--text);border-color:var(--border2);}
+.btn-sm.danger:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.btn-sm.success:hover{border-color:var(--green);color:var(--green);background:var(--green-dim);}
+
+/* KEYS GRID */
+.keys-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;}
+.key-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;transition:.2s;}
+.key-card:hover{border-color:var(--border2);}
+.key-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;border-radius:2px 0 0 2px;}
+.key-card.active::before{background:var(--accent);}
+.key-card.paused::before{background:#555555;}
+.key-card.used::before{background:#444444;}
+.key-card.expired::before{background:#333333;}
 .kc-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.kc-key{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:6px;}
-.kc-key:hover{color:var(--orange);}
-.kc-status{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;}
-.status-active{background:var(--green-dim);color:var(--green);border:1px solid rgba(42,255,143,0.3);}
-.status-paused{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(255,208,96,0.3);}
-.status-used{background:rgba(91,143,255,0.12);color:var(--blue);border:1px solid rgba(91,143,255,0.3);}
-.status-expired{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,59,92,0.3);}
+.kc-key{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:7px;letter-spacing:.5px;}
+.kc-key:hover{color:var(--accent);}
+.kc-status{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;}
+.status-active{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(245,200,66,.25);}
+.status-paused{background:rgba(255,255,255,.06);color:#cccccc;border:1px solid rgba(255,255,255,.15);}
+.status-used{background:rgba(255,255,255,.06);color:#aaaaaa;border:1px solid rgba(255,255,255,.12);}
+.status-expired{background:rgba(255,255,255,.04);color:#666666;border:1px solid rgba(255,255,255,.08);}
 .kc-body{padding:14px 16px;}
-.kc-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;font-size:12px;}
-.kc-label{color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.kc-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;font-size:12px;}
+.kc-row:last-child{margin-bottom:0;}
+.kc-label{color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:10px;}
 .kc-val{color:var(--text-dim);text-align:right;font-family:var(--font-mono);font-size:11px;max-width:200px;word-break:break-all;}
-.kc-timer{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--orange);}
-.kc-timer.expired-timer{color:var(--red);}
-.kc-resets{color:var(--text-dim);}
-.kc-resets.full{color:var(--red);}
-.kc-actions{padding:12px 16px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px;}
-.kc-btn{padding:5px 10px;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;transition:.2s;font-family:var(--font);border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);}
-.kc-btn:hover{background:var(--surface3);color:var(--text);}
-.kc-btn.del:hover{border-color:var(--red);color:var(--red);}
-.kc-btn.bl:hover{border-color:var(--red);color:var(--red);}
+.kc-timer{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--accent);}
+.kc-timer.expired-timer{color:var(--text-muted);}
+.kc-resets{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);}
+.kc-resets.full{color:var(--accent);}
+.roblox-id{color:var(--accent);font-family:var(--font-mono);font-size:11px;}
+.hwid-cell{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
+.hwid-copy-btn{flex-shrink:0;padding:3px 6px;background:var(--surface3);border:1px solid var(--border2);border-radius:5px;color:var(--text-muted);cursor:pointer;transition:.2s;display:inline-flex;align-items:center;}
+.hwid-copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+.kc-actions{padding:12px 16px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:5px;}
+.kc-btn{padding:6px 11px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;transition:.2s;font-family:var(--font);border:1px solid var(--border);background:var(--surface2);color:var(--text-muted);display:flex;align-items:center;gap:5px;white-space:nowrap;}
+.kc-btn:hover{background:var(--surface3);color:var(--text);border-color:var(--border2);}
+.kc-btn.del:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.kc-btn.bl:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
+.kc-btn.reset:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim);}
 
 /* BLACKLIST */
 .bl-list{display:flex;flex-direction:column;gap:10px;}
-.bl-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:16px;}
-.bl-hwid{font-family:var(--font-mono);font-size:13px;color:var(--red);flex:1;}
-.bl-meta{font-size:12px;color:var(--text-muted);}
+.bl-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:16px;transition:.2s;}
+.bl-item:hover{border-color:var(--border2);}
+.bl-hwid{font-family:var(--font-mono);font-size:13px;color:var(--accent);flex:1;word-break:break-all;}
+.bl-meta{font-size:12px;color:var(--text-muted);min-width:160px;}
 .bl-meta span{display:block;}
-.bl-remove{padding:6px 12px;background:var(--red-dim);border:1px solid rgba(255,59,92,0.3);border-radius:6px;color:var(--red);font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:.2s;}
-.bl-remove:hover{background:var(--red);color:#fff;}
+.bl-remove{padding:7px 14px;background:var(--accent-dim);border:1px solid rgba(245,200,66,.25);border-radius:7px;color:var(--accent);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.bl-remove:hover{background:var(--accent);color:#1a1a1a;}
 
 /* LOGS */
-.log-item{display:flex;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-size:13px;}
+.log-item{display:flex;gap:12px;align-items:center;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:9px;margin-bottom:8px;font-size:13px;transition:.2s;}
+.log-item:hover{border-color:var(--border2);}
 .log-date{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);min-width:130px;}
-.log-action{font-weight:700;min-width:120px;}
-.log-detail{color:var(--text-muted);flex:1;}
-.log-user{font-family:var(--font-mono);font-size:11px;color:var(--blue);}
+.log-action{font-weight:700;min-width:130px;font-size:12px;}
+.log-detail{color:var(--text-muted);flex:1;font-size:12px;font-family:var(--font-mono);}
+.log-user{font-family:var(--font-mono);font-size:11px;color:var(--text-muted);}
 
 /* SETTINGS */
-.settings-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
-.settings-section h3{font-size:14px;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.settings-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:16px;}
+.settings-section h3{font-size:14px;font-weight:700;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
 .settings-row{display:flex;gap:12px;margin-bottom:12px;}
 .settings-row input,.settings-row select{flex:1;}
-.webhook-test-btn{padding:10px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text-dim);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;}
-.webhook-test-btn:hover{border-color:var(--orange);color:var(--orange);}
+.webhook-test-btn{padding:11px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;color:var(--text-dim);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:7px;}
+.webhook-test-btn:hover{border-color:var(--accent);color:var(--accent);}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:500;display:none;align-items:center;justify-content:center;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;width:90%;max-width:480px;}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:14px;padding:28px;width:90%;max-width:480px;position:relative;}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
 .modal h3{font-size:18px;font-weight:700;margin-bottom:20px;}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
-.btn-cancel{padding:10px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text-muted);font-family:var(--font);font-size:14px;cursor:pointer;transition:.2s;}
-.btn-cancel:hover{border-color:var(--text-muted);color:var(--text);}
-.btn-confirm{padding:10px 20px;background:var(--orange);border:none;border-radius:8px;color:#fff;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
-.btn-confirm:hover{background:#ff8247;}
-.btn-confirm.danger{background:var(--red);}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;}
+.btn-cancel{padding:10px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;color:var(--text-muted);font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:.2s;}
+.btn-cancel:hover{border-color:var(--border2);color:var(--text);}
+.btn-confirm{padding:10px 20px;background:var(--accent);border:none;border-radius:9px;color:#1a1a1a;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:.2s;}
+.btn-confirm:hover{opacity:.9;box-shadow:0 4px 16px var(--accent-glow);}
+.btn-confirm.danger{background:var(--surface4);border:1px solid var(--border2);color:var(--text);}
+.btn-confirm.danger:hover{border-color:var(--accent);color:var(--accent);}
 
 /* TOAST */
-#toast{position:fixed;bottom:28px;right:28px;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:600;z-index:9999;transform:translateY(80px);opacity:0;transition:.3s;pointer-events:none;}
+#toast{position:fixed;bottom:28px;right:28px;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;transform:translateY(80px);opacity:0;transition:.3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;display:flex;align-items:center;gap:8px;}
 #toast.show{transform:translateY(0);opacity:1;}
-#toast.success{background:#1a3a2a;border:1px solid var(--green);color:var(--green);}
-#toast.error{background:#3a1a1a;border:1px solid var(--red);color:var(--red);}
-#toast.info{background:#1a2a3a;border:1px solid var(--blue);color:var(--blue);}
+#toast.success{background:var(--surface3);border:1px solid rgba(245,200,66,.4);color:var(--accent);}
+#toast.error{background:var(--surface3);border:1px solid rgba(245,200,66,.3);color:var(--text);}
+#toast.info{background:var(--surface3);border:1px solid rgba(245,200,66,.25);color:var(--text-dim);}
 
 /* UTILS */
-.flex{display:flex;}.gap{gap:10px;}.mt{margin-top:16px;}
-.empty-state{text-align:center;padding:48px;color:var(--text-muted);}
-.empty-state .icon{font-size:40px;margin-bottom:12px;}
+.empty-state{text-align:center;padding:56px 24px;color:var(--text-muted);}
+.empty-state svg{width:40px;height:40px;opacity:.3;margin-bottom:14px;}
 .empty-state p{font-size:14px;}
-.activity-list{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;}
-.act-item{display:flex;gap:10px;font-size:12px;padding:8px 12px;background:var(--surface2);border-radius:6px;}
-.act-icon{font-size:14px;}
+.activity-list{display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;}
+.act-item{display:flex;gap:10px;font-size:12px;padding:10px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);align-items:center;}
+.act-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
 .act-text{flex:1;color:var(--text-dim);}
 .act-time{color:var(--text-muted);font-family:var(--font-mono);font-size:10px;}
+.divider{height:1px;background:var(--border);margin:16px 0;}
+
+select option{background:var(--surface3);}
+
+/* RESET CONFIRM MODAL */
+.reset-modal{max-width:420px;text-align:center;}
+.reset-modal-icon{width:56px;height:56px;background:var(--accent-dim);border:1px solid rgba(245,200,66,.25);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--accent);}
+.reset-modal-icon svg{width:26px;height:26px;}
+.reset-modal h3{font-size:20px;font-weight:800;margin-bottom:6px;}
+.reset-modal-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;}
+.reset-info-box{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;margin-bottom:4px;}
+.reset-info-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
+.reset-info-row:last-child{border-bottom:none;padding-bottom:0;}
+.reset-info-row:first-child{padding-top:0;}
+.reset-info-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);}
+.reset-info-val{font-size:13px;color:var(--text);text-align:right;}
+.reset-info-val.mono{font-family:var(--font-mono);font-size:12px;}
+.reset-info-val.small{font-size:11px;color:var(--text-dim);}
+.reset-info-val.accent{color:var(--accent);font-weight:700;font-family:var(--font-mono);}
+
 </style>
 </head>
 <body>
 
+<!-- SVG ICONS DEFS -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="ic-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="ic-generate" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="ic-keys" viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></symbol>
+    <symbol id="ic-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="ic-log" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></symbol>
+    <symbol id="ic-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="ic-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+    <symbol id="ic-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+    <symbol id="ic-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+    <symbol id="ic-minus" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+    <symbol id="ic-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></symbol>
+    <symbol id="ic-play" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></symbol>
+    <symbol id="ic-refresh" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></symbol>
+    <symbol id="ic-trash" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="ic-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="ic-export" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="ic-bolt" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="ic-webhook" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></symbol>
+    <symbol id="ic-firebase" viewBox="0 0 24 24"><path d="M5.5 21L3 6l5 5 4-9 4 9 5-5-2.5 15z"/></symbol>
+    <symbol id="ic-roblox" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="ic-block" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="ic-activity" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></symbol>
+    <symbol id="ic-key-reset" viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/><polyline points="1 4 1 10 7 10"/></symbol>
+  </defs>
+</svg>
+
 <!-- LOGIN SCREEN -->
 <div id="loginScreen">
-  <div class="login-box">
-    <div class="login-logo">
-      <span>⚡ Zyra Cloud</span>
-      <small>Key Management System</small>
+  <div class="login-wrap">
+    <div class="login-header">
+      <div class="login-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <span class="login-title">Zenith Cloud</span>
+      </div>
+      <div class="login-sub">Key Management System v2.0</div>
     </div>
-    <div class="tab-switch">
-      <button class="active" onclick="switchLoginTab('login')">Login</button>
-      <button onclick="switchLoginTab('register')">Registrar</button>
-    </div>
-    <div id="loginError" class="login-error"></div>
-
-    <!-- LOGIN TAB -->
-    <div id="tab-login" class="login-tab active">
-      <div class="form-group">
-        <label>Usuário</label>
-        <input type="text" id="loginUser" placeholder="admin" onkeydown="if(e.key==='Enter')doLogin()">
+    <div class="login-card">
+      <div class="tab-switch">
+        <button class="active" onclick="switchLoginTab('login',this)">Entrar</button>
+        <button onclick="switchLoginTab('register',this)">Registrar</button>
       </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      <div id="loginError" class="login-error hidden">
+        <svg class="icon sm"><use href="#ic-block"/></svg>
+        <span id="loginErrorText"></span>
       </div>
-      <div class="remember-row">
-        <input type="checkbox" id="rememberMe">
-        <span>Lembrar-me</span>
+      <!-- LOGIN TAB -->
+      <div id="tab-login" class="login-tab active">
+        <div class="form-group">
+          <label>Usuário</label>
+          <input type="text" id="loginUser" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <div class="remember-row">
+          <input type="checkbox" id="rememberMe">
+          <span>Lembrar-me</span>
+        </div>
+        <button class="btn-primary" onclick="doLogin()">Entrar</button>
       </div>
-      <button class="btn-primary" onclick="doLogin()">Entrar</button>
-    </div>
-
-    <!-- REGISTER TAB -->
-    <div id="tab-register" class="login-tab">
-      <div class="form-group">
-        <label>Usuário</label>
-        <input type="text" id="regUser" placeholder="novo_admin">
+      <!-- REGISTER TAB -->
+      <div id="tab-register" class="login-tab">
+        <div class="form-group"><label>Usuário</label><input type="text" id="regUser" placeholder="novo_admin"></div>
+        <div class="form-group"><label>E-mail</label><input type="email" id="regEmail" placeholder="email@example.com"></div>
+        <div class="form-group"><label>Senha</label><input type="password" id="regPass" placeholder="••••••••"></div>
+        <div class="form-group"><label>Confirmar Senha</label><input type="password" id="regPass2" placeholder="••••••••"></div>
+        <button class="btn-primary" onclick="doRegister()">Criar Conta</button>
       </div>
-      <div class="form-group">
-        <label>E-mail</label>
-        <input type="email" id="regEmail" placeholder="email@example.com">
-      </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" id="regPass" placeholder="••••••••">
-      </div>
-      <div class="form-group">
-        <label>Confirmar Senha</label>
-        <input type="password" id="regPass2" placeholder="••••••••">
-      </div>
-      <button class="btn-primary" onclick="doRegister()">Criar Conta</button>
     </div>
   </div>
 </div>
@@ -277,26 +372,45 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
 <div id="appScreen">
   <div class="sidebar">
     <div class="sidebar-logo">
-      <div class="brand">⚡ Zyra Cloud</div>
-      <div class="tagline">Key Manager v2.0</div>
+      <div class="sidebar-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div>
+        <div class="brand">Zenith Cloud</div>
+        <div class="tagline">Key Manager</div>
+      </div>
     </div>
     <nav>
-      <div class="nav-item active" onclick="goTo('dashboard')"><span class="icon">📊</span> Dashboard</div>
-      <div class="nav-item" onclick="goTo('generate')"><span class="icon">✨</span> Gerar Key</div>
-      <div class="nav-item" onclick="goTo('manage')"><span class="icon">🗝️</span> Gerenciar Keys</div>
-      <div class="nav-item" onclick="goTo('blacklist')"><span class="icon">🚫</span> Blacklist</div>
-      <div class="nav-item" onclick="goTo('logs')"><span class="icon">📋</span> Logs</div>
-      <div class="nav-item" onclick="goTo('settings')"><span class="icon">⚙️</span> Configurações</div>
+      <div class="nav-item active" onclick="goTo('dashboard',this)">
+        <span class="nav-icon"><svg class="icon"><use href="#ic-dashboard"/></svg></span> Dashboard
+      </div>
+      <div class="nav-item" onclick="goTo('generate',this)">
+        <span class="nav-icon"><svg class="icon"><use href="#ic-generate"/></svg></span> Gerar Key
+      </div>
+      <div class="nav-item" onclick="goTo('manage',this)">
+        <span class="nav-icon"><svg class="icon"><use href="#ic-keys"/></svg></span> Gerenciar Keys
+      </div>
+      <div class="nav-item" onclick="goTo('blacklist',this)">
+        <span class="nav-icon"><svg class="icon"><use href="#ic-ban"/></svg></span> Blacklist
+      </div>
+      <div class="nav-item" onclick="goTo('logs',this)">
+        <span class="nav-icon"><svg class="icon"><use href="#ic-log"/></svg></span> Logs
+      </div>
+      <div class="nav-item" onclick="goTo('settings',this)">
+        <span class="nav-icon"><svg class="icon"><use href="#ic-settings"/></svg></span> Configurações
+      </div>
     </nav>
     <div class="sidebar-footer">
       <div class="user-badge">
         <div class="user-avatar" id="sidebarAvatar">A</div>
         <div class="user-info">
           <small id="sidebarUser">Admin</small>
-          <span id="sidebarEmail">admin@zyra.cloud</span>
+          <span id="sidebarEmail">admin@zenith.cloud</span>
         </div>
       </div>
-      <button class="logout-btn" onclick="doLogout()">🚪 Sair</button>
+      <button class="logout-btn" onclick="doLogout()">
+        <svg class="icon sm"><use href="#ic-logout"/></svg> Sair
+      </button>
     </div>
   </div>
 
@@ -304,68 +418,113 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
     <!-- DASHBOARD -->
     <div id="page-dashboard" class="page active">
       <div class="page-header">
-        <h1>📊 Dashboard</h1>
-        <p>Visão geral do sistema de keys</p>
+        <div class="page-header-left">
+          <h1><div class="page-icon purple"><svg class="icon lg"><use href="#ic-dashboard"/></svg></div> Dashboard</h1>
+          <p>Visão geral do sistema de keys</p>
+        </div>
       </div>
       <div class="stats-grid">
-        <div class="stat-card orange"><div class="stat-label">Total de Keys</div><div class="stat-value" id="statTotal">0</div></div>
-        <div class="stat-card green"><div class="stat-label">Keys Ativas</div><div class="stat-value" id="statActive">0</div></div>
-        <div class="stat-card blue"><div class="stat-label">Keys Usadas</div><div class="stat-value" id="statUsed">0</div></div>
-        <div class="stat-card red"><div class="stat-label">Expiradas</div><div class="stat-value" id="statExpired">0</div></div>
-        <div class="stat-card yellow"><div class="stat-label">Blacklist</div><div class="stat-value" id="statBL">0</div></div>
+        <div class="stat-card orange">
+          <div class="stat-top"><div class="stat-icon-wrap"><svg class="icon"><use href="#ic-keys"/></svg></div></div>
+          <div class="stat-label">Total de Keys</div>
+          <div class="stat-value" id="statTotal">0</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-top"><div class="stat-icon-wrap"><svg class="icon"><use href="#ic-check"/></svg></div></div>
+          <div class="stat-label">Keys Ativas</div>
+          <div class="stat-value" id="statActive">0</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-top"><div class="stat-icon-wrap"><svg class="icon"><use href="#ic-user"/></svg></div></div>
+          <div class="stat-label">Keys Usadas</div>
+          <div class="stat-value" id="statUsed">0</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-top"><div class="stat-icon-wrap"><svg class="icon"><use href="#ic-clock"/></svg></div></div>
+          <div class="stat-label">Expiradas</div>
+          <div class="stat-value" id="statExpired">0</div>
+        </div>
+        <div class="stat-card yellow">
+          <div class="stat-top"><div class="stat-icon-wrap"><svg class="icon"><use href="#ic-ban"/></svg></div></div>
+          <div class="stat-label">Blacklist</div>
+          <div class="stat-value" id="statBL">0</div>
+        </div>
       </div>
-      <div class="settings-section">
-        <h3>🕒 Últimas Atividades</h3>
-        <div class="activity-list" id="activityList"><div class="empty-state"><div class="icon">🕰️</div><p>Nenhuma atividade ainda</p></div></div>
+      <div class="panel">
+        <div class="panel-header">
+          <svg class="icon"><use href="#ic-activity"/></svg>
+          <h2>Últimas Atividades</h2>
+        </div>
+        <div class="panel-body">
+          <div class="activity-list" id="activityList">
+            <div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><p>Nenhuma atividade ainda</p></div>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- GENERATE -->
     <div id="page-generate" class="page">
       <div class="page-header">
-        <h1>✨ Gerar Key</h1>
-        <p>Crie uma nova key de acesso</p>
+        <div class="page-header-left">
+          <h1><div class="page-icon purple"><svg class="icon lg"><use href="#ic-generate"/></svg></div> Gerar Key</h1>
+          <p>Crie uma nova key de acesso</p>
+        </div>
       </div>
-      <div class="gen-card">
-        <h2>⚡ Nova Key</h2>
-        <div class="form-group">
-          <label>Identificador (opcional)</label>
-          <input type="text" id="genId" placeholder="Ex: Cliente A, VIP01...">
+      <div class="panel gen-card">
+        <div class="panel-header">
+          <svg class="icon"><use href="#ic-bolt"/></svg>
+          <h2>Nova Key</h2>
         </div>
-        <div class="form-group">
-          <label>Duração</label>
-          <div class="time-presets">
-            <button class="time-btn" onclick="setDuration(1,'m')">1 min</button>
-            <button class="time-btn" onclick="setDuration(5,'m')">5 min</button>
-            <button class="time-btn" onclick="setDuration(15,'m')">15 min</button>
-            <button class="time-btn" onclick="setDuration(30,'m')">30 min</button>
-            <button class="time-btn" onclick="setDuration(1,'h')">1h</button>
-            <button class="time-btn" onclick="setDuration(6,'h')">6h</button>
-            <button class="time-btn" onclick="setDuration(12,'h')">12h</button>
-            <button class="time-btn selected" onclick="setDuration(1,'d')">1d</button>
-            <button class="time-btn" onclick="setDuration(7,'d')">7d</button>
-            <button class="time-btn" onclick="setDuration(30,'d')">30d</button>
+        <div class="panel-body">
+          <div class="form-group">
+            <label>Identificador (opcional)</label>
+            <input type="text" id="genId" placeholder="Ex: Cliente A, VIP01...">
           </div>
-          <div class="custom-time">
-            <input type="number" id="customVal" placeholder="Personalizado" min="1" oninput="updateCustomDuration()">
-            <select id="customUnit" onchange="updateCustomDuration()">
-              <option value="m">Minutos</option>
-              <option value="h">Horas</option>
-              <option value="d" selected>Dias</option>
-            </select>
+          <div class="form-group">
+            <label>Duração</label>
+            <div class="time-presets">
+              <button class="time-btn" onclick="setDuration(1,'m',this)">1 min</button>
+              <button class="time-btn" onclick="setDuration(5,'m',this)">5 min</button>
+              <button class="time-btn" onclick="setDuration(15,'m',this)">15 min</button>
+              <button class="time-btn" onclick="setDuration(30,'m',this)">30 min</button>
+              <button class="time-btn" onclick="setDuration(1,'h',this)">1h</button>
+              <button class="time-btn" onclick="setDuration(6,'h',this)">6h</button>
+              <button class="time-btn" onclick="setDuration(12,'h',this)">12h</button>
+              <button class="time-btn selected" onclick="setDuration(1,'d',this)">1d</button>
+              <button class="time-btn" onclick="setDuration(7,'d',this)">7d</button>
+              <button class="time-btn" onclick="setDuration(30,'d',this)">30d</button>
+            </div>
+            <div class="custom-time">
+              <input type="number" id="customVal" placeholder="Personalizado" min="1" oninput="updateCustomDuration()">
+              <select id="customUnit" onchange="updateCustomDuration()">
+                <option value="m">Minutos</option>
+                <option value="h">Horas</option>
+                <option value="d" selected>Dias</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="expiry-preview">Expira em: <span id="expiryPreview">1 dia</span> — <span id="expiryDate">—</span></div>
-        <button class="btn-primary" onclick="generateKey()">⚡ Gerar Key</button>
-        <div class="key-result" id="keyResult">
-          <div class="key-display">
-            <span class="key-val" id="keyResultVal"></span>
-            <button class="copy-btn" onclick="copyKey(document.getElementById('keyResultVal').textContent)">📋 Copiar</button>
+          <div class="expiry-preview">
+            <svg class="icon sm"><use href="#ic-clock"/></svg>
+            Expira em <strong id="expiryPreview">1 dia</strong> &mdash; <span id="expiryDate">—</span>
           </div>
-        </div>
-        <div class="recent-keys mt">
-          <h3>Últimas Keys Geradas</h3>
-          <div id="recentKeysList"></div>
+          <button class="btn-primary" onclick="generateKey()">
+            <svg style="width:16px;height:16px;fill:none;stroke:#1a1a1a;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:inline-block;vertical-align:middle;margin-right:7px" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Gerar Key
+          </button>
+          <div class="key-result" id="keyResult">
+            <div class="key-result-label">Key Gerada</div>
+            <div class="key-display">
+              <span class="key-val" id="keyResultVal"></span>
+              <button class="copy-btn" onclick="copyKey(document.getElementById('keyResultVal').textContent)">
+                <svg class="icon sm"><use href="#ic-copy"/></svg> Copiar
+              </button>
+            </div>
+          </div>
+          <div class="recent-keys-wrap">
+            <h3>Últimas Keys Geradas</h3>
+            <div id="recentKeysList"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -373,53 +532,62 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
     <!-- MANAGE -->
     <div id="page-manage" class="page">
       <div class="page-header">
-        <h1>🗝️ Gerenciar Keys</h1>
-        <p>Controle total de todas as keys</p>
+        <div class="page-header-left">
+          <h1><div class="page-icon purple"><svg class="icon lg"><use href="#ic-keys"/></svg></div> Gerenciar Keys</h1>
+          <p>Controle total de todas as keys</p>
+        </div>
       </div>
       <div class="toolbar">
         <div class="search-box">
-          <input type="text" id="manageSearch" placeholder="Buscar por key, HWID, nick..." oninput="renderKeys()">
+          <span class="search-icon"><svg class="icon sm"><use href="#ic-search"/></svg></span>
+          <input type="text" id="manageSearch" placeholder="Buscar por key, HWID, nick, Roblox ID..." oninput="renderKeys()">
         </div>
-        <button class="btn-sm" onclick="bulkAction('addDays')">➕ Adicionar Dias</button>
-        <button class="btn-sm" onclick="bulkAction('removeDays')">➖ Remover Dias</button>
-        <button class="btn-sm" onclick="bulkAction('pauseAll')">⏸️ Pausar Todas</button>
-        <button class="btn-sm" onclick="bulkAction('activateAll')">▶️ Ativar Todas</button>
-        <button class="btn-sm" onclick="bulkAction('resetAll')">🔄 Reset Todas</button>
-        <button class="btn-sm danger" onclick="bulkAction('deleteAll')">🗑️ Excluir Todas</button>
+        <button class="btn-sm" onclick="bulkAction('addDays')"><svg class="icon sm"><use href="#ic-plus"/></svg> Adicionar Dias</button>
+        <button class="btn-sm" onclick="bulkAction('removeDays')"><svg class="icon sm"><use href="#ic-minus"/></svg> Remover Dias</button>
+        <button class="btn-sm" onclick="bulkAction('pauseAll')"><svg class="icon sm"><use href="#ic-pause"/></svg> Pausar Todas</button>
+        <button class="btn-sm" onclick="bulkAction('activateAll')"><svg class="icon sm"><use href="#ic-play"/></svg> Ativar Todas</button>
+        <button class="btn-sm" onclick="bulkAction('resetAll')"><svg class="icon sm"><use href="#ic-refresh"/></svg> Reset Todas</button>
+        <button class="btn-sm danger" onclick="bulkAction('deleteAll')"><svg class="icon sm"><use href="#ic-trash"/></svg> Excluir Todas</button>
       </div>
       <div class="keys-grid" id="keysGrid">
-        <div class="empty-state"><div class="icon">🗝️</div><p>Nenhuma key encontrada</p></div>
+        <div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg><p>Nenhuma key encontrada</p></div>
       </div>
     </div>
 
     <!-- BLACKLIST -->
     <div id="page-blacklist" class="page">
       <div class="page-header">
-        <h1>🚫 Blacklist</h1>
-        <p>HWIDs banidos do sistema</p>
+        <div class="page-header-left">
+          <h1><div class="page-icon red"><svg class="icon lg"><use href="#ic-ban"/></svg></div> Blacklist</h1>
+          <p>HWIDs banidos do sistema</p>
+        </div>
       </div>
       <div class="toolbar">
         <div class="search-box" style="flex:1">
+          <span class="search-icon"><svg class="icon sm"><use href="#ic-search"/></svg></span>
           <input type="text" id="blSearch" placeholder="Buscar por HWID..." oninput="renderBlacklist()">
         </div>
-        <button class="btn-sm success" onclick="openAddBlModal()">➕ Adicionar HWID</button>
+        <button class="btn-sm success" onclick="openAddBlModal()"><svg class="icon sm"><use href="#ic-plus"/></svg> Adicionar HWID</button>
       </div>
       <div class="bl-list" id="blList">
-        <div class="empty-state"><div class="icon">✅</div><p>Nenhum HWID bloqueado</p></div>
+        <div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg><p>Nenhum HWID bloqueado</p></div>
       </div>
     </div>
 
     <!-- LOGS -->
     <div id="page-logs" class="page">
       <div class="page-header">
-        <h1>📋 Logs</h1>
-        <p>Histórico completo de ações</p>
+        <div class="page-header-left">
+          <h1><div class="page-icon purple"><svg class="icon lg"><use href="#ic-log"/></svg></div> Logs</h1>
+          <p>Histórico completo de ações</p>
+        </div>
       </div>
       <div class="toolbar">
         <div class="search-box" style="flex:1">
+          <span class="search-icon"><svg class="icon sm"><use href="#ic-search"/></svg></span>
           <input type="text" id="logsSearch" placeholder="Buscar nos logs..." oninput="renderLogs()">
         </div>
-        <select id="logsFilter" style="width:160px" onchange="renderLogs()">
+        <select id="logsFilter" style="width:170px;background:var(--surface);border:1px solid var(--border);padding:9px 12px;border-radius:8px;color:var(--text-dim);font-family:var(--font);font-size:13px;" onchange="renderLogs()">
           <option value="">Todas as ações</option>
           <option value="KEY_GENERATED">Key Gerada</option>
           <option value="KEY_USED">Key Usada</option>
@@ -430,8 +598,8 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
           <option value="HWID_BLACKLISTED">HWID Bloqueado</option>
           <option value="HWID_REMOVED">HWID Removido</option>
         </select>
-        <button class="btn-sm" onclick="exportLogs()">📤 Exportar</button>
-        <button class="btn-sm danger" onclick="clearLogs()">🗑️ Limpar</button>
+        <button class="btn-sm" onclick="exportLogs()"><svg class="icon sm"><use href="#ic-export"/></svg> Exportar</button>
+        <button class="btn-sm danger" onclick="clearLogs()"><svg class="icon sm"><use href="#ic-trash"/></svg> Limpar</button>
       </div>
       <div id="logsList"></div>
     </div>
@@ -439,11 +607,13 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
     <!-- SETTINGS -->
     <div id="page-settings" class="page">
       <div class="page-header">
-        <h1>⚙️ Configurações</h1>
-        <p>Personalize o sistema</p>
+        <div class="page-header-left">
+          <h1><div class="page-icon purple"><svg class="icon lg"><use href="#ic-settings"/></svg></div> Configurações</h1>
+          <p>Personalize o sistema</p>
+        </div>
       </div>
       <div class="settings-section">
-        <h3>🔔 Webhook Discord</h3>
+        <h3><svg class="icon sm"><use href="#ic-webhook"/></svg> Webhook Discord</h3>
         <div class="form-group">
           <label>URL do Webhook</label>
           <input type="text" id="webhookUrl" placeholder="https://discord.com/api/webhooks/...">
@@ -453,20 +623,20 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
           <span>Ativar notificações via webhook</span>
         </div>
         <div style="display:flex;gap:10px;margin-top:12px;">
-          <button class="btn-primary" style="flex:1" onclick="saveWebhook()">💾 Salvar</button>
-          <button class="webhook-test-btn" onclick="testWebhook()">🧪 Testar</button>
+          <button class="btn-primary" style="flex:1" onclick="saveWebhook()">Salvar</button>
+          <button class="webhook-test-btn" onclick="testWebhook()"><svg class="icon sm"><use href="#ic-bolt"/></svg> Testar</button>
         </div>
       </div>
       <div class="settings-section">
-        <h3>🔥 Firebase</h3>
+        <h3><svg class="icon sm"><use href="#ic-firebase"/></svg> Firebase</h3>
         <div class="form-group">
           <label>URL do Realtime Database</label>
           <input type="text" id="firebaseUrl" placeholder="https://seu-projeto-default-rtdb.firebaseio.com/">
         </div>
-        <button class="btn-primary" style="max-width:200px" onclick="saveFirebaseUrl()">💾 Salvar URL</button>
+        <button class="btn-primary" style="max-width:200px" onclick="saveFirebaseUrl()">Salvar URL</button>
       </div>
       <div class="settings-section">
-        <h3>👤 Perfil</h3>
+        <h3><svg class="icon sm"><use href="#ic-user"/></svg> Perfil</h3>
         <div id="profileInfo"></div>
       </div>
     </div>
@@ -476,15 +646,9 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
 <!-- MODALS -->
 <div class="modal-overlay" id="modalAddBL">
   <div class="modal">
-    <h3>🚫 Adicionar HWID à Blacklist</h3>
-    <div class="form-group">
-      <label>HWID</label>
-      <input type="text" id="blHwid" placeholder="Hardware ID...">
-    </div>
-    <div class="form-group">
-      <label>Motivo</label>
-      <input type="text" id="blReason" placeholder="Ex: Chargeback, abuso...">
-    </div>
+    <h3>Adicionar HWID à Blacklist</h3>
+    <div class="form-group"><label>HWID</label><input type="text" id="blHwid" placeholder="Hardware ID..."></div>
+    <div class="form-group"><label>Motivo</label><input type="text" id="blReason" placeholder="Ex: Chargeback, abuso..."></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal('modalAddBL')">Cancelar</button>
       <button class="btn-confirm danger" onclick="addToBlacklist()">Bloquear</button>
@@ -506,10 +670,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
 <div class="modal-overlay" id="modalInput">
   <div class="modal">
     <h3 id="inputTitle">Valor</h3>
-    <div class="form-group">
-      <label id="inputLabel">Quantidade</label>
-      <input type="number" id="inputVal" min="1" placeholder="...">
-    </div>
+    <div class="form-group"><label id="inputLabel">Quantidade</label><input type="number" id="inputVal" min="1" placeholder="..."></div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal('modalInput')">Cancelar</button>
       <button class="btn-confirm" id="inputBtn">Confirmar</button>
@@ -519,7 +680,7 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
 
 <div class="modal-overlay" id="modalAddTime">
   <div class="modal">
-    <h3>⏱️ Alterar Tempo</h3>
+    <h3>Alterar Tempo</h3>
     <div class="form-group">
       <label>Quantidade</label>
       <div style="display:flex;gap:10px">
@@ -538,6 +699,40 @@ nav{flex:1;padding:16px 12px;overflow-y:auto;}
   </div>
 </div>
 
+
+<!-- RESET CONFIRM MODAL -->
+<div class="modal-overlay" id="modalResetConfirm">
+  <div class="modal reset-modal">
+    <div class="reset-modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/><polyline points="1 4 1 10 7 10"/></svg>
+    </div>
+    <h3>Reiniciar Key?</h3>
+    <p class="reset-modal-sub">Essa ação vai desvincular o HWID e Nick associados.</p>
+    <div class="reset-info-box">
+      <div class="reset-info-row">
+        <span class="reset-info-label">Key</span>
+        <span class="reset-info-val mono" id="resetKeyName">—</span>
+      </div>
+      <div class="reset-info-row">
+        <span class="reset-info-label">Nick vinculado</span>
+        <span class="reset-info-val" id="resetNick">—</span>
+      </div>
+      <div class="reset-info-row">
+        <span class="reset-info-label">HWID</span>
+        <span class="reset-info-val mono small" id="resetHwid">—</span>
+      </div>
+      <div class="reset-info-row">
+        <span class="reset-info-label">Resets restantes</span>
+        <span class="reset-info-val accent" id="resetResetsLeft">—</span>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal('modalResetConfirm')">Cancelar</button>
+      <button class="btn-confirm" id="resetConfirmBtn">Confirmar Reset</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -549,71 +744,60 @@ let blacklistData = {};
 let logsData = [];
 let configData = {};
 let timerIntervals = {};
-let durMin = 1440; // default 1d in minutes
+let durMin = 1440;
 let addTimeAction = null;
 let addTimeKeyId = null;
 
 // ===== FIREBASE =====
-async function fbGet(path) {
-  const r = await fetch(`${FIREBASE_URL}${path}.json`);
-  if (!r.ok) throw new Error('Firebase GET error');
-  return r.json();
-}
-async function fbSet(path, data) {
-  const r = await fetch(`${FIREBASE_URL}${path}.json`, { method: 'PUT', body: JSON.stringify(data) });
-  if (!r.ok) throw new Error('Firebase SET error');
-  return r.json();
-}
-async function fbUpdate(path, data) {
-  const r = await fetch(`${FIREBASE_URL}${path}.json`, { method: 'PATCH', body: JSON.stringify(data) });
-  if (!r.ok) throw new Error('Firebase PATCH error');
-  return r.json();
-}
-async function fbDelete(path) {
-  const r = await fetch(`${FIREBASE_URL}${path}.json`, { method: 'DELETE' });
-  if (!r.ok) throw new Error('Firebase DELETE error');
-}
-async function fbPush(path, data) {
-  const r = await fetch(`${FIREBASE_URL}${path}.json`, { method: 'POST', body: JSON.stringify(data) });
-  if (!r.ok) throw new Error('Firebase PUSH error');
-  return r.json();
+async function fbGet(path){const r=await fetch(`${FIREBASE_URL}${path}.json`);if(!r.ok)throw new Error('Firebase GET error');return r.json();}
+async function fbSet(path,data){const r=await fetch(`${FIREBASE_URL}${path}.json`,{method:'PUT',body:JSON.stringify(data)});if(!r.ok)throw new Error('Firebase SET error');return r.json();}
+async function fbUpdate(path,data){const r=await fetch(`${FIREBASE_URL}${path}.json`,{method:'PATCH',body:JSON.stringify(data)});if(!r.ok)throw new Error('Firebase PATCH error');return r.json();}
+async function fbDelete(path){const r=await fetch(`${FIREBASE_URL}${path}.json`,{method:'DELETE'});if(!r.ok)throw new Error('Firebase DELETE error');}
+async function fbPush(path,data){const r=await fetch(`${FIREBASE_URL}${path}.json`,{method:'POST',body:JSON.stringify(data)});if(!r.ok)throw new Error('Firebase PUSH error');return r.json();}
+
+// ===== ROBLOX API =====
+async function getRobloxUserId(username) {
+  if (!username) return null;
+  try {
+    const r = await fetch(`https://api.roblox.com/users/get-by-username?username=${encodeURIComponent(username)}`);
+    if (!r.ok) return null;
+    const d = await r.json();
+    return d.Id || null;
+  } catch(e) { return null; }
 }
 
 // ===== AUTH =====
-function switchLoginTab(tab) {
-  document.querySelectorAll('.login-tab').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab-switch button').forEach(el => el.classList.remove('active'));
+function switchLoginTab(tab, btn) {
+  document.querySelectorAll('.login-tab').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.tab-switch button').forEach(el=>el.classList.remove('active'));
   document.getElementById(`tab-${tab}`).classList.add('active');
-  event.target.classList.add('active');
+  btn.classList.add('active');
+}
+
+function showLoginError(msg) {
+  const err = document.getElementById('loginError');
+  document.getElementById('loginErrorText').textContent = msg;
+  err.classList.remove('hidden');
 }
 
 async function doLogin() {
   const user = document.getElementById('loginUser').value.trim();
   const pass = document.getElementById('loginPass').value;
   const remember = document.getElementById('rememberMe').checked;
-  const err = document.getElementById('loginError');
-  err.style.display = 'none';
-
-  if (!user || !pass) { err.textContent = 'Preencha todos os campos.'; err.style.display = 'block'; return; }
-
+  document.getElementById('loginError').classList.add('hidden');
+  if (!user || !pass) { showLoginError('Preencha todos os campos.'); return; }
   try {
     const users = await fbGet('/users') || {};
-    // fallback: admin/admin123 hardcoded
-    if ((users[user] && users[user].password === pass) || (user === 'admin' && pass === 'admin123' && Object.keys(users).length === 0)) {
-      currentUser = { username: user, email: (users[user]?.email || 'admin@zyra.cloud'), createdAt: users[user]?.createdAt || new Date().toISOString() };
-      if (remember) { localStorage.setItem('zyraUser', JSON.stringify(currentUser)); }
+    if ((users[user] && users[user].password === pass) || (user==='admin' && pass==='admin123' && Object.keys(users).length===0)) {
+      currentUser = { username: user, email: (users[user]?.email||'admin@zenith.cloud'), createdAt: users[user]?.createdAt||new Date().toISOString() };
+      if (remember) localStorage.setItem('zenithUser', JSON.stringify(currentUser));
       loginSuccess();
-    } else {
-      err.textContent = 'Usuário ou senha inválidos.'; err.style.display = 'block';
-    }
+    } else { showLoginError('Usuário ou senha inválidos.'); }
   } catch(e) {
-    // offline fallback
-    if (user === 'admin' && pass === 'admin123') {
-      currentUser = { username: 'admin', email: 'admin@zyra.cloud', createdAt: new Date().toISOString() };
+    if (user==='admin' && pass==='admin123') {
+      currentUser = {username:'admin',email:'admin@zenith.cloud',createdAt:new Date().toISOString()};
       loginSuccess();
-    } else {
-      err.textContent = 'Erro ao conectar. Verifique a URL do Firebase.'; err.style.display = 'block';
-    }
+    } else { showLoginError('Erro ao conectar. Verifique a URL do Firebase.'); }
   }
 }
 
@@ -622,548 +806,566 @@ async function doRegister() {
   const email = document.getElementById('regEmail').value.trim();
   const pass = document.getElementById('regPass').value;
   const pass2 = document.getElementById('regPass2').value;
-  const err = document.getElementById('loginError');
-  err.style.display = 'none';
-
-  if (!user || !email || !pass) { err.textContent = 'Preencha todos os campos.'; err.style.display = 'block'; return; }
-  if (pass !== pass2) { err.textContent = 'As senhas não coincidem.'; err.style.display = 'block'; return; }
-  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) { err.textContent = 'E-mail inválido.'; err.style.display = 'block'; return; }
-
+  document.getElementById('loginError').classList.add('hidden');
+  if (!user||!email||!pass) { showLoginError('Preencha todos os campos.'); return; }
+  if (pass!==pass2) { showLoginError('As senhas não coincidem.'); return; }
+  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) { showLoginError('E-mail inválido.'); return; }
   try {
-    await fbSet(`/users/${user}`, { password: pass, email, createdAt: new Date().toISOString() });
-    currentUser = { username: user, email, createdAt: new Date().toISOString() };
+    await fbSet(`/users/${user}`, {password:pass,email,createdAt:new Date().toISOString()});
+    currentUser = {username:user,email,createdAt:new Date().toISOString()};
     loginSuccess();
-  } catch(e) {
-    err.textContent = 'Erro ao registrar. Verifique o Firebase.'; err.style.display = 'block';
-  }
+  } catch(e) { showLoginError('Erro ao registrar. Verifique o Firebase.'); }
 }
 
 function loginSuccess() {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('appScreen').style.display = 'block';
-  document.getElementById('sidebarUser').textContent = currentUser.username;
-  document.getElementById('sidebarEmail').textContent = currentUser.email;
-  document.getElementById('sidebarAvatar').textContent = currentUser.username[0].toUpperCase();
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('appScreen').style.display='block';
+  document.getElementById('sidebarUser').textContent=currentUser.username;
+  document.getElementById('sidebarEmail').textContent=currentUser.email;
+  document.getElementById('sidebarAvatar').textContent=currentUser.username[0].toUpperCase();
   loadAll();
 }
 
 function doLogout() {
-  localStorage.removeItem('zyraUser');
-  currentUser = null;
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('appScreen').style.display = 'none';
+  localStorage.removeItem('zenithUser');
+  currentUser=null;
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('appScreen').style.display='none';
 }
 
-// Check saved session
-(function() {
-  const saved = localStorage.getItem('zyraUser');
-  if (saved) {
-    try {
-      currentUser = JSON.parse(saved);
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('appScreen').style.display = 'block';
-      document.getElementById('sidebarUser').textContent = currentUser.username;
-      document.getElementById('sidebarEmail').textContent = currentUser.email;
-      document.getElementById('sidebarAvatar').textContent = currentUser.username[0].toUpperCase();
-      loadAll();
-    } catch(e) { localStorage.removeItem('zyraUser'); }
-  }
+(function(){
+  const saved=localStorage.getItem('zenithUser');
+  if(saved){try{currentUser=JSON.parse(saved);document.getElementById('loginScreen').style.display='none';document.getElementById('appScreen').style.display='block';document.getElementById('sidebarUser').textContent=currentUser.username;document.getElementById('sidebarEmail').textContent=currentUser.email;document.getElementById('sidebarAvatar').textContent=currentUser.username[0].toUpperCase();loadAll();}catch(e){localStorage.removeItem('zenithUser');}}
 })();
 
 // ===== NAVIGATION =====
-function goTo(page) {
-  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+function goTo(page, el) {
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
   document.getElementById(`page-${page}`).classList.add('active');
-  event.currentTarget.classList.add('active');
-  if (page === 'manage') renderKeys();
-  if (page === 'blacklist') renderBlacklist();
-  if (page === 'logs') renderLogs();
-  if (page === 'dashboard') updateDashboard();
-  if (page === 'settings') loadSettingsPage();
+  if(el) el.classList.add('active');
+  if(page==='manage') renderKeys();
+  if(page==='blacklist') renderBlacklist();
+  if(page==='logs') renderLogs();
+  if(page==='dashboard') updateDashboard();
+  if(page==='settings') loadSettingsPage();
 }
 
 // ===== LOAD ALL =====
 async function loadAll() {
   try {
-    const [keys, bl, logs, cfg] = await Promise.all([
-      fbGet('/keys'),
-      fbGet('/blacklist'),
-      fbGet('/logs'),
-      fbGet('/config')
-    ]);
-    keysData = keys || {};
-    blacklistData = bl || {};
-    logsData = logs ? (Array.isArray(logs) ? logs : Object.values(logs)) : [];
-    configData = cfg || {};
+    const [keys,bl,logs,cfg]=await Promise.all([fbGet('/keys'),fbGet('/blacklist'),fbGet('/logs'),fbGet('/config')]);
+    keysData=keys||{};
+    blacklistData=bl||{};
+    logsData=logs?(Array.isArray(logs)?logs:Object.values(logs)):[];
+    configData=cfg||{};
     updateDashboard();
-    setupExpiryTimers();
-  } catch(e) {
-    showToast('Erro ao carregar dados do Firebase. Usando dados locais.', 'error');
-  }
+  } catch(e) { showToast('Erro ao carregar dados do Firebase.','error'); }
 }
 
 // ===== KEY GENERATION =====
-function genKeyString() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  return [0,1,2,3].map(() => [0,1,2,3].map(() => chars[Math.floor(Math.random()*chars.length)]).join('')).join('-');
-}
+function genKeyString(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';return[0,1,2,3].map(()=>[0,1,2,3].map(()=>c[Math.floor(Math.random()*c.length)]).join('')).join('-');}
 
-function setDuration(val, unit) {
-  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
-  event.target.classList.add('selected');
-  document.getElementById('customVal').value = '';
-  if (unit === 'm') durMin = val;
-  else if (unit === 'h') durMin = val * 60;
-  else durMin = val * 1440;
+function setDuration(val,unit,btn) {
+  document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('customVal').value='';
+  if(unit==='m') durMin=val;
+  else if(unit==='h') durMin=val*60;
+  else durMin=val*1440;
   updateExpiryPreview();
 }
 
-function updateCustomDuration() {
-  const val = parseInt(document.getElementById('customVal').value) || 0;
-  const unit = document.getElementById('customUnit').value;
-  if (val <= 0) return;
-  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
-  if (unit === 'm') durMin = val;
-  else if (unit === 'h') durMin = val * 60;
-  else durMin = val * 1440;
+function updateCustomDuration(){
+  const val=parseInt(document.getElementById('customVal').value)||0;
+  const unit=document.getElementById('customUnit').value;
+  if(val<=0)return;
+  document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('selected'));
+  if(unit==='m') durMin=val;
+  else if(unit==='h') durMin=val*60;
+  else durMin=val*1440;
   updateExpiryPreview();
 }
 
-function updateExpiryPreview() {
-  const exp = new Date(Date.now() + durMin * 60000);
-  let label = '';
-  if (durMin < 60) label = `${durMin} minuto${durMin !== 1 ? 's' : ''}`;
-  else if (durMin < 1440) { const h = Math.floor(durMin/60); label = `${h} hora${h !== 1 ? 's' : ''}`; }
-  else { const d = Math.floor(durMin/1440); label = `${d} dia${d !== 1 ? 's' : ''}`; }
-  document.getElementById('expiryPreview').textContent = label;
-  document.getElementById('expiryDate').textContent = exp.toLocaleString('pt-BR');
+function updateExpiryPreview(){
+  const exp=new Date(Date.now()+durMin*60000);
+  let label='';
+  if(durMin<60) label=`${durMin} minuto${durMin!==1?'s':''}`;
+  else if(durMin<1440){const h=Math.floor(durMin/60);label=`${h} hora${h!==1?'s':''}`;}
+  else{const d=Math.floor(durMin/1440);label=`${d} dia${d!==1?'s':''}`;}
+  document.getElementById('expiryPreview').textContent=label;
+  document.getElementById('expiryDate').textContent=exp.toLocaleString('pt-BR');
 }
 updateExpiryPreview();
 
 async function generateKey() {
-  const key = genKeyString();
-  const id = document.getElementById('genId').value.trim();
-  const now = new Date().toISOString();
-  const expiresAt = new Date(Date.now() + durMin * 60000).toISOString();
-  const keyId = key.replace(/-/g,'_');
-  const keyObj = { key, identificador: id, createdAt: now, expiresAt, used: false, paused: false, resets: 0, maxResets: 5, hwidUsado: null, nickUsado: null, userId: null, vinculadoAt: null, history: [] };
-
+  const key=genKeyString();
+  const id=document.getElementById('genId').value.trim();
+  const now=new Date().toISOString();
+  const expiresAt=new Date(Date.now()+durMin*60000).toISOString();
+  const keyId=key.replace(/-/g,'_');
+  const keyObj={key,identificador:id,createdAt:now,expiresAt,used:false,paused:false,resets:0,maxResets:5,hwidUsado:null,nickUsado:null,robloxId:null,userId:null,vinculadoAt:null,history:[]};
   try {
-    await fbSet(`/keys/${keyId}`, keyObj);
-    keysData[keyId] = keyObj;
-    addLog('KEY_GENERATED', currentUser.username, { key, identificador: id, expiresAt });
-    sendWebhook('key_generated', { key, identificador: id, expiresAt: new Date(expiresAt).toLocaleString('pt-BR'), geradoPor: currentUser.username });
-    document.getElementById('keyResultVal').textContent = key;
-    document.getElementById('keyResult').style.display = 'block';
-    document.getElementById('genId').value = '';
+    await fbSet(`/keys/${keyId}`,keyObj);
+    keysData[keyId]=keyObj;
+    addLog('KEY_GENERATED',currentUser.username,{key,identificador:id,expiresAt});
+    sendWebhook('key_generated',{key,identificador:id,expiresAt:new Date(expiresAt).toLocaleString('pt-BR'),geradoPor:currentUser.username});
+    document.getElementById('keyResultVal').textContent=key;
+    document.getElementById('keyResult').style.display='block';
+    document.getElementById('genId').value='';
     updateDashboard();
-    updateRecentKeys(key, id, expiresAt);
-    showToast('Key gerada com sucesso!', 'success');
-  } catch(e) { showToast('Erro ao salvar no Firebase.', 'error'); }
+    updateRecentKeys(key,id,expiresAt);
+    showToast('Key gerada com sucesso!','success');
+  } catch(e){showToast('Erro ao salvar no Firebase.','error');}
 }
 
-function updateRecentKeys(key, id, exp) {
-  const list = document.getElementById('recentKeysList');
-  const item = document.createElement('div');
-  item.className = 'recent-key-item';
-  item.innerHTML = `<span class="rk-key">${key}</span><span class="rk-id">${id || '—'}</span><span class="rk-exp">${new Date(exp).toLocaleDateString('pt-BR')}</span><button class="copy-btn" onclick="copyKey('${key}')">📋</button>`;
+function updateRecentKeys(key,id,exp){
+  const list=document.getElementById('recentKeysList');
+  const item=document.createElement('div');
+  item.className='recent-key-item';
+  item.innerHTML=`<span class="rk-key">${key}</span><span class="rk-id">${id||'—'}</span><span class="rk-exp">${new Date(exp).toLocaleDateString('pt-BR')}</span><button class="copy-btn" onclick="copyKey('${key}')"><svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`;
   list.prepend(item);
-  if (list.children.length > 5) list.lastChild.remove();
+  if(list.children.length>5)list.lastChild.remove();
 }
 
 // ===== RENDER KEYS =====
-function getStatus(k) {
-  if (k.paused) return 'paused';
-  if (new Date(k.expiresAt) < new Date()) return 'expired';
-  if (k.used && k.hwidUsado) return 'used';
-  return 'active';
+function getStatus(k){
+  if(k.paused)return'paused';
+  if(new Date(k.expiresAt)<new Date())return'expired';
+  if(k.used&&k.hwidUsado)return'used';
+  return'active';
 }
 
-function renderKeys() {
-  const q = (document.getElementById('manageSearch').value || '').toLowerCase();
-  const grid = document.getElementById('keysGrid');
+function renderKeys(){
+  const q=(document.getElementById('manageSearch').value||'').toLowerCase();
+  const grid=document.getElementById('keysGrid');
   clearTimers();
-  const entries = Object.entries(keysData).filter(([id, k]) => {
-    if (!q) return true;
-    return k.key.toLowerCase().includes(q) || (k.hwidUsado && k.hwidUsado.toLowerCase().includes(q)) || (k.nickUsado && k.nickUsado.toLowerCase().includes(q)) || (k.identificador && k.identificador.toLowerCase().includes(q));
+  const entries=Object.entries(keysData).filter(([id,k])=>{
+    if(!q)return true;
+    return k.key.toLowerCase().includes(q)||(k.hwidUsado&&k.hwidUsado.toLowerCase().includes(q))||(k.nickUsado&&k.nickUsado.toLowerCase().includes(q))||(k.identificador&&k.identificador.toLowerCase().includes(q))||(k.robloxId&&String(k.robloxId).includes(q));
   });
-
-  if (!entries.length) { grid.innerHTML = '<div class="empty-state"><div class="icon">🗝️</div><p>Nenhuma key encontrada</p></div>'; return; }
-
-  grid.innerHTML = entries.map(([id, k]) => {
-    const st = getStatus(k);
-    const stLabel = { active: 'Ativa', paused: 'Pausada', used: 'Usada', expired: 'Expirada' }[st];
-    const stClass = `status-${st}`;
-    const resetsClass = k.resets >= k.maxResets ? 'full' : '';
-    const hwid = k.hwidUsado ? `<span style="font-size:10px;word-break:break-all">${k.hwidUsado}</span>` : '—';
-    return `<div class="key-card ${st}" id="card-${id}">
+  if(!entries.length){grid.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg><p>Nenhuma key encontrada</p></div>';return;}
+  grid.innerHTML=entries.map(([id,k])=>{
+    const st=getStatus(k);
+    const stLabel={active:'Ativa',paused:'Pausada',used:'Usada',expired:'Expirada'}[st];
+    const resetsClass=k.resets>=k.maxResets?'full':'';
+    const hwid=k.hwidUsado?`<span style="font-size:10px;word-break:break-all">${k.hwidUsado}</span>`:'—';
+    const robloxRow=k.robloxId?`<div class="kc-row"><span class="kc-label">Roblox ID</span><span class="roblox-id">${k.robloxId}</span></div>`:'';
+    const pauseBtn=st==='active'?`<button class="kc-btn" onclick="pauseKey('${id}')"><svg class="icon sm" style="width:11px;height:11px"><use href="#ic-pause"/></svg> Pausar</button>`:'';
+    const activateBtn=st==='paused'?`<button class="kc-btn" onclick="activateKey('${id}')"><svg class="icon sm" style="width:11px;height:11px"><use href="#ic-play"/></svg> Ativar</button>`:'';
+    const resetBtn=`<button class="kc-btn reset" onclick="resetKey('${id}')"><svg class="icon sm" style="width:11px;height:11px"><use href="#ic-key-reset"/></svg> Reset HWID</button>`;
+    return`<div class="key-card ${st}" id="card-${id}">
       <div class="kc-header">
-        <span class="kc-key" onclick="copyKey('${k.key}')">📋 ${k.key}</span>
-        <span class="kc-status ${stClass}">${stLabel}</span>
+        <span class="kc-key" onclick="copyKey('${k.key}')"><svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> ${k.key}</span>
+        <span class="kc-status status-${st}">${stLabel}</span>
       </div>
       <div class="kc-body">
         <div class="kc-row"><span class="kc-label">Criada</span><span class="kc-val">${new Date(k.createdAt).toLocaleString('pt-BR')}</span></div>
         <div class="kc-row"><span class="kc-label">Expira</span><span class="kc-timer" id="timer-${id}">—</span></div>
-        ${k.identificador ? `<div class="kc-row"><span class="kc-label">ID</span><span class="kc-val">${k.identificador}</span></div>` : ''}
-        ${k.nickUsado ? `<div class="kc-row"><span class="kc-label">Nick</span><span class="kc-val">${k.nickUsado}</span></div>` : ''}
-        <div class="kc-row"><span class="kc-label">HWID</span><span class="kc-val">${hwid}</span></div>
+        ${k.nickUsado?`<div class="kc-row"><span class="kc-label">Nick</span><span class="kc-val">${k.nickUsado}</span></div>`:''}
+        <div class="kc-row">
+          <span class="kc-label">HWID</span>
+          <span class="kc-val hwid-cell">
+            ${hwid}
+            ${k.hwidUsado?`<button class="hwid-copy-btn" data-hwid="${k.hwidUsado}" onclick="copyHwidBtn(event,this)"><svg style="width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`:''}
+          </span>
+        </div>
+        ${robloxRow}
         <div class="kc-row"><span class="kc-label">Resets</span><span class="kc-resets ${resetsClass}">${k.resets}/${k.maxResets}</span></div>
       </div>
       <div class="kc-actions">
-        ${st === 'active' ? `<button class="kc-btn" onclick="pauseKey('${id}')">⏸️ Pausar</button>` : ''}
-        ${st === 'paused' ? `<button class="kc-btn" onclick="activateKey('${id}')">▶️ Ativar</button>` : ''}
-        ${(st === 'used' || st === 'expired') && k.resets < k.maxResets ? `<button class="kc-btn" onclick="resetKey('${id}')">🔄 Reset</button>` : ''}
-        <button class="kc-btn" onclick="openAddTime('${id}','add')">➕ Tempo</button>
-        <button class="kc-btn" onclick="openAddTime('${id}','remove')">➖ Tempo</button>
-        ${k.hwidUsado ? `<button class="kc-btn bl" onclick="blacklistFromKey('${id}')">⚫ Blacklist</button>` : ''}
-        <button class="kc-btn del" onclick="deleteKey('${id}')">🗑️ Excluir</button>
+        ${pauseBtn}${activateBtn}
+        ${resetBtn}
+        <button class="kc-btn" onclick="openAddTime('${id}','add')"><svg class="icon sm" style="width:11px;height:11px"><use href="#ic-plus"/></svg> Tempo</button>
+        <button class="kc-btn" onclick="openAddTime('${id}','remove')"><svg class="icon sm" style="width:11px;height:11px"><use href="#ic-minus"/></svg> Tempo</button>
+        ${k.hwidUsado?`<button class="kc-btn bl" onclick="blacklistFromKey('${id}')"><svg class="icon sm" style="width:11px;height:11px"><use href="#ic-ban"/></svg> Blacklist</button>`:''}
+        <button class="kc-btn del" onclick="deleteKey('${id}')"><svg class="icon sm" style="width:11px;height:11px"><use href="#ic-trash"/></svg> Excluir</button>
       </div>
     </div>`;
   }).join('');
-
-  // Start timers
-  entries.forEach(([id, k]) => startTimer(id, k));
+  entries.forEach(([id,k])=>startTimer(id,k));
 }
 
-function clearTimers() {
-  Object.values(timerIntervals).forEach(clearInterval);
-  timerIntervals = {};
-}
+function clearTimers(){Object.values(timerIntervals).forEach(clearInterval);timerIntervals={};}
 
-function startTimer(id, k) {
-  const el = document.getElementById(`timer-${id}`);
-  if (!el) return;
-  function update() {
-    const el2 = document.getElementById(`timer-${id}`);
-    if (!el2) { clearInterval(timerIntervals[id]); return; }
-    const diff = new Date(k.expiresAt) - new Date();
-    if (diff <= 0) { el2.textContent = 'EXPIRADO'; el2.classList.add('expired-timer'); clearInterval(timerIntervals[id]); return; }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    el2.textContent = d > 0 ? `${d}d ${h}h ${m}m ${s}s` : `${h}h ${m}m ${s}s`;
+function startTimer(id,k){
+  const el=document.getElementById(`timer-${id}`);
+  if(!el)return;
+  function fmtDiff(diff){
+    const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+    return d>0?`${d}d ${h}h ${m}m ${s}s`:`${h}h ${m}m ${s}s`;
+  }
+  function update(){
+    const el2=document.getElementById(`timer-${id}`);
+    if(!el2){clearInterval(timerIntervals[id]);return;}
+    // If paused, show frozen remaining time
+    if(k.paused){
+      const frozen=k.remainingMs!=null?k.remainingMs:(new Date(k.expiresAt)-Date.now());
+      if(frozen<=0){el2.textContent='EXPIRADO';el2.classList.add('expired-timer');return;}
+      el2.textContent=fmtDiff(frozen)+' ⏸';
+      return;
+    }
+    const diff=new Date(k.expiresAt)-new Date();
+    if(diff<=0){
+      el2.textContent='EXPIRADO';el2.classList.add('expired-timer');
+      clearInterval(timerIntervals[id]);
+      // Auto-delete expired key (and kick player if in use)
+      handleKeyExpired(id);
+      return;
+    }
+    el2.textContent=fmtDiff(diff);
   }
   update();
-  timerIntervals[id] = setInterval(update, 1000);
+  timerIntervals[id]=setInterval(update,1000);
 }
 
-function setupExpiryTimers() {
-  // Called after load to start dashboard timers
+// ===== KEY EXPIRY HANDLER =====
+async function handleKeyExpired(id){
+  const k=keysData[id];
+  if(!k)return;
+  // If key was in use by a player, write kick signal to Firebase
+  if(k.used && k.hwidUsado){
+    try{
+      await fbSet(`/kick/${k.hwidUsado.replace(/[^a-zA-Z0-9]/g,'_')}`,{
+        hwid:k.hwidUsado,
+        nick:k.nickUsado||null,
+        reason:'key_expired',
+        key:k.key,
+        timestamp:new Date().toISOString()
+      });
+    }catch(e){}
+    sendWebhook('key_expired_kick',{key:k.key,hwid:k.hwidUsado,nick:k.nickUsado});
+    addLog('KEY_EXPIRED_KICK',currentUser?.username||'system',{key:k.key,hwid:k.hwidUsado,nick:k.nickUsado});
+  } else {
+    addLog('KEY_EXPIRED',currentUser?.username||'system',{key:k.key});
+  }
+  // Auto-delete expired key from Firebase and local cache
+  try{
+    await fbDelete(`/keys/${id}`);
+    delete keysData[id];
+    // Remove card from DOM without full re-render to avoid flicker
+    const card=document.getElementById(`card-${id}`);
+    if(card){
+      card.style.transition='opacity .4s,transform .4s';
+      card.style.opacity='0';card.style.transform='scale(.95)';
+      setTimeout(()=>{card.remove();updateDashboard();},400);
+    } else {
+      updateDashboard();
+    }
+  }catch(e){}
 }
 
 // ===== KEY ACTIONS =====
-async function pauseKey(id) {
-  try {
-    await fbUpdate(`/keys/${id}`, { paused: true });
-    keysData[id].paused = true;
-    addLog('KEY_PAUSED', currentUser.username, { key: keysData[id].key });
-    renderKeys(); updateDashboard(); showToast('Key pausada!', 'info');
-  } catch(e) { showToast('Erro!', 'error'); }
+async function pauseKey(id){
+  const k=keysData[id];
+  const remainingMs=Math.max(0,new Date(k.expiresAt)-Date.now());
+  const pausedAt=new Date().toISOString();
+  try{
+    await fbUpdate(`/keys/${id}`,{paused:true,pausedAt,remainingMs});
+    keysData[id].paused=true;keysData[id].pausedAt=pausedAt;keysData[id].remainingMs=remainingMs;
+    addLog('KEY_PAUSED',currentUser.username,{key:k.key});
+    renderKeys();updateDashboard();showToast('Key pausada!','info');
+  }catch(e){showToast('Erro!','error');}
 }
-async function activateKey(id) {
-  try {
-    await fbUpdate(`/keys/${id}`, { paused: false });
-    keysData[id].paused = false;
-    addLog('KEY_ACTIVATED', currentUser.username, { key: keysData[id].key });
-    renderKeys(); updateDashboard(); showToast('Key ativada!', 'success');
-  } catch(e) { showToast('Erro!', 'error'); }
+async function activateKey(id){
+  const k=keysData[id];
+  // Restore expiry based on remaining time when it was paused
+  let newExpiry=k.expiresAt;
+  if(k.remainingMs!=null&&k.remainingMs>0){
+    newExpiry=new Date(Date.now()+k.remainingMs).toISOString();
+  }
+  try{
+    await fbUpdate(`/keys/${id}`,{paused:false,pausedAt:null,remainingMs:null,expiresAt:newExpiry});
+    keysData[id].paused=false;keysData[id].pausedAt=null;keysData[id].remainingMs=null;keysData[id].expiresAt=newExpiry;
+    addLog('KEY_ACTIVATED',currentUser.username,{key:k.key});
+    renderKeys();updateDashboard();showToast('Key ativada!','success');
+  }catch(e){showToast('Erro!','error');}
 }
-async function resetKey(id) {
-  const k = keysData[id];
-  if (k.resets >= k.maxResets) { showToast('Limite de resets atingido!', 'error'); return; }
-  const oldHwid = k.hwidUsado; const oldNick = k.nickUsado;
-  try {
-    const upd = { used: false, hwidUsado: null, nickUsado: null, userId: null, vinculadoAt: null, resets: k.resets + 1, paused: false };
-    await fbUpdate(`/keys/${id}`, upd);
-    Object.assign(keysData[id], upd);
-    addLog('KEY_RESET', currentUser.username, { key: k.key, oldHwid, oldNick, resetsLeft: k.maxResets - k.resets - 1 });
-    sendWebhook('key_reset', { key: k.key, hwidAntigo: oldHwid, nickAntigo: oldNick, resetsRestantes: k.maxResets - k.resets - 1 });
-    renderKeys(); updateDashboard(); showToast('Key resetada!', 'success');
-  } catch(e) { showToast('Erro!', 'error'); }
+
+async function resetKey(id){
+  const k=keysData[id];
+  if(k.resets>=k.maxResets){showToast('Limite de resets atingido!','error');return;}
+  showResetConfirm(id);
 }
-async function deleteKey(id) {
-  confirmAction('Excluir Key', `Deseja excluir a key <b>${keysData[id].key}</b>? Esta ação é irreversível.`, async () => {
-    try {
-      await fbDelete(`/keys/${id}`);
-      addLog('KEY_DELETED', currentUser.username, { key: keysData[id].key });
-      delete keysData[id];
-      renderKeys(); updateDashboard(); showToast('Key excluída!', 'info');
-    } catch(e) { showToast('Erro!', 'error'); }
+
+function showResetConfirm(id){
+  const k=keysData[id];
+  document.getElementById('resetKeyName').textContent=k.key;
+  document.getElementById('resetNick').textContent=k.nickUsado||'—';
+  document.getElementById('resetHwid').textContent=k.hwidUsado?k.hwidUsado.slice(0,20)+'…':'—';
+  document.getElementById('resetResetsLeft').textContent=(k.maxResets-k.resets-1);
+  document.getElementById('resetConfirmBtn').onclick=()=>doResetKey(id);
+  document.getElementById('modalResetConfirm').classList.add('open');
+}
+
+async function doResetKey(id){
+  closeModal('modalResetConfirm');
+  const k=keysData[id];
+  const oldHwid=k.hwidUsado,oldNick=k.nickUsado;
+  try{
+    const upd={used:false,hwidUsado:null,nickUsado:null,robloxId:null,userId:null,vinculadoAt:null};
+    await fbUpdate(`/keys/${id}`,upd);
+    Object.assign(keysData[id],upd);
+    addLog('HWID_RESET',currentUser.username,{key:k.key,oldHwid,oldNick});
+    sendWebhook('key_reset',{key:k.key,hwidAntigo:oldHwid,nickAntigo:oldNick});
+    renderKeys();updateDashboard();showToast('HWID e Nick resetados!','success');
+  }catch(e){showToast('Erro!','error');}
+}
+
+async function deleteKey(id){
+  confirmAction('Excluir Key',`Deseja excluir a key <b>${keysData[id].key}</b>? Esta ação é irreversível.`,async()=>{
+    try{await fbDelete(`/keys/${id}`);addLog('KEY_DELETED',currentUser.username,{key:keysData[id].key});delete keysData[id];renderKeys();updateDashboard();showToast('Key excluída!','info');}catch(e){showToast('Erro!','error');}
   });
 }
-function openAddTime(id, action) {
-  addTimeAction = action; addTimeKeyId = id;
+
+function openAddTime(id,action){
+  addTimeAction=action;addTimeKeyId=id;
   document.getElementById('modalAddTime').classList.add('open');
-  document.getElementById('addTimeVal').value = '';
-  document.getElementById('addTimeBtn').textContent = action === 'add' ? '➕ Adicionar' : '➖ Remover';
-  document.getElementById('addTimeBtn').onclick = () => applyAddTime();
+  document.getElementById('addTimeVal').value='';
+  document.getElementById('addTimeBtn').textContent=action==='add'?'Adicionar':'Remover';
+  document.getElementById('addTimeBtn').onclick=()=>applyAddTime();
 }
-async function applyAddTime() {
-  const val = parseInt(document.getElementById('addTimeVal').value);
-  const unit = document.getElementById('addTimeUnit').value;
-  if (!val || val < 1) { showToast('Valor inválido!', 'error'); return; }
-  let ms = val * (unit === 'm' ? 60000 : unit === 'h' ? 3600000 : 86400000);
-  if (addTimeAction === 'remove') ms = -ms;
-  const k = keysData[addTimeKeyId];
-  const newExp = new Date(new Date(k.expiresAt).getTime() + ms);
-  if (newExp < new Date()) { showToast('Não é possível definir data no passado!', 'error'); return; }
-  try {
-    await fbUpdate(`/keys/${addTimeKeyId}`, { expiresAt: newExp.toISOString() });
-    keysData[addTimeKeyId].expiresAt = newExp.toISOString();
-    closeModal('modalAddTime');
-    renderKeys(); showToast(`Tempo ${addTimeAction === 'add' ? 'adicionado' : 'removido'}!`, 'success');
-  } catch(e) { showToast('Erro!', 'error'); }
+
+async function applyAddTime(){
+  const val=parseInt(document.getElementById('addTimeVal').value);
+  const unit=document.getElementById('addTimeUnit').value;
+  if(!val||val<1){showToast('Valor inválido!','error');return;}
+  let ms=val*(unit==='m'?60000:unit==='h'?3600000:86400000);
+  if(addTimeAction==='remove')ms=-ms;
+  const k=keysData[addTimeKeyId];
+  const newExp=new Date(new Date(k.expiresAt).getTime()+ms);
+  if(newExp<new Date()){showToast('Não é possível definir data no passado!','error');return;}
+  try{
+    await fbUpdate(`/keys/${addTimeKeyId}`,{expiresAt:newExp.toISOString()});
+    keysData[addTimeKeyId].expiresAt=newExp.toISOString();
+    closeModal('modalAddTime');renderKeys();showToast(`Tempo ${addTimeAction==='add'?'adicionado':'removido'}!`,'success');
+  }catch(e){showToast('Erro!','error');}
 }
-async function blacklistFromKey(id) {
-  const k = keysData[id];
-  if (!k.hwidUsado) return;
-  document.getElementById('blHwid').value = k.hwidUsado;
-  document.getElementById('blReason').value = 'Banido via key: ' + k.key;
+
+async function blacklistFromKey(id){
+  const k=keysData[id];
+  if(!k.hwidUsado)return;
+  document.getElementById('blHwid').value=k.hwidUsado;
+  document.getElementById('blReason').value='Banido via key: '+k.key;
   openAddBlModal();
 }
 
 // ===== BULK ACTIONS =====
-async function bulkAction(action) {
-  const ids = Object.keys(keysData);
-  if (!ids.length) { showToast('Nenhuma key para operar.', 'info'); return; }
-  if (action === 'deleteAll') {
-    confirmAction('Excluir Todas', 'Isso excluirá TODAS as keys. Tem certeza?', async () => {
-      try { await fbSet('/keys', null); keysData = {}; renderKeys(); updateDashboard(); addLog('BULK_DELETE', currentUser.username, { count: ids.length }); showToast('Todas as keys excluídas!', 'info'); } catch(e) { showToast('Erro!', 'error'); }
-    }); return;
+async function bulkAction(action){
+  const ids=Object.keys(keysData);
+  if(!ids.length){showToast('Nenhuma key para operar.','info');return;}
+  if(action==='deleteAll'){
+    confirmAction('Excluir Todas','Isso excluirá TODAS as keys. Tem certeza?',async()=>{try{await fbSet('/keys',null);keysData={};renderKeys();updateDashboard();addLog('BULK_DELETE',currentUser.username,{count:ids.length});showToast('Todas as keys excluídas!','info');}catch(e){showToast('Erro!','error');}});return;
   }
-  if (action === 'pauseAll') {
-    for (const id of ids) { await fbUpdate(`/keys/${id}`, { paused: true }); keysData[id].paused = true; }
-    addLog('BULK_PAUSE', currentUser.username, { count: ids.length }); renderKeys(); showToast('Todas pausadas!', 'info'); return;
+  if(action==='pauseAll'){for(const id of ids){await fbUpdate(`/keys/${id}`,{paused:true});keysData[id].paused=true;}addLog('BULK_PAUSE',currentUser.username,{count:ids.length});renderKeys();showToast('Todas pausadas!','info');return;}
+  if(action==='activateAll'){for(const id of ids){await fbUpdate(`/keys/${id}`,{paused:false});keysData[id].paused=false;}addLog('BULK_ACTIVATE',currentUser.username,{count:ids.length});renderKeys();showToast('Todas ativadas!','success');return;}
+  if(action==='resetAll'){
+    for(const id of ids){const k=keysData[id];if(k.used&&k.resets<k.maxResets){const u={used:false,hwidUsado:null,nickUsado:null,robloxId:null,userId:null,vinculadoAt:null,resets:k.resets+1,paused:false};await fbUpdate(`/keys/${id}`,u);Object.assign(keysData[id],u);}}
+    addLog('BULK_RESET',currentUser.username,{count:ids.length});renderKeys();showToast('Todas resetadas!','success');return;
   }
-  if (action === 'activateAll') {
-    for (const id of ids) { await fbUpdate(`/keys/${id}`, { paused: false }); keysData[id].paused = false; }
-    addLog('BULK_ACTIVATE', currentUser.username, { count: ids.length }); renderKeys(); showToast('Todas ativadas!', 'success'); return;
-  }
-  if (action === 'resetAll') {
-    for (const id of ids) {
-      const k = keysData[id];
-      if (k.used && k.resets < k.maxResets) { const u = { used: false, hwidUsado: null, nickUsado: null, userId: null, vinculadoAt: null, resets: k.resets + 1, paused: false }; await fbUpdate(`/keys/${id}`, u); Object.assign(keysData[id], u); }
-    }
-    addLog('BULK_RESET', currentUser.username, { count: ids.length }); renderKeys(); showToast('Todas resetadas!', 'success'); return;
-  }
-  if (action === 'addDays' || action === 'removeDays') {
-    showInputModal(action === 'addDays' ? '➕ Adicionar Dias' : '➖ Remover Dias', 'Quantos dias?', async () => {
-      const days = parseInt(document.getElementById('inputVal').value);
-      if (!days || days < 1) return;
-      const ms = days * 86400000 * (action === 'removeDays' ? -1 : 1);
-      for (const id of ids) {
-        const newExp = new Date(new Date(keysData[id].expiresAt).getTime() + ms);
-        if (newExp > new Date() || action === 'addDays') { await fbUpdate(`/keys/${id}`, { expiresAt: newExp.toISOString() }); keysData[id].expiresAt = newExp.toISOString(); }
-      }
-      closeModal('modalInput'); renderKeys(); addLog(action.toUpperCase(), currentUser.username, { days }); showToast('Feito!', 'success');
+  if(action==='addDays'||action==='removeDays'){
+    showInputModal(action==='addDays'?'Adicionar Dias':'Remover Dias','Quantos dias?',async()=>{
+      const days=parseInt(document.getElementById('inputVal').value);
+      if(!days||days<1)return;
+      const ms=days*86400000*(action==='removeDays'?-1:1);
+      for(const id of ids){const newExp=new Date(new Date(keysData[id].expiresAt).getTime()+ms);if(newExp>new Date()||action==='addDays'){await fbUpdate(`/keys/${id}`,{expiresAt:newExp.toISOString()});keysData[id].expiresAt=newExp.toISOString();}}
+      closeModal('modalInput');renderKeys();addLog(action.toUpperCase(),currentUser.username,{days});showToast('Feito!','success');
     });
   }
 }
 
 // ===== BLACKLIST =====
-function openAddBlModal() { document.getElementById('modalAddBL').classList.add('open'); }
-async function addToBlacklist() {
-  const hwid = document.getElementById('blHwid').value.trim();
-  const reason = document.getElementById('blReason').value.trim();
-  if (!hwid) { showToast('HWID obrigatório!', 'error'); return; }
-  const blId = hwid.replace(/[^a-zA-Z0-9]/g,'_');
-  const obj = { hwid, reason: reason || 'Sem motivo', date: new Date().toISOString(), blockedBy: currentUser.username };
-  try {
-    await fbSet(`/blacklist/${blId}`, obj);
-    blacklistData[blId] = obj;
-    addLog('HWID_BLACKLISTED', currentUser.username, { hwid, reason });
-    sendWebhook('hwid_blocked', { hwid, reason, bloqueadoPor: currentUser.username });
-    closeModal('modalAddBL'); renderBlacklist(); updateDashboard(); showToast('HWID bloqueado!', 'info');
-  } catch(e) { showToast('Erro!', 'error'); }
+function openAddBlModal(){document.getElementById('modalAddBL').classList.add('open');}
+async function addToBlacklist(){
+  const hwid=document.getElementById('blHwid').value.trim();
+  const reason=document.getElementById('blReason').value.trim();
+  if(!hwid){showToast('HWID obrigatório!','error');return;}
+  const blId=hwid.replace(/[^a-zA-Z0-9]/g,'_');
+  const obj={hwid,reason:reason||'Sem motivo',date:new Date().toISOString(),blockedBy:currentUser.username};
+  try{
+    await fbSet(`/blacklist/${blId}`,obj);
+    blacklistData[blId]=obj;
+    addLog('HWID_BLACKLISTED',currentUser.username,{hwid,reason});
+    sendWebhook('hwid_blocked',{hwid,reason,bloqueadoPor:currentUser.username});
+    closeModal('modalAddBL');renderBlacklist();updateDashboard();showToast('HWID bloqueado!','info');
+  }catch(e){showToast('Erro!','error');}
 }
-async function removeFromBlacklist(blId) {
-  try {
-    await fbDelete(`/blacklist/${blId}`);
-    addLog('HWID_REMOVED', currentUser.username, { hwid: blacklistData[blId]?.hwid });
-    delete blacklistData[blId];
-    renderBlacklist(); updateDashboard(); showToast('HWID removido da blacklist!', 'success');
-  } catch(e) { showToast('Erro!', 'error'); }
+async function removeFromBlacklist(blId){
+  try{await fbDelete(`/blacklist/${blId}`);addLog('HWID_REMOVED',currentUser.username,{hwid:blacklistData[blId]?.hwid});delete blacklistData[blId];renderBlacklist();updateDashboard();showToast('HWID removido!','success');}catch(e){showToast('Erro!','error');}
 }
-function renderBlacklist() {
-  const q = (document.getElementById('blSearch').value || '').toLowerCase();
-  const list = document.getElementById('blList');
-  const entries = Object.entries(blacklistData).filter(([id, b]) => !q || b.hwid.toLowerCase().includes(q));
-  if (!entries.length) { list.innerHTML = '<div class="empty-state"><div class="icon">✅</div><p>Nenhum HWID bloqueado</p></div>'; return; }
-  list.innerHTML = entries.map(([id, b]) => `<div class="bl-item">
+function renderBlacklist(){
+  const q=(document.getElementById('blSearch').value||'').toLowerCase();
+  const list=document.getElementById('blList');
+  const entries=Object.entries(blacklistData).filter(([id,b])=>!q||b.hwid.toLowerCase().includes(q));
+  if(!entries.length){list.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg><p>Nenhum HWID bloqueado</p></div>';return;}
+  list.innerHTML=entries.map(([id,b])=>`<div class="bl-item">
     <div class="bl-hwid">${b.hwid}</div>
-    <div class="bl-meta"><span>${b.reason}</span><span style="font-size:10px">${new Date(b.date).toLocaleString('pt-BR')} • por ${b.blockedBy}</span></div>
-    <button class="bl-remove" onclick="removeFromBlacklist('${id}')">Remover</button>
+    <div class="bl-meta"><span>${b.reason}</span><span style="font-size:10px;margin-top:3px">${new Date(b.date).toLocaleString('pt-BR')} &bull; por ${b.blockedBy}</span></div>
+    <button class="bl-remove" onclick="removeFromBlacklist('${id}')"><svg style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Remover</button>
   </div>`).join('');
 }
 
 // ===== LOGS =====
-async function addLog(action, user, details) {
-  const log = { date: new Date().toISOString(), action, user, details };
+async function addLog(action,user,details){
+  const log={date:new Date().toISOString(),action,user,details};
   logsData.unshift(log);
-  if (logsData.length > 500) logsData = logsData.slice(0, 500);
-  try { await fbSet('/logs', logsData); } catch(e) {}
+  if(logsData.length>500)logsData=logsData.slice(0,500);
+  try{await fbSet('/logs',logsData);}catch(e){}
+  updateDashboard();
 }
-function renderLogs() {
-  const q = (document.getElementById('logsSearch').value || '').toLowerCase();
-  const filter = document.getElementById('logsFilter').value;
-  const list = document.getElementById('logsList');
-  const filtered = logsData.filter(l => {
-    if (filter && l.action !== filter) return false;
-    if (q && !JSON.stringify(l).toLowerCase().includes(q)) return false;
+function renderLogs(){
+  const q=(document.getElementById('logsSearch').value||'').toLowerCase();
+  const filter=document.getElementById('logsFilter').value;
+  const list=document.getElementById('logsList');
+  const filtered=logsData.filter(l=>{
+    if(filter&&l.action!==filter)return false;
+    if(q&&!JSON.stringify(l).toLowerCase().includes(q))return false;
     return true;
   });
-  const colors = { KEY_GENERATED:'var(--orange)', KEY_USED:'var(--blue)', KEY_RESET:'var(--yellow)', KEY_PAUSED:'var(--yellow)', KEY_ACTIVATED:'var(--green)', KEY_DELETED:'var(--red)', HWID_BLACKLISTED:'var(--red)', HWID_REMOVED:'var(--green)' };
-  list.innerHTML = filtered.length ? filtered.slice(0,100).map(l => `<div class="log-item">
+  const colors={KEY_GENERATED:'var(--accent)',KEY_USED:'var(--blue)',KEY_RESET:'var(--yellow)',KEY_PAUSED:'var(--yellow)',KEY_ACTIVATED:'var(--green)',KEY_DELETED:'var(--red)',HWID_BLACKLISTED:'var(--red)',HWID_REMOVED:'var(--green)'};
+  list.innerHTML=filtered.length?filtered.slice(0,100).map(l=>`<div class="log-item">
     <span class="log-date">${new Date(l.date).toLocaleString('pt-BR')}</span>
     <span class="log-action" style="color:${colors[l.action]||'var(--text-dim)'}">${l.action.replace(/_/g,' ')}</span>
-    <span class="log-detail">${JSON.stringify(l.details || {}).slice(0,80)}</span>
+    <span class="log-detail">${JSON.stringify(l.details||{}).slice(0,80)}</span>
     <span class="log-user">${l.user}</span>
-  </div>`).join('') : '<div class="empty-state"><div class="icon">📋</div><p>Nenhum log encontrado</p></div>';
+  </div>`).join(''):'<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><p>Nenhum log encontrado</p></div>';
 }
-function exportLogs() {
-  const a = document.createElement('a');
-  a.href = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(logsData, null, 2));
-  a.download = 'zyra-logs.json';
-  a.click();
-}
-function clearLogs() {
-  confirmAction('Limpar Logs', 'Isso apagará todos os logs. Tem certeza?', async () => {
-    try { await fbSet('/logs', []); logsData = []; renderLogs(); showToast('Logs limpos!', 'info'); } catch(e) { showToast('Erro!', 'error'); }
-  });
-}
+function exportLogs(){const a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(logsData,null,2));a.download='zenith-logs.json';a.click();}
+function clearLogs(){confirmAction('Limpar Logs','Isso apagará todos os logs. Tem certeza?',async()=>{try{await fbSet('/logs',[]);logsData=[];renderLogs();showToast('Logs limpos!','info');}catch(e){showToast('Erro!','error');}});}
 
 // ===== DASHBOARD =====
-function updateDashboard() {
-  const keys = Object.values(keysData);
-  const now = new Date();
-  document.getElementById('statTotal').textContent = keys.length;
-  document.getElementById('statActive').textContent = keys.filter(k => !k.paused && new Date(k.expiresAt) > now && !k.used).length;
-  document.getElementById('statUsed').textContent = keys.filter(k => k.used).length;
-  document.getElementById('statExpired').textContent = keys.filter(k => new Date(k.expiresAt) <= now).length;
-  document.getElementById('statBL').textContent = Object.keys(blacklistData).length;
-
-  const list = document.getElementById('activityList');
-  if (!logsData.length) { list.innerHTML = '<div class="empty-state"><div class="icon">🕰️</div><p>Nenhuma atividade</p></div>'; return; }
-  list.innerHTML = logsData.slice(0,10).map(l => `<div class="act-item">
-    <span class="act-icon">📌</span>
-    <span class="act-text">${l.action.replace(/_/g,' ')} — ${JSON.stringify(l.details||{}).slice(0,60)}</span>
+function updateDashboard(){
+  const keys=Object.values(keysData);
+  const now=new Date();
+  document.getElementById('statTotal').textContent=keys.length;
+  document.getElementById('statActive').textContent=keys.filter(k=>!k.paused&&new Date(k.expiresAt)>now&&!k.used).length;
+  document.getElementById('statUsed').textContent=keys.filter(k=>k.used).length;
+  document.getElementById('statExpired').textContent=keys.filter(k=>new Date(k.expiresAt)<=now).length;
+  document.getElementById('statBL').textContent=Object.keys(blacklistData).length;
+  const list=document.getElementById('activityList');
+  if(!logsData.length){list.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><p>Nenhuma atividade ainda</p></div>';return;}
+  list.innerHTML=logsData.slice(0,10).map(l=>`<div class="act-item">
+    <div class="act-dot"></div>
+    <span class="act-text">${l.action.replace(/_/g,' ')} &mdash; ${JSON.stringify(l.details||{}).slice(0,60)}</span>
     <span class="act-time">${new Date(l.date).toLocaleTimeString('pt-BR')}</span>
   </div>`).join('');
 }
 
 // ===== SETTINGS =====
-function loadSettingsPage() {
-  document.getElementById('webhookUrl').value = configData.webhook || '';
-  document.getElementById('webhookActive').checked = configData.webhookActive || false;
-  document.getElementById('firebaseUrl').value = FIREBASE_URL;
-  document.getElementById('profileInfo').innerHTML = `
+function loadSettingsPage(){
+  document.getElementById('webhookUrl').value=configData.webhook||'';
+  document.getElementById('webhookActive').checked=configData.webhookActive||false;
+  document.getElementById('firebaseUrl').value=FIREBASE_URL;
+  document.getElementById('profileInfo').innerHTML=`
     <div class="kc-row"><span class="kc-label">Usuário</span><span class="kc-val">${currentUser?.username}</span></div>
     <div class="kc-row"><span class="kc-label">E-mail</span><span class="kc-val">${currentUser?.email}</span></div>
-    <div class="kc-row"><span class="kc-label">Cadastro</span><span class="kc-val">${currentUser?.createdAt ? new Date(currentUser.createdAt).toLocaleString('pt-BR') : '—'}</span></div>`;
+    <div class="kc-row"><span class="kc-label">Cadastro</span><span class="kc-val">${currentUser?.createdAt?new Date(currentUser.createdAt).toLocaleString('pt-BR'):'—'}</span></div>`;
 }
-async function saveWebhook() {
-  configData.webhook = document.getElementById('webhookUrl').value.trim();
-  configData.webhookActive = document.getElementById('webhookActive').checked;
-  try { await fbUpdate('/config', { webhook: configData.webhook, webhookActive: configData.webhookActive }); showToast('Webhook salvo!', 'success'); } catch(e) { showToast('Erro!', 'error'); }
+async function saveWebhook(){
+  configData.webhook=document.getElementById('webhookUrl').value.trim();
+  configData.webhookActive=document.getElementById('webhookActive').checked;
+  try{await fbUpdate('/config',{webhook:configData.webhook,webhookActive:configData.webhookActive});showToast('Webhook salvo!','success');}catch(e){showToast('Erro!','error');}
 }
-async function testWebhook() {
-  const url = document.getElementById('webhookUrl').value.trim();
-  if (!url) { showToast('Insira a URL do webhook!', 'error'); return; }
-  sendWebhookRaw(url, { embeds: [{ title: '🧪 Teste — Zyra Cloud', description: 'Webhook funcionando corretamente!', color: 0xff6b2b, timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud Key System' } }] });
-  showToast('Teste enviado!', 'info');
+async function testWebhook(){
+  const url=document.getElementById('webhookUrl').value.trim();
+  if(!url){showToast('Insira a URL do webhook!','error');return;}
+  sendWebhookRaw(url,{embeds:[{title:'Teste — Zenith Cloud',description:'Webhook funcionando corretamente!',color:0x6c63ff,timestamp:new Date().toISOString(),footer:{text:'Zenith Cloud Key System'}}]});
+  showToast('Teste enviado!','info');
 }
-function saveFirebaseUrl() {
-  const url = document.getElementById('firebaseUrl').value.trim();
-  if (!url) return;
-  FIREBASE_URL = url;
-  localStorage.setItem('firebaseUrl', url);
-  showToast('URL do Firebase salva! Recarregue para aplicar.', 'success');
+function saveFirebaseUrl(){
+  const url=document.getElementById('firebaseUrl').value.trim();
+  if(!url)return;
+  FIREBASE_URL=url;localStorage.setItem('firebaseUrl',url);
+  showToast('URL do Firebase salva! Recarregue para aplicar.','success');
 }
 
 // ===== WEBHOOK =====
-function sendWebhook(event, data) {
-  if (!configData.webhookActive || !configData.webhook) return;
-  const embeds = [];
-  const colors = { key_generated: 0xff6b2b, key_used: 0x5b8fff, hwid_blocked: 0xff3b5c, key_reset: 0xffd060, default: 0x888888 };
-  const color = colors[event] || colors.default;
-  if (event === 'key_generated') embeds.push({ title: '✨ Nova Key Gerada', color, fields: [{ name: 'Key', value: `\`${data.key}\`` }, { name: 'Identificador', value: data.identificador || '—', inline: true }, { name: 'Expira em', value: data.expiresAt, inline: true }, { name: 'Gerado por', value: data.geradoPor, inline: true }], timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud' } });
-  else if (event === 'key_used') embeds.push({ title: '🔑 Key Usada', color, fields: [{ name: 'Key', value: `\`${data.key}\`` }, { name: 'Nick', value: data.nick || '—', inline: true }, { name: 'HWID', value: data.hwid || '—', inline: true }], timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud' } });
-  else if (event === 'hwid_blocked') embeds.push({ title: '🚫 HWID Bloqueado', color, fields: [{ name: 'HWID', value: data.hwid }, { name: 'Motivo', value: data.reason || '—', inline: true }, { name: 'Por', value: data.bloqueadoPor, inline: true }], timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud' } });
-  else if (event === 'key_reset') embeds.push({ title: '🔄 Key Resetada', color, fields: [{ name: 'Key', value: `\`${data.key}\`` }, { name: 'HWID Antigo', value: data.hwidAntigo || '—', inline: true }, { name: 'Nick Antigo', value: data.nickAntigo || '—', inline: true }, { name: 'Resets Restantes', value: String(data.resetsRestantes), inline: true }], timestamp: new Date().toISOString(), footer: { text: 'Zyra Cloud' } });
-  if (embeds.length) sendWebhookRaw(configData.webhook, { embeds });
+function sendWebhook(event,data){
+  if(!configData.webhookActive||!configData.webhook)return;
+  const embeds=[];
+  const colors={key_generated:0x6c63ff,key_used:0x4d9fff,hwid_blocked:0xff4d6a,key_reset:0xffc94d,default:0x888888};
+  const color=colors[event]||colors.default;
+  if(event==='key_generated')embeds.push({title:'Nova Key Gerada',color,fields:[{name:'Key',value:`\`${data.key}\``},{name:'Identificador',value:data.identificador||'—',inline:true},{name:'Expira em',value:data.expiresAt,inline:true},{name:'Gerado por',value:data.geradoPor,inline:true}],timestamp:new Date().toISOString(),footer:{text:'Zenith Cloud'}});
+  else if(event==='key_used')embeds.push({title:'Key Usada',color,fields:[{name:'Key',value:`\`${data.key}\``},{name:'Nick',value:data.nick||'—',inline:true},{name:'HWID',value:data.hwid||'—',inline:true},{name:'Roblox ID',value:data.robloxId?String(data.robloxId):'—',inline:true}],timestamp:new Date().toISOString(),footer:{text:'Zenith Cloud'}});
+  else if(event==='hwid_blocked')embeds.push({title:'HWID Bloqueado',color,fields:[{name:'HWID',value:data.hwid},{name:'Motivo',value:data.reason||'—',inline:true},{name:'Por',value:data.bloqueadoPor,inline:true}],timestamp:new Date().toISOString(),footer:{text:'Zenith Cloud'}});
+  else if(event==='key_reset')embeds.push({title:'Key Resetada',color,fields:[{name:'Key',value:`\`${data.key}\``},{name:'HWID Antigo',value:data.hwidAntigo||'—',inline:true},{name:'Nick Antigo',value:data.nickAntigo||'—',inline:true},{name:'Resets Restantes',value:String(data.resetsRestantes),inline:true}],timestamp:new Date().toISOString(),footer:{text:'Zenith Cloud'}});
+  else if(event==='key_expired_kick')embeds.push({title:'Key Expirada — Player Kickado',color:0x888888,fields:[{name:'Key',value:`\`${data.key}\``},{name:'HWID',value:data.hwid||'—',inline:true},{name:'Nick',value:data.nick||'—',inline:true}],timestamp:new Date().toISOString(),footer:{text:'Zenith Cloud'}});
+  if(embeds.length)sendWebhookRaw(configData.webhook,{embeds});
 }
-async function sendWebhookRaw(url, body) {
-  try { await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); } catch(e) {}
-}
+async function sendWebhookRaw(url,body){try{await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});}catch(e){}}
 
-// ===== VALIDATION API (when this page is loaded with ?key=... params) =====
-(async function handleApiRequest() {
-  const params = new URLSearchParams(window.location.search);
-  if (!params.has('key')) return;
-  const key = params.get('key');
-  const hwid = params.get('hwid');
-  const nick = params.get('nick');
-  const userId = params.get('userId');
-
-  async function respond(text) {
-    document.body.innerHTML = `<pre style="color:#fff;font-family:monospace;padding:20px">${text}</pre>`;
-  }
-
-  try {
-    const bl = await fbGet('/blacklist') || {};
-    const blId = (hwid || '').replace(/[^a-zA-Z0-9]/g, '_');
-    if (bl[blId]) { respond('blacklist'); return; }
-
-    const keys = await fbGet('/keys') || {};
-    const keyId = key.replace(/-/g,'_');
-    const k = keys[keyId];
-    if (!k) { respond('invalida'); return; }
-    if (k.paused) { respond('pausada'); return; }
-    if (new Date(k.expiresAt) < new Date()) { respond('expirada'); return; }
-    if (k.used && k.hwidUsado && k.hwidUsado !== hwid) { respond('usada'); return; }
-
-    // Mark as used
-    const upd = { used: true, hwidUsado: hwid || k.hwidUsado, nickUsado: nick || k.nickUsado, userId: userId || k.userId, vinculadoAt: k.vinculadoAt || new Date().toISOString() };
-    await fbUpdate(`/keys/${keyId}`, upd);
-    sendWebhook('key_used', { key, hwid, nick, userId });
+// ===== VALIDATION API =====
+(async function handleApiRequest(){
+  const params=new URLSearchParams(window.location.search);
+  if(!params.has('key'))return;
+  const key=params.get('key');
+  const hwid=params.get('hwid');
+  const nick=params.get('nick');
+  const userId=params.get('userId');
+  async function respond(text){document.body.innerHTML=`<pre style="color:#fff;font-family:monospace;padding:20px">${text}</pre>`;}
+  try{
+    const bl=await fbGet('/blacklist')||{};
+    const blId=(hwid||'').replace(/[^a-zA-Z0-9]/g,'_');
+    if(bl[blId]){respond('blacklist');return;}
+    const keys=await fbGet('/keys')||{};
+    const keyId=key.replace(/-/g,'_');
+    const k=keys[keyId];
+    if(!k){respond('invalida');return;}
+    if(k.paused){respond('pausada');return;}
+    if(new Date(k.expiresAt)<new Date()){respond('expirada');return;}
+    if(k.used&&k.hwidUsado&&k.hwidUsado!==hwid){respond('usada');return;}
+    // Fetch Roblox ID if nick provided
+    let robloxId = k.robloxId || null;
+    if(nick && !robloxId){
+      try{
+        const rb=await fetch(`https://api.roblox.com/users/get-by-username?username=${encodeURIComponent(nick)}`);
+        if(rb.ok){const rd=await rb.json();robloxId=rd.Id||null;}
+      }catch(e){}
+    }
+    const upd={used:true,hwidUsado:hwid||k.hwidUsado,nickUsado:nick||k.nickUsado,robloxId:robloxId,userId:userId||k.userId,vinculadoAt:k.vinculadoAt||new Date().toISOString()};
+    await fbUpdate(`/keys/${keyId}`,upd);
+    sendWebhook('key_used',{key,hwid,nick,robloxId,userId});
     respond('valida');
-  } catch(e) { respond('erro'); }
+  }catch(e){respond('erro');}
 })();
 
-// ===== MODALS & UI UTILS =====
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function confirmAction(title, text, cb) {
-  document.getElementById('confirmTitle').textContent = title;
-  document.getElementById('confirmText').innerHTML = text;
-  document.getElementById('confirmBtn').onclick = () => { closeModal('modalConfirm'); cb(); };
+// ===== MODAL & UTILS =====
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function confirmAction(title,text,cb){
+  document.getElementById('confirmTitle').textContent=title;
+  document.getElementById('confirmText').innerHTML=text;
+  document.getElementById('confirmBtn').onclick=()=>{closeModal('modalConfirm');cb();};
   document.getElementById('modalConfirm').classList.add('open');
 }
-function showInputModal(title, label, cb) {
-  document.getElementById('inputTitle').textContent = title;
-  document.getElementById('inputLabel').textContent = label;
-  document.getElementById('inputVal').value = '';
-  document.getElementById('inputBtn').onclick = cb;
+function showInputModal(title,label,cb){
+  document.getElementById('inputTitle').textContent=title;
+  document.getElementById('inputLabel').textContent=label;
+  document.getElementById('inputVal').value='';
+  document.getElementById('inputBtn').onclick=cb;
   document.getElementById('modalInput').classList.add('open');
 }
 
 let toastTimeout;
-function showToast(msg, type = 'info') {
-  const t = document.getElementById('toast');
+function showToast(msg,type='info'){
+  const t=document.getElementById('toast');
   clearTimeout(toastTimeout);
-  t.textContent = msg;
-  t.className = `show ${type}`;
-  toastTimeout = setTimeout(() => { t.className = ''; }, 3000);
+  const icons={success:'<svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',error:'<svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>',info:'<svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'};
+  t.innerHTML=`${icons[type]||''}<span>${msg}</span>`;
+  t.className=`show ${type}`;
+  toastTimeout=setTimeout(()=>{t.className='';},3000);
 }
 
-function copyKey(key) {
-  navigator.clipboard.writeText(key).then(() => showToast('Key copiada!', 'success')).catch(() => showToast('Erro ao copiar', 'error'));
+function copyKey(key){
+  navigator.clipboard.writeText(key).then(()=>showToast('Key copiada!','success')).catch(()=>showToast('Erro ao copiar','error'));
+}
+function copyHwidBtn(e,btn){
+  e.stopPropagation();
+  const hwid=btn.getAttribute('data-hwid');
+  navigator.clipboard.writeText(hwid).then(()=>showToast('HWID copiado!','success')).catch(()=>showToast('Erro ao copiar','error'));
 }
 
-// Close modals on overlay click
-document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+document.querySelectorAll('.modal-overlay').forEach(el=>{
+  el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open');});
 });
 </script>
 </body>
